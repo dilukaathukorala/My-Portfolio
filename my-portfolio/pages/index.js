@@ -1,7 +1,18 @@
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <h1 className="text-4xl font-bold text-blue-600">Tailwind is working! 🎉</h1>
-    </div>
+    <>
+      <Navbar />
+      <main className="flex flex-col items-center justify-center min-h-screen px-4 text-center">
+        <h1 className="text-5xl font-bold mb-4">Hi, I'm Leo 👋</h1>
+        <p className="text-lg max-w-xl text-gray-600">
+          A robotics & cybersecurity enthusiast. I build smart systems and digital experiences.
+        </p>
+        <img src="/profile.jpg" alt="Leo" className="w-40 h-40 rounded-full mt-6 shadow-lg" />
+      </main>
+      <Footer />
+    </>
   );
 }
