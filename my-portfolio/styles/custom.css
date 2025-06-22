@@ -1,0 +1,13 @@
+/* Custom styles (you can use these with className="custom-heading") */
+
+.custom-heading {
+  @apply text-4xl font-bold text-blue-700;
+}
+
+.custom-card {
+  @apply bg-white border shadow-md rounded-lg p-4 hover:shadow-lg transition;
+}
+
+.custom-footer {
+  @apply text-sm text-gray-500 mt-6;
+}
