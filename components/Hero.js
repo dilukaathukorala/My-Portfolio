@@ -1,4 +1,5 @@
 import '../styles/Hero.css';
+import Navbar from '../components/Navbar';
 
 export default function Hero() {
   return (
@@ -16,6 +17,8 @@ export default function Hero() {
           Full-Stack Web Developer
         </span>
       </p>
+      <Navbar/>
     </section>
+    
   );
 }
