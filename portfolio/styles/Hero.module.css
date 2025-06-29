@@ -1,12 +1,5 @@
-/* styles/Home.module.css */
-
-.logo {
-  width: 300px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
-.logo:hover {
-  transform: scale(1.05);
+.hero {
+  padding: 60px 20px;
+  text-align: center;
+  background-color: #f0f0f0;
 }
