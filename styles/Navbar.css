@@ -1,38 +1,62 @@
-.wheel-wrapper {
+.disc-wrapper {
+  position: relative;
+  width: 100%;
+  height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  width: 100%;
-  height: 200px;
   touch-action: pan-y;
 }
 
-.wheel-fixed {
+.disc-wheel {
+  position: relative;
   display: flex;
-  gap: 20px;
-  transition: transform 0.3s ease;
-  justify-content: center;
+  flex-direction: row;
   align-items: center;
+  height: 100px;
+  width: 100%;
+  justify-content: center;
+  transition: transform 0.3s ease;
 }
 
-.wheel-item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.disc-item {
+  position: absolute;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  background-color: #2ddaf1;
-  color: black;
-  font-weight: bold;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  text-align: center;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease, transform 0.3s ease, opacity 0.3s ease, color 0.3s ease;
+  cursor: default;
   user-select: none;
 }
 
-.wheel-item.selected {
-  z-index: 2;
+.disc-item.clickable {
+  cursor: pointer;
 }
 
-.wheel-item:not(.selected):not(.clickable) {
-  background-color: #c9f2f7;
+.disc-item.selected {
+  font-weight: bold;
+  background-color: #f8f8f8;
+  border: 2px solid #ccc;
+}
+
+@media (max-width: 600px) {
+  .disc-wrapper {
+    height: 150px;
+  }
+
+  .disc-item {
+    width: 60px;
+    height: 60px;
+    font-size: 12px !important;
+  }
+
+  .disc-item.selected {
+    font-size: 16px !important;
+  }
 }
