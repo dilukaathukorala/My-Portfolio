@@ -10,7 +10,7 @@
 }
 
 .disc-wheel {
-  position: relati;
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
