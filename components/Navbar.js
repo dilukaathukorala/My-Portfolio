@@ -86,7 +86,7 @@ export default function DiscSelector() {
 
           let scale, opacity, color;
           if (absOffset === 0) {
-            scale = 2.3;
+            scale = 1.3;
             opacity = 1;
             color = '#222';
           } else if (absOffset === 1) {
