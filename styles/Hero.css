@@ -9,7 +9,7 @@
 }
 
 .hero-section {
-  background: linear-gradient(135deg, #1d78c7, #41207e, #2a3c96, #060752);
+  background: linear-gradient(135deg, #4c6a85, #41207e, #0f1d65, #030325);
   color: var(--text-color);
   padding: 4rem 2rem;
   min-height: 100vh;
