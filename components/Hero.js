@@ -182,7 +182,7 @@ export default function Hero() {
         </li>
 
         <li className="icon-content">
-          <a href="https://instagram.com/" aria-label="Instagram" data-social="instagram">
+          <a href="https://www.instagram.com/dilu_athukorala/" aria-label="Instagram" data-social="instagram">
             <div className="filled"></div>
             <svg className="icon-svg" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 512 512">
               <path d="M349.33,69.33H162.67A93.34,93.34,0,0,0,69.33,162.67v186.66A93.34,93.34,0,0,0,162.67,
