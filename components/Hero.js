@@ -26,12 +26,12 @@ export default function Hero() {
         {/* Right Column */}
         <div className="hero-right">
           <div className="back-ray-emitter">
-            {[...Array(150)].map((_, i) => (
+            {[...Array(120)].map((_, i) => (
               <div
                 key={i}
                 className="dot-ray"
                 style={{
-                  transform: `rotate(${(360 / 150) * i}deg)`,
+                  transform: `rotate(${(360 / 120) * i}deg)`,
                   '--i': Math.floor(Math.random() * 5),
                   '--dot-size': `${4 + Math.random() * 3}px`,
                   '--speed': `${3 + Math.random()}1s`
