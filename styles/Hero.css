@@ -69,6 +69,7 @@
 }
 
 .hero-description {
+  font-family: quicksand, sans-serif;
   margin: 1rem 0;
   font-size: 1.1rem;
   color: #aaa;
@@ -146,6 +147,7 @@
   max-width: 320px;
   border-radius: inherit;
 }
+
 @media (max-width: 768px) {
   .hero-content {
     flex-direction: column;
