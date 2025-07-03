@@ -37,7 +37,7 @@
   justify-content: space-between;
   align-items: center;
   max-width: 1200px;
-  margin: 0 auto;
+  margin-left: 1rem;
   width: 100%;
   gap: 3rem;
   flex-wrap: wrap;
@@ -233,9 +233,9 @@
 /* === Header === */
 .hero-header {
   position: fixed;
-  top: 1rem;
-  left: 1rem;
-  right: 1rem;
+  top: 2rem;
+  left: 2rem;
+  right: 5rem;
   height: 60px;
   display: flex;
   justify-content: space-between;
@@ -363,6 +363,9 @@ input#nav-contact:checked ~ .glider { transform: translateX(400%); }
   }
 
   .hero-header {
+    margin-top: 0.2rem;
+    margin-left: 0.3rem;
+    margin-right: -2.5rem;
     height: 3rem;
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 30px;
