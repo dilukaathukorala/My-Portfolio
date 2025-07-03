@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import '../styles/Hero.css';
-import Navbar from '../components/Navbar';
 
 export default function Hero() {
   const [cvStatus, setCvStatus] = useState('idle');
@@ -35,9 +34,16 @@ export default function Hero() {
   }, []);
 
   return (
-    <>
-    <Navbar/>
     <section id="hero" className="hero-section">
+      <div className="hero-header">
+        <div className="hero-name">Diluka</div>
+        <nav className="hero-nav">
+          <a href="#hero">Home</a>
+          <a href="#portfolio">Portfolio</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+      
       <div className="hero-content">
         <div className="hero-left">
           <p className="hero-intro">Welcome to my portfolio!</p>
@@ -95,6 +101,5 @@ export default function Hero() {
         </div>
       </div>
     </section>
-    </>
   );
 }
