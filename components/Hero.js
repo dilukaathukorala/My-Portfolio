@@ -158,7 +158,7 @@ export default function Hero() {
         </li>
 
         <li className="icon-content">
-          <a href="https://github.com/" aria-label="GitHub" data-social="github">
+          <a href="https://github.com/dilukaathukorala" aria-label="GitHub" data-social="github">
             <div className="filled"></div>
             <svg className="icon-svg" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 16 16">
               <path d="M8 0C3.58 0 0 3.58 0 8c0 
