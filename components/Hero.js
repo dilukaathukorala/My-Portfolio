@@ -1,15 +1,45 @@
-// File: Hero.js
+"use client";
+
+import React, { useState, useEffect } from 'react';
 import '../styles/Hero.css';
 
 export default function Hero() {
+  const [cvStatus, setCvStatus] = useState('idle');
+  const [rays, setRays] = useState([]);
+
+  const handleDownload = () => {
+    setCvStatus('loading');
+
+    setTimeout(() => {
+      setCvStatus('completed');
+    }, 2000);
+
+    const link = document.createElement('a');
+    link.href = '/Diluka_CV.pdf';
+    link.download = 'Diluka_CV.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // ✅ Fix hydration: generate random ray styles client-side only
+  useEffect(() => {
+    const raysData = [...Array(120)].map((_, i) => ({
+      rotation: (360 / 120) * i,
+      i: Math.floor(Math.random() * 5),
+      dotSize: `${4 + Math.random() * 3}px`,
+      speed: `${3 + Math.random()}1s`,
+    }));
+    setRays(raysData);
+  }, []);
+
   return (
     <section id="hero" className="hero-section">
       <div className="hero-content">
-        {/* Left Column */}
         <div className="hero-left">
           <p className="hero-intro">Welcome to my portfolio!</p>
           <h1 className="hero-title">
-            Hello, my name’s <span className="highlight">Diluka</span>.
+            Hello, I am <span className="highlight">Diluka</span>.
           </h1>
           <p className="hero-description">
             I'm a full-stack web developer from Sri Lanka. <br />
@@ -17,29 +47,39 @@ export default function Hero() {
           </p>
 
           <div className="hero-buttons">
-            <a href="/Diluka_CV.pdf" className="btn primary" download>Download CV</a>
+            {cvStatus === 'completed' ? (
+              <a href="/Diluka_CV.pdf" target="_blank" className="btn primary completed">
+                Open
+              </a>
+            ) : (
+              <button
+                className={`btn primary ${cvStatus}`}
+                onClick={handleDownload}
+                disabled={cvStatus === 'loading'}
+              >
+                {cvStatus === 'loading' ? <span className="fill-bar" /> : 'Download CV'}
+              </button>
+            )}
+
             <a href="#portfolio" className="btn secondary">See my work →</a>
           </div>
-
         </div>
 
-        {/* Right Column */}
         <div className="hero-right">
           <div className="back-ray-emitter">
-            {[...Array(120)].map((_, i) => (
+            {rays.map((ray, i) => (
               <div
                 key={i}
                 className="dot-ray"
                 style={{
-                  transform: `rotate(${(360 / 120) * i}deg)`,
-                  '--i': Math.floor(Math.random() * 5),
-                  '--dot-size': `${4 + Math.random() * 3}px`,
-                  '--speed': `${3 + Math.random()}1s`
+                  transform: `rotate(${ray.rotation}deg)`,
+                  '--i': ray.i,
+                  '--dot-size': ray.dotSize,
+                  '--speed': ray.speed,
                 }}
               />
             ))}
           </div>
-
 
           <div className="hero-image-frame">
             <img
@@ -50,7 +90,6 @@ export default function Hero() {
             />
           </div>
         </div>
-
       </div>
     </section>
   );

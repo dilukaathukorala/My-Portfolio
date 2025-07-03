@@ -9,7 +9,7 @@
 }
 
 .hero-section {
-  background: linear-gradient(135deg, #515fa4, #213c6c, #29377d, #4d60c1);
+  background: linear-gradient(135deg, #1d78c7, #41207e, #2a3c96, #060752);
   color: var(--text-color);
   padding: 4rem 2rem;
   min-height: 100vh;
@@ -58,6 +58,7 @@
 }
 
 .hero-title {
+  color: white;
   font-family: quicksand, sans-serif;
   font-size: 3rem;
   font-weight: bold;
@@ -65,14 +66,14 @@
 }
 
 .hero-title .highlight {
-  color: var(--primary-color);
+  color: #5eb0f2;
 }
 
 .hero-description {
   font-family: quicksand, sans-serif;
   margin: 1rem 0;
   font-size: 1.1rem;
-  color: #aaa;
+  color: #cacaca;
 }
 
 .mention {
@@ -93,13 +94,66 @@
   text-decoration: none;
   transition: all 0.3s ease;
 }
+/* Button styles */
+/* === Download Button Animation === */
 
 .btn.primary {
-  text-align: center;
-  padding-top: 1rem;
+  position: relative;
+  overflow: hidden;
+  height: 3rem;               /* ✅ Enforced height */
+  min-width: 160px;
+  padding: 0 1.5rem;          /* ✅ Horizontal padding only */
   background-color: var(--primary-color);
   color: white;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;        /* ✅ Vertically center text */
+  text-align: center;
+  transition: background-color 0.3s ease;
+  line-height: 1;             /* ✅ Prevent line height issues */
 }
+
+
+.btn.primary.loading {
+  pointer-events: none;
+  color: var(--primary-color);
+  background-color: rgb(255, 255, 255);
+}
+
+.btn.primary .fill-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 100%;
+  background-color: rgb(78, 169, 255);
+  animation: fillTube 3s forwards;
+  z-index: 1;
+}
+
+.btn.primary span {
+  position: relative;
+  z-index: 2;
+}
+
+.btn.primary.completed {
+  background-color: rgb(78, 169, 255);
+  color: white;
+}
+
+/* Fill animation */
+@keyframes fillTube {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
 
 .btn.secondary {
   border: 2px solid white;
@@ -178,7 +232,7 @@
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background-color: #78a3ea;
+  background-color: #a7c4f3;
   transform: translateX(-50%);
   animation: shoot-out 1.2s linear infinite;
   animation-delay: calc(var(--i, 0) * 0.11115s);
