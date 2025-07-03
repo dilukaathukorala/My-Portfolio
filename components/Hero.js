@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import '../styles/Hero.css';
+import Navbar from '../components/Navbar';
 
 export default function Hero() {
   const [cvStatus, setCvStatus] = useState('idle');
@@ -24,9 +25,9 @@ export default function Hero() {
 
   // ✅ Fix hydration: generate random ray styles client-side only
   useEffect(() => {
-    const raysData = [...Array(120)].map((_, i) => ({
-      rotation: (360 / 120) * i,
-      i: Math.floor(Math.random() * 5),
+    const raysData = [...Array(60)].map((_, i) => ({
+      rotation: (360 / 60) * i,
+      i: Math.floor(Math.random() * 800),
       dotSize: `${4 + Math.random() * 3}px`,
       speed: `${3 + Math.random()}1s`,
     }));
@@ -34,6 +35,8 @@ export default function Hero() {
   }, []);
 
   return (
+    <>
+    <Navbar/>
     <section id="hero" className="hero-section">
       <div className="hero-content">
         <div className="hero-left">
@@ -92,5 +95,6 @@ export default function Hero() {
         </div>
       </div>
     </section>
+    </>
   );
 }
