@@ -36,14 +36,38 @@ export default function Hero() {
   return (
     <section id="hero" className="hero-section">
       <div className="hero-header">
-        <div className="hero-name">Diluka</div>
-        <nav className="hero-nav">
-          <a href="#hero">Home</a>
-          <a href="#portfolio">Portfolio</a>
-          <a href="#contact">Contact</a>
-        </nav>
+        <div className="hero-name">Diluka<span className="Hero-fullName">Athukorala</span></div>
+        
+        <div className="tabs">
+          <input type="radio" id="nav-home" name="nav" defaultChecked />
+          <label className="tab" htmlFor="nav-home">
+            <a href="#hero">Home</a>
+          </label>
+
+          <input type="radio" id="nav-about" name="nav" />
+          <label className="tab" htmlFor="nav-about">
+            <a href="#about">About me</a>
+          </label>
+
+          <input type="radio" id="nav-skills" name="nav" />
+          <label className="tab" htmlFor="nav-skills">
+            <a href="#skills">Skills</a>
+          </label>
+
+          <input type="radio" id="nav-projects" name="nav" />
+          <label className="tab" htmlFor="nav-projects">
+            <a href="#portfolio">Projects</a>
+          </label>
+
+          <input type="radio" id="nav-contact" name="nav" />
+          <label className="tab" htmlFor="nav-contact">
+            <a href="#contact">Contact me</a>
+          </label>
+
+          <span className="glider"></span>
+        </div>
       </div>
-      
+
       <div className="hero-content">
         <div className="hero-left">
           <p className="hero-intro">Welcome to my portfolio!</p>
