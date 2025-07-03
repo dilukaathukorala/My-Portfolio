@@ -4,7 +4,7 @@
   --primary-color: #2a72e3;
   --text-color: #e6e9f0;
   --subtext-color: #888b94;
-  --accent-glow: #008cff;
+  --accent-glow: #5eb0f2;
   --button-dark: #0f172a;
 }
 
@@ -366,30 +366,98 @@
   align-items: center;
   padding: 0 2rem;
   z-index: 1000;
-  background: transparent; /* Blends into hero background */
+  background: transparent;
 }
 
-/* Left side: Name */
+/* Name Left */
 .hero-name {
   font-size: 1.5rem;
+  font-family: quicksand, sans-serif;
   font-weight: bold;
   color: #ffffff;
 }
-
-/* Right side: Navigation */
-.hero-nav {
-  display: flex;
-  gap: 2rem;
+.Hero-fullName{
+  margin-left: 0.5rem;
+  color: var(--accent-glow);
+  font-family: quicksand, sans-serif;
 }
 
-.hero-nav a {
+/*Glider Navigation Tabs*/
+.tabs {
+  display: flex;
+  position: relative;
+  background-color: transparent;
+  padding: 0.75rem;
+  border-radius: 99px;
+  box-shadow: 0 0 1px 0 rgba(24, 94, 224, 0.15), 0 6px 12px 0 rgba(24, 94, 224, 0.15);
+}
+
+.tabs * {
+  z-index: 2;
+}
+
+.tabs input[type="radio"] {
+  display: none;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  width: 100px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  font-family: quicksand, sans-serif;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: color 0.15s ease-in;
+}
+
+.tab a {
   text-decoration: none;
   color: #ffffff;
-  font-weight: 500;
-  font-size: 1rem;
-  transition: color 0.3s ease;
+  width: 100%;
+  text-align: center;
+  transition: color 0.2s ease;
 }
 
-.hero-nav a:hover {
-  color: #60a5fa; /* Optional hover color */
+.tab a:hover {
+  color: #60a5fa;
+}
+
+/*Glider Animation*/
+.glider {
+  position: absolute;
+  display: flex;
+  height: 30px;
+  width: 100px;
+  background-color: var(--accent-glow);
+  z-index: 1;
+  border-radius: 99px;
+  transition: 0.25s ease-out;
+}
+
+/*Glider Position for Each Tab*/
+input#nav-home:checked ~ .glider {
+  transform: translateX(0%);
+}
+input#nav-about:checked ~ .glider {
+  transform: translateX(100%);
+}
+input#nav-skills:checked ~ .glider {
+  transform: translateX(200%);
+}
+input#nav-projects:checked ~ .glider {
+  transform: translateX(300%);
+}
+input#nav-contact:checked ~ .glider {
+  transform: translateX(400%);
+}
+
+/* Optional: mobile scale */
+@media (max-width: 768px) {
+  .tabs {
+    transform: scale(0.8);
+  }
 }
