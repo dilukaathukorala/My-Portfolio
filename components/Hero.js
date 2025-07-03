@@ -140,7 +140,7 @@ export default function Hero() {
 
       <ul className="example-2 fixed-icons">
         <li className="icon-content">
-          <a href="https://linkedin.com/" aria-label="LinkedIn" data-social="linkedin">
+          <a href="https://www.linkedin.com/in/diluka-athukorala-703247214/" aria-label="LinkedIn" data-social="linkedin">
             <div className="filled"></div>
             <svg className="icon-svg" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 16 16">
               <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 
