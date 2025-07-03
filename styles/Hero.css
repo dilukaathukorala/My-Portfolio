@@ -11,7 +11,7 @@
 .hero-section {
   background: linear-gradient(135deg, #4c6a85, #41207e, #0f1d65, #030325);
   color: var(--text-color);
-  padding: 4rem 2rem;
+  padding: 1rem 7rem 1rem 9rem;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -96,13 +96,14 @@
 }
 /* Button styles */
 /* === Download Button Animation === */
-
+/* Base style for primary button */
+/* Base primary button style */
 .btn.primary {
   position: relative;
   overflow: hidden;
-  height: 3rem;               /* ✅ Enforced height */
+  height: 3rem;
   min-width: 160px;
-  padding: 0 1.5rem;          /* ✅ Horizontal padding only */
+  padding: 0 1.5rem;
   background-color: var(--primary-color);
   color: white;
   border: none;
@@ -110,17 +111,37 @@
   cursor: pointer;
   display: flex;
   justify-content: center;
-  align-items: center;        /* ✅ Vertically center text */
+  align-items: center;
   text-align: center;
+  line-height: 1;
   transition: background-color 0.3s ease;
-  line-height: 1;             /* ✅ Prevent line height issues */
 }
 
+/* 🔁 Continuous shake on hover */
+.btn.primary:hover {
+  animation: shake 1s infinite;
+}
 
+/* Optional: Disable hover during loading */
 .btn.primary.loading {
   pointer-events: none;
   color: var(--primary-color);
-  background-color: rgb(255, 255, 255);
+  background-color: white;
+}
+
+/* 🔁 Shake keyframes */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  10% { transform: translateX(-4px); }
+  20% { transform: translateX(4px); }
+  30% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  50% { transform: translateX(-4px); }
+  60% { transform: translateX(4px); }
+  70% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+  90% { transform: translateX(-4px); }
+  100% { transform: translateX(0); }
 }
 
 .btn.primary .fill-bar {
