@@ -1,48 +1,199 @@
-/* Main section styling */
-.about-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: -1rem 7rem 1rem 11rem;
-  background-color: whitesmoke;
-  text-align: center;
-  overflow-anchor: none; /* Prevent layout shift on scroll */
+:root {
+  --bg-color: #0a0f29;
+  --primary-color: #2a72e3;
+  --text-color: #e6e9f0;
+  --subtext-color: #888b94;
+  --accent-glow: #5eb0f2;
+  --button-dark: #0f172a;
 }
 
-/* Section heading */
+.about-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  padding: 2rem 7rem;
+  background-color: whitesmoke;
+  overflow: hidden;
+}
+
+/* Content wrapper: layout + animation */
+.about-content-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  transition: all 1.2s ease-in-out;
+}
+
+/* ✅ Center entire layout while typing */
+.centered-start {
+  flex-direction: column;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 2rem;
+  text-align: center;
+}
+
+.centered-start .about-text {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.centered-start .about-heading {
+  text-align: center;
+}
+
+/* ✅ After typing, slide everything left */
+.shift-wrapper {
+  animation: wrapperShift 3s ease forwards;
+}
+
+/* Text block */
+.about-text {
+    padding-top: 5rem;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;         /* Center horizontally */
+  justify-content: center;     /* Center vertically */
+  text-align: center;
+}
+
+/* Slide text block left */
+.shift-text {
+  animation: textShift 3s ease forwards;
+}
+
+/* Heading */
 .about-heading {
-  font-family: quicksand, sans-serif;
+  padding-left: 5rem;
+  font-family: 'Inter', sans-serif;
   font-size: 2.5rem;
   font-weight: 600;
   margin-bottom: 24px;
   color: #1a1a1a;
-  transition: transform 0.5s ease-in-out;
+  width: 100%;
+  opacity: 1;
+  text-align: left;
 }
 
-/* Paragraph wrapper (for first and second) */
+/* Slide heading left */
+.heading-move {
+  animation: headingShift 3s ease forwards;
+}
+
+/* Typewriter effect */
 .about-typewriter {
-  font-family: quicksand, sans-serif;
+  padding-left: 5rem;
+  font-family: 'Inter', sans-serif;
   font-size: 1.125rem;
   line-height: 2;
   color: #333;
-  max-width: 700px;
-  text-align: justify;
+  width: 100%;
   margin-bottom: 10px;
-  min-height: 150px; /* Reserve space to avoid jumpy scroll */
+  min-height: 150px;
   overflow-anchor: none;
-  transition: transform 0.5s ease-in-out;
+  text-align: left;
 }
 
-/* Second paragraph spacing */
 .about-typewriter.second {
   margin-top: 5px;
-  min-height: 180px; /* Additional space for longer paragraph */
+  min-height: 180px;
+}
+
+/* Slide paragraph left */
+.paragraph-move {
+  animation: paragraphShift 3s ease forwards;
+}
+
+/* Logos section */
+.about-logos {
+  padding-left: 3rem;
+  padding-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transform: translateX(60px);
+}
+
+.slide-in-right {
+  animation: slideInLogos 3s ease forwards;
+}
+
+.logo-img {
+  padding-top: 1rem;
+  width: 80px;
+  height: auto;
+  transition: transform 0.4s ease;
+   box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+}
+
+
+.logo-img:hover {
+  transform: scale(1.1);
+}
+
+.logo-link {
+  display: block;
+  margin: 10px 0;
+}
+
+/* Avoid scroll jumping */
+html {
   overflow-anchor: none;
 }
 
-/* Zoom effect triggered after typing finishes */
-.zoom-effect {
-  transform: scale(1.11);
+/* ======================
+   Animations
+======================= */
+
+@keyframes headingShift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-40px);
+  }
+}
+
+@keyframes paragraphShift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-40px);
+  }
+}
+
+@keyframes textShift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-40px);
+  }
+}
+
+@keyframes wrapperShift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-40px);
+  }
+}
+
+@keyframes slideInLogos {
+  from {
+    transform: translateX(60px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
