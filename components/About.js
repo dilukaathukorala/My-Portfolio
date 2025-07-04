@@ -118,7 +118,7 @@ const About = () => {
               <img src="/sliit-logo.png" alt="SLIIT Logo" className="logo-img" />
             </a>
             <a
-              href="https://www.ieti.edu.lk/"
+              href="https://naita.gov.lk/"
               target="_blank"
               rel="noopener noreferrer"
               className="logo-link"
