@@ -10,7 +10,9 @@ const About = () => {
   const [showSecondPara, setShowSecondPara] = useState(false);
   const [showCursor1, setShowCursor1] = useState(true);
   const [showCursor2, setShowCursor2] = useState(true);
-  const [zoomIn, setZoomIn] = useState(false);
+  const [headingShift, setHeadingShift] = useState(false);
+  const [textShift, setTextShift] = useState(false);
+  const [showLogos, setShowLogos] = useState(false);
 
   const paragraphOne = `A curious mind shaping digital design where logic meets clarity creating experiences that not only work, but feel right. I design with purpose, blending structure, creativity, and intention in every detail.`;
 
@@ -24,33 +26,35 @@ const About = () => {
           setShowSecondPara(false);
           setShowCursor1(true);
           setShowCursor2(true);
-          setZoomIn(false);
+          setHeadingShift(false);
+          setTextShift(false);
+          setShowLogos(false);
 
           setTimeout(() => {
             setStartTyping(true);
 
-            const totalChars = paragraphOne.length;
             const typeSpeed = 25;
-            const estimatedTypingTime = totalChars * typeSpeed + 1000;
+            const time1 = paragraphOne.length * typeSpeed + 1000;
+            const time2 = paragraphTwo.length * typeSpeed + 1000;
 
             setTimeout(() => {
               setShowCursor1(false);
+              setHeadingShift(true);
               setShowSecondPara(true);
-
-              const totalChars2 = paragraphTwo.length;
-              const estimatedTypingTime2 = totalChars2 * typeSpeed + 1000;
 
               setTimeout(() => {
                 setShowCursor2(false);
-                setZoomIn(true); // Trigger zoom effect after all typing
-              }, estimatedTypingTime2);
-            }, estimatedTypingTime);
-          }, 100);
+                setTextShift(true);
+
+                setTimeout(() => {
+                  setShowLogos(true);
+                }, 800);
+              }, time2);
+            }, time1);
+          }, 200);
         }
       },
-      {
-        threshold: 0.5,
-      }
+      { threshold: 0.5 }
     );
 
     const currentRef = sectionRef.current;
@@ -63,37 +67,67 @@ const About = () => {
 
   return (
     <section id="about" className="about-section" ref={sectionRef}>
-      <h2 className={`about-heading ${zoomIn ? 'zoom-effect' : ''}`}>
-        About Me
-      </h2>
+      <div
+        className={`about-content-wrapper
+          ${startTyping && !textShift ? 'centered-start' : ''}
+          ${textShift ? 'shift-wrapper' : ''}
+        `}
+      >
+        <div className={`about-text ${textShift ? 'shift-text' : ''}`}>
+          <h2 className={`about-heading ${headingShift ? 'heading-move' : ''}`}>
+            About Me
+          </h2>
 
-      <div className={`about-typewriter ${zoomIn ? 'zoom-effect' : ''}`}>
-        {startTyping && (
-          <Typewriter
-            words={[paragraphOne]}
-            loop={1}
-            typeSpeed={25}
-            deleteSpeed={0}
-            delaySpeed={0}
-            cursor={showCursor1}
-            cursorStyle="|"
-          />
+          {startTyping && (
+            <div className={`about-typewriter ${textShift ? 'paragraph-move' : ''}`}>
+              <Typewriter
+                words={[paragraphOne]}
+                loop={1}
+                typeSpeed={25}
+                deleteSpeed={0}
+                delaySpeed={0}
+                cursor={showCursor1}
+                cursorStyle="|"
+              />
+            </div>
+          )}
+
+          {showSecondPara && (
+            <div className={`about-typewriter second ${textShift ? 'paragraph-move' : ''}`}>
+              <Typewriter
+                words={[paragraphTwo]}
+                loop={1}
+                typeSpeed={25}
+                deleteSpeed={0}
+                delaySpeed={500}
+                cursor={showCursor2}
+                cursorStyle="|"
+              />
+            </div>
+          )}
+        </div>
+
+        {showLogos && (
+          <div className="about-logos slide-in-right">
+            <a
+              href="https://www.sliit.lk/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="logo-link"
+            >
+              <img src="/sliit-logo.png" alt="SLIIT Logo" className="logo-img" />
+            </a>
+            <a
+              href="https://www.ieti.edu.lk/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="logo-link"
+            >
+              <img src="/ieti-logo.png" alt="IETI Logo" className="logo-img" />
+            </a>
+          </div>
         )}
       </div>
-
-      {showSecondPara && (
-        <div className={`about-typewriter second ${zoomIn ? 'zoom-effect' : ''}`}>
-          <Typewriter
-            words={[paragraphTwo]}
-            loop={1}
-            typeSpeed={25}
-            deleteSpeed={0}
-            delaySpeed={500}
-            cursor={showCursor2}
-            cursorStyle="|"
-          />
-        </div>
-      )}
     </section>
   );
 };
