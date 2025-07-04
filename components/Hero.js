@@ -91,8 +91,8 @@ export default function Hero() {
             Hello, I am <span className="highlight">Diluka</span>.
           </h1>
           <p className="hero-description">
-            I'm a full-stack web developer from Sri Lanka. <br />
-            Currently studying at <span className="mention">Sri Lanka Institute of Information Technology</span> as an IT Specialist.
+            Full-stack web developer from Sri Lanka. <br /><br />
+            Currently studying at <span className="mention">Sri Lanka Institute of Information Technology</span> as an IT Specialist Undergraduate. (<span className="sup">3<sup>rd</sup></span> Year)
           </p>
 
           <div className="hero-buttons">
