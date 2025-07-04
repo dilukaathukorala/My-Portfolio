@@ -64,6 +64,7 @@
   font-size: 3rem;
   font-weight: bold;
   line-height: 1.2;
+  margin-bottom: 0;
 }
 
 .hero-title .highlight {
@@ -72,7 +73,7 @@
 
 .hero-description {
   font-family: quicksand, sans-serif;
-  margin: 1rem 0;
+  margin: 0rem 0 ;
   font-size: 1.1rem;
   color: #cacaca;
 }
@@ -81,6 +82,13 @@
   color: #7ca3ff;
   font-weight: 600;
 }
+
+.sup sup {
+  font-size: 0.70em;
+  vertical-align: super;
+  line-height: 0;
+}
+
 
 .hero-buttons {
   display: flex;
@@ -482,8 +490,8 @@ input#nav-contact:checked ~ .glider { transform: translateX(400%); }
 
 /* Circle button for each icon */
 .fixed-icons .icon-content a {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: white;
   display: flex;
@@ -497,8 +505,8 @@ input#nav-contact:checked ~ .glider { transform: translateX(400%); }
 
 /* Icon SVG size */
 .fixed-icons .icon-content svg {
-  width: 32px;
-  height: 32px;
+  width: 22px;
+  height: 22px;
   z-index: 2;
 }
 
