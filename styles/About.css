@@ -1,23 +1,48 @@
+/* Main section styling */
 .about-section {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 80px 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: -1rem 7rem 1rem 11rem;
+  background-color: whitesmoke;
+  text-align: center;
+  overflow-anchor: none; /* Prevent layout shift on scroll */
 }
 
+/* Section heading */
 .about-heading {
+  font-family: quicksand, sans-serif;
   font-size: 2.5rem;
   font-weight: 600;
   margin-bottom: 24px;
   color: #1a1a1a;
-  text-align: center;
+  transition: transform 0.5s ease-in-out;
 }
 
-.about-paragraph {
+/* Paragraph wrapper (for first and second) */
+.about-typewriter {
+  font-family: quicksand, sans-serif;
   font-size: 1.125rem;
-  line-height: 1.8;
+  line-height: 2;
   color: #333;
-  margin-bottom: 20px;
+  max-width: 700px;
   text-align: justify;
+  margin-bottom: 10px;
+  min-height: 150px; /* Reserve space to avoid jumpy scroll */
+  overflow-anchor: none;
+  transition: transform 0.5s ease-in-out;
+}
+
+/* Second paragraph spacing */
+.about-typewriter.second {
+  margin-top: 5px;
+  min-height: 180px; /* Additional space for longer paragraph */
+  overflow-anchor: none;
+}
+
+/* Zoom effect triggered after typing finishes */
+.zoom-effect {
+  transform: scale(1.11);
 }
