@@ -110,7 +110,7 @@ const About = () => {
         {showLogos && (
           <div className="about-logos slide-in-right">
             <a
-              href="https://www.sliit.lk/"
+              href="https://www.sliit.lk/about/about-sliit/"
               target="_blank"
               rel="noopener noreferrer"
               className="logo-link"
