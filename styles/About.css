@@ -197,3 +197,79 @@ html {
     opacity: 1;
   }
 }
+/* ======================
+   Responsive Design
+======================= */
+
+/* Smartphones only */
+@media (max-width: 480px) {
+  /* Section padding to avoid navbar overlap */
+  .about-section {
+    padding: 6rem 1rem 2rem;
+    align-items: flex-start;
+    scroll-margin-top: 6rem;
+  }
+
+  /* Disable shift animations */
+  .shift-wrapper,
+  .shift-text,
+  .heading-move,
+  .paragraph-move {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  /* Layout: stack content */
+  .about-content-wrapper {
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .about-text {
+    padding-top: 0;
+    text-align: center;
+    align-items: center;
+  }
+
+  /* Readable font sizes */
+  .about-heading {
+    font-size: 1.8rem;
+    text-align: center;
+    padding-left: 0;
+  }
+
+  .about-typewriter {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .about-typewriter.second {
+    min-height: auto;
+  }
+
+  /* Logos after paragraphs */
+  .about-logos {
+    width: 100%;
+    padding-top: 0.1rem;
+    padding-left: 0.5rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    gap: 1.5rem;
+  }
+
+  .logo-img {
+    width: 60px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+    align-items: center;
+  }
+}
