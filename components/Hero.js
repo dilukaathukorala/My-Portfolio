@@ -4,23 +4,22 @@ import React, { useState, useEffect } from "react";
 import "../styles/Hero.css";
 import Header from "./Header";
 import SocialMedia from "./SocialMedia";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
-export default function Hero({ setActiveSection }) {
+export default function Hero({ handleNavClick, setActiveSection, menuOpen, setMenuOpen, reloadKey }) {
   const [cvStatus, setCvStatus] = useState("idle");
   const [rays, setRays] = useState([]);
-  const [menuOpen, setMenuOpen] = useState(false);
   const [isLeaving, setIsLeaving] = useState(false);
 
   useEffect(() => {
-    const raysData = [...Array(60)].map((_, i) => ({
+    const raysData = Array.from({ length: 60 }, (_, i) => ({
       rotation: (360 / 60) * i,
-      i: Math.floor(Math.random() * 800),
+      i: Math.floor(Math.random() * 100),
       dotSize: `${4 + Math.random() * 3}px`,
       speed: `${3 + Math.random()}1s`,
     }));
     setRays(raysData);
-  }, []);
+  }, [reloadKey]);
 
   useEffect(() => {
     document.body.classList.toggle("no-scroll", menuOpen);
@@ -42,105 +41,117 @@ export default function Hero({ setActiveSection }) {
 
   const closeMenu = () => setMenuOpen(false);
 
-  const handleNavClick = (section) => {
-    setIsLeaving(true);
-    setTimeout(() => {
-      setActiveSection(section);
-    }, 600);
+  const handleLeave = (section) => {
+    if (section === "hero") {
+      setIsLeaving(true);
+      setTimeout(() => {
+        setActiveSection("hero");
+        setIsLeaving(false);
+      }, 500);
+    } else {
+      setIsLeaving(true);
+      setTimeout(() => {
+        setActiveSection(section);
+        setIsLeaving(false);
+      }, 500);
+    }
   };
 
   return (
     <section id="hero" className="hero-section">
-      {/* ✅ Header Component */}
       <Header
         menuOpen={menuOpen}
         setMenuOpen={setMenuOpen}
-        handleNavClick={handleNavClick}
+        handleNavClick={handleLeave}
       />
 
-      {/* ✅ Mobile Menu */}
       {menuOpen && (
         <>
           <div className="menu-backdrop" onClick={closeMenu}></div>
           <div className="mobile-menu">
-            <a onClick={() => { closeMenu(); handleNavClick("hero"); }}>Home</a>
-            <a onClick={() => { closeMenu(); handleNavClick("about"); }}>About me</a>
-            <a onClick={() => { closeMenu(); handleNavClick("skills"); }}>Skills</a>
-            <a onClick={() => { closeMenu(); handleNavClick("portfolio"); }}>Projects</a>
-            <a onClick={() => { closeMenu(); handleNavClick("contact"); }}>Contact me</a>
+            <a onClick={() => { closeMenu(); handleLeave("hero"); }}>Home</a>
+            <a onClick={() => { closeMenu(); handleLeave("about"); }}>About me</a>
+            <a onClick={() => { closeMenu(); handleLeave("skills"); }}>Skills</a>
+            <a onClick={() => { closeMenu(); handleLeave("portfolio"); }}>Projects</a>
+            <a onClick={() => { closeMenu(); handleLeave("contact"); }}>Contact me</a>
           </div>
         </>
       )}
 
-      {/* ✅ Hero Content */}
       <div className="hero-content">
-        <motion.div
-          className="hero-left"
-          initial={{ opacity: 1, x: 0 }}
-          animate={isLeaving ? { opacity: 0, x: -100 } : { opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <p className="hero-intro">Welcome to my portfolio!</p>
-          <h1 className="hero-title">
-            Hello, I am <span className="highlight">Diluka</span>.
-          </h1>
-          <p className="hero-description">
-            Full-stack web developer from Sri Lanka. <br /><br />
-            Currently studying at <span className="mention">Sri Lanka Institute of Information Technology</span> as an IT Specialist Undergraduate. (<span className="sup">3<sup>rd</sup></span> Year)
-          </p>
-
-          <div className="hero-buttons">
-            {cvStatus === "completed" ? (
-              <a href="/Diluka_CV.pdf" target="_blank" className="btn primary completed">Open CV</a>
-            ) : (
-              <button
-                className={`btn primary ${cvStatus}`}
-                onClick={handleDownload}
-                disabled={cvStatus === "loading"}
+        <AnimatePresence mode="wait">
+          {!isLeaving && (
+            <>
+              <motion.div
+                className="hero-left"
+                key={`hero-left-${reloadKey}`}
+                initial={{ opacity: 0, x: -100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -100 }}
+                transition={{ duration: 0.5 }}
               >
-                {cvStatus === "loading" ? <span className="fill-bar" /> : "Download CV"}
-              </button>
-            )}
-            <button className="btn secondary" onClick={() => handleNavClick("about")}>
-             See my Projects <span className="arrow">➜</span>
-            </button>
+                <p className="hero-intro">Welcome to my portfolio!</p>
+                <h1 className="hero-title">
+                  Hello, I am <span className="highlight">Diluka</span>.
+                </h1>
+                <p className="hero-description">
+                  Full-stack web developer from Sri Lanka. <br /><br />
+                  Currently studying at <span className="mention">Sri Lanka Institute of Information Technology</span> as an IT Specialist Undergraduate. (<span className="sup">3<sup>rd</sup></span> Year)
+                </p>
 
-          </div>
-        </motion.div>
+                <div className="hero-buttons">
+                  {cvStatus === "completed" ? (
+                    <a href="/Diluka_CV.pdf" target="_blank" className="btn primary completed">Open CV</a>
+                  ) : (
+                    <button
+                      className={`btn primary ${cvStatus}`}
+                      onClick={handleDownload}
+                      disabled={cvStatus === "loading"}
+                    >
+                      {cvStatus === "loading" ? <span className="fill-bar" /> : "Download CV"}
+                    </button>
+                  )}
+                  <button className="btn secondary" onClick={() => handleLeave("portfolio")}>See my Projects <span className="arrow">➜</span></button>
+                </div>
+              </motion.div>
 
-        <motion.div
-          className="hero-right"
-          initial={{ opacity: 1, x: 0 }}
-          animate={isLeaving ? { opacity: 0, x: 100 } : { opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="back-ray-emitter">
-            {rays.map((ray, i) => (
-              <div
-                key={i}
-                className="dot-ray"
-                style={{
-                  transform: `rotate(${ray.rotation}deg)`,
-                  '--i': ray.i,
-                  '--dot-size': ray.dotSize,
-                  '--speed': ray.speed,
-                }}
-              />
-            ))}
-          </div>
+              <motion.div
+                className="hero-right"
+                key={`hero-right-${reloadKey}`}
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 100 }}
+                transition={{ duration: 0.5 }}
+              >
+                <div className="back-ray-emitter">
+                  {rays.map((ray, i) => (
+                    <div
+                      key={i}
+                      className="dot-ray"
+                      style={{
+                        transform: `rotate(${ray.rotation}deg)`,
+                        '--i': ray.i,
+                        '--dot-size': ray.dotSize,
+                        '--speed': ray.speed,
+                      }}
+                    />
+                  ))}
+                </div>
 
-          <div className="hero-image-frame">
-            <img
-              src="/Portfolio.jpg"
-              alt="Diluka Athukorala"
-              className="hero-image"
-              loading="lazy"
-            />
-          </div>
-        </motion.div>
+                <div className="hero-image-frame">
+                  <img
+                    src="/Portfolio.jpg"
+                    alt="Diluka Athukorala"
+                    className="hero-image"
+                    loading="lazy"
+                  />
+                </div>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
       </div>
 
-      {/* ✅ Fixed Social Icons (Modularized) */}
       <SocialMedia />
     </section>
   );
