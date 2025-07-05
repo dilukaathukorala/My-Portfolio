@@ -3,23 +3,38 @@
 import { useEffect, useState } from 'react';
 import Hero from '../components/Hero';
 import About from '../components/About';
+import Header from '../components/Header';
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState("hero");
   const [isLeaving, setIsLeaving] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // ✅ Reset isLeaving after a section has loaded
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLeaving(false); // allow next transition
-    }, 600); // Match transition duration
-
+    const timer = setTimeout(() => setIsLeaving(false), 600);
     return () => clearTimeout(timer);
   }, [activeSection]);
 
+  const handleNavClick = (section) => {
+    if (section !== activeSection) {
+      setIsLeaving(true);
+      setTimeout(() => {
+        setActiveSection(section);
+      }, 300);
+    }
+  };
+
   return (
     <>
+      {/* ✅ Render Header ONCE */}
+      <Header
+        activeSection={activeSection}
+        handleNavClick={handleNavClick}
+        menuOpen={menuOpen}
+        setMenuOpen={setMenuOpen}
+      />
+
+      {/* ✅ Section-based rendering */}
       {activeSection === "hero" && (
         <Hero
           isLeaving={isLeaving}
