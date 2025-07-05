@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import '../styles/About.css';
 import { useEffect, useRef, useState } from 'react';
@@ -41,27 +41,8 @@ const About = ({ setActiveSection, menuOpen, setMenuOpen, handleNavClick, reload
   };
 
   useEffect(() => {
-    const currentRef = sectionRef.current;
-    let observer;
-
-    const handleIntersect = ([entry]) => {
-      if (entry.isIntersecting) {
-        resetStates();
-        setTimeout(() => {
-          setStartTyping(true);
-        }, 200);
-      }
-    };
-
-    if (currentRef) {
-      observer = new IntersectionObserver(handleIntersect, { threshold: 0.5 });
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (observer && currentRef) observer.unobserve(currentRef);
-      resetStates();
-    };
+    resetStates();
+    setTimeout(() => setStartTyping(true), 200);
   }, [pathname, reloadKey]);
 
   useEffect(() => {
@@ -99,10 +80,13 @@ const About = ({ setActiveSection, menuOpen, setMenuOpen, handleNavClick, reload
   const closeMenu = () => setMenuOpen(false);
 
   const handleLeave = (section) => {
-    setIsLeaving(true);
-    setTimeout(() => {
-      setActiveSection(section);
-    }, 600);
+    if (section === 'about') {
+      resetStates();
+      setTimeout(() => setStartTyping(true), 200);
+    } else {
+      setIsLeaving(true);
+      setTimeout(() => setActiveSection(section), 600);
+    }
   };
 
   return (
@@ -110,10 +94,11 @@ const About = ({ setActiveSection, menuOpen, setMenuOpen, handleNavClick, reload
       id="about"
       className="about-section"
       ref={sectionRef}
-      initial={{ opacity: 1 }}
+      initial={false}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
+      style={{ backgroundColor: 'transparent' }}
     >
       <Header
         menuOpen={menuOpen}
@@ -156,7 +141,9 @@ const About = ({ setActiveSection, menuOpen, setMenuOpen, handleNavClick, reload
               </h2>
 
               {startTyping && (
-                <div className={`about-typewriter ${textShift ? 'paragraph-move' : ''}`}>
+                <div
+                  className={`about-typewriter ${textShift ? 'paragraph-move' : ''}`}
+                >
                   <Typewriter
                     words={[paragraphOne]}
                     loop={1}
@@ -170,7 +157,9 @@ const About = ({ setActiveSection, menuOpen, setMenuOpen, handleNavClick, reload
               )}
 
               {showSecondPara && (
-                <div className={`about-typewriter second ${textShift ? 'paragraph-move' : ''}`}>
+                <div
+                  className={`about-typewriter second ${textShift ? 'paragraph-move' : ''}`}
+                >
                   {startSecondTyping && !secondComplete && (
                     <Typewriter
                       key={`second-${startSecondTyping}`}
@@ -183,9 +172,7 @@ const About = ({ setActiveSection, menuOpen, setMenuOpen, handleNavClick, reload
                       cursorStyle="|"
                     />
                   )}
-                  {secondComplete && (
-                    <div className="typed-text">{paragraphTwo}</div>
-                  )}
+                  {secondComplete && <div className="typed-text">{paragraphTwo}</div>}
                 </div>
               )}
             </div>

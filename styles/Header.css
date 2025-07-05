@@ -74,13 +74,19 @@
   top: 4px;
   left: 0;
   height: 40px;
-  background: linear-gradient(135deg, #60a5fa, #3b82f6);
+  background: radial-gradient(circle at 30% 30%, #90cdf4, #3b82f6);
   z-index: 0;
   border-radius: 50px;
   transition: transform 0.3s ease-out, width 0.3s ease;
-  box-shadow: 0 4px 16px rgba(96, 165, 250, 0.3);
+  box-shadow:
+    inset -2px -2px 4px rgba(255, 255, 255, 0.5),
+    inset 2px 2px 6px rgba(0, 0, 0, 0.1),
+    0 8px 20px rgba(96, 165, 250, 0.3);
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   opacity: 0;
 }
+
 
 .tabs::before {
   content: '';

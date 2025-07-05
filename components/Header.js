@@ -19,7 +19,7 @@ export default function Header({
     contact: useRef(null),
   };
 
-  const [gliderPos, setGliderPos] = useState({ left: 0, width: 0 }); // start hidden
+  const [gliderPos, setGliderPos] = useState({ left: 0, width: 0 });
 
   useLayoutEffect(() => {
     const ref = tabRefs[activeSection]?.current;
@@ -68,12 +68,10 @@ export default function Header({
         ></span>
       </div>
 
-      {/* Mobile Toggle */}
       <div className="mobile-menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
         {menuOpen ? <FaTimes /> : <FaBars />}
       </div>
 
-      {/* Mobile Nav */}
       {menuOpen && (
         <div className="mobile-nav">
           {Object.entries(navItems).map(([key, label]) => (
