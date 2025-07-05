@@ -7,6 +7,7 @@
   --button-dark: #0f172a;
 }
 
+/* === SECTION === */
 .about-section {
   width: 100%;
   display: flex;
@@ -14,11 +15,11 @@
   align-items: center;
   min-height: 90vh;
   padding: 2rem;
-  background-color: whitesmoke;
+  background: linear-gradient(135deg, #4c6a85, #41207e, #0f1d65, #030325);
   overflow: hidden;
 }
 
-/* Content wrapper: layout + animation */
+/* === CONTENT WRAPPER === */
 .about-content-wrapper {
   display: flex;
   align-items: center;
@@ -26,71 +27,68 @@
   transition: all 1.2s ease-in-out;
 }
 
-/* ✅ Center entire layout while typing */
+/* ⏳ BEFORE TYPING – Centered */
 .centered-start {
   flex-direction: column;
-  justify-content: center !important;
-  align-items: center !important;
-  gap: 2rem;
+  justify-content: center;
+  align-items: center;
   text-align: center;
+  padding-left: -30rem;
 }
 
-.centered-start .about-text {
+.centered-start .about-text,
+.centered-start .about-heading {
+  padding-left: -9rem;
+  padding-right: 4rem;
   align-items: center;
   justify-content: center;
   text-align: center;
 }
 
-.centered-start .about-heading {
-  text-align: center;
-}
-
-/* ✅ After typing, slide everything left */
+/* ✅ AFTER TYPING – Slide to left */
 .shift-wrapper {
-  animation: wrapperShift 4s ease-in-out forwards;
+  animation: wrapperShift 1.2s ease-in-out forwards;
 }
 
-/* Text block */
+/* === TEXT BLOCK === */
 .about-text {
-    padding-top: 5rem;
+  padding-top: 5rem;
   max-width: 700px;
   display: flex;
   flex-direction: column;
-  align-items: center;         /* Center horizontally */
-  justify-content: center;     /* Center vertically */
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
 
-/* Slide text block left */
 .shift-text {
-  animation: textShift 4s ease-in-out forwards;
+  animation: textShift 1.2s ease-in-out forwards;
 }
 
-/* Heading */
+/* === HEADING === */
 .about-heading {
   padding-left: 5rem;
   font-family: 'Inter', sans-serif;
   font-size: 2.5rem;
   font-weight: 600;
   margin-bottom: 24px;
-  color: #1a1a1a;
+  color: white;
   width: 100%;
   opacity: 1;
   text-align: left;
 }
 
-/* Slide heading left */
 .heading-move {
-  animation: headingShift 4s ease-in-out forwards;
+  animation: headingShift 1.2s ease-in-out forwards;
 }
 
-/* Typewriter effect */
+/* === TYPEWRITER AREA === */
 .about-typewriter {
-  padding-left: 5rem;
+  padding-left: 4rem;
   font-family: 'Inter', sans-serif;
   font-size: 1.125rem;
   line-height: 2;
-  color: #333;
+  color: white;
   width: 100%;
   margin-bottom: 10px;
   min-height: 150px;
@@ -103,22 +101,21 @@
   min-height: 180px;
 }
 
-/* Slide paragraph left */
 .paragraph-move {
-  animation: paragraphShift 4s ease-in-out forwards;
+  animation: paragraphShift 1.2s ease-in-out forwards;
 }
 
-/* Static text for completed typing */
+/* === STATIC TEXT (AFTER TYPING) === */
 .typed-text {
   font-family: 'Inter', sans-serif;
   font-size: 1.125rem;
   line-height: 2;
-  color: #333;
+  color: white;
   width: 100%;
   text-align: left;
 }
 
-/* Logos section */
+/* === LOGO SECTION === */
 .about-logos {
   padding-left: 3rem;
   padding-top: 2rem;
@@ -131,7 +128,7 @@
 }
 
 .slide-in-right {
-  animation: slideInLogos 4s ease-in-out forwards;
+  animation: slideInLogos 1.2s ease-in-out forwards;
 }
 
 .logo-img {
@@ -139,10 +136,9 @@
   width: 80px;
   height: auto;
   transition: transform 0.4s ease;
-   box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
 }
-
 
 .logo-img:hover {
   transform: scale(1.1);
@@ -153,15 +149,7 @@
   margin: 10px 0;
 }
 
-/* Avoid scroll jumping */
-html {
-  overflow-anchor: none;
-}
-
-/* ======================
-   Animations
-======================= */
-
+/* === ANIMATIONS === */
 @keyframes headingShift {
   from {
     transform: translateX(0);
@@ -209,20 +197,14 @@ html {
   }
 }
 
-/* ======================
-   Responsive Design
-======================= */
-
-/* Smartphones only */
+/* === RESPONSIVE: MOBILE OPTIMIZATION === */
 @media (max-width: 480px) {
-  /* Section padding to avoid navbar overlap */
   .about-section {
     padding: 6rem 1rem 2rem;
     align-items: flex-start;
     scroll-margin-top: 6rem;
   }
 
-  /* Disable shift animations */
   .shift-wrapper,
   .shift-text,
   .heading-move,
@@ -231,7 +213,6 @@ html {
     transform: none !important;
   }
 
-  /* Layout: stack content */
   .about-content-wrapper {
     flex-direction: column;
     gap: 2rem;
@@ -244,7 +225,6 @@ html {
     align-items: center;
   }
 
-  /* Readable font sizes */
   .about-heading {
     font-size: 1.8rem;
     text-align: center;
@@ -262,7 +242,6 @@ html {
     min-height: auto;
   }
 
-  /* Logos after paragraphs */
   .about-logos {
     width: 100%;
     padding-top: 0.1rem;

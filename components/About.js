@@ -4,8 +4,17 @@ import '../styles/About.css';
 import { useEffect, useRef, useState } from 'react';
 import { Typewriter } from 'react-simple-typewriter';
 import { usePathname } from 'next/navigation';
+import { motion } from 'framer-motion';
+import Header from './Header';
+import SocialMedia from './SocialMedia';
 
-const About = () => {
+const About = ({
+  isLeaving,
+  setIsLeaving,
+  setActiveSection,
+  menuOpen,
+  setMenuOpen
+}) => {
   const sectionRef = useRef(null);
   const pathname = usePathname();
 
@@ -18,12 +27,12 @@ const About = () => {
   const [showCursor1, setShowCursor1] = useState(true);
   const [showCursor2, setShowCursor2] = useState(true);
   const [secondComplete, setSecondComplete] = useState(false);
+  const [isExiting, setIsExiting] = useState(false); // ✅ local zoom out trigger
 
   const paragraphOne = `A curious mind shaping digital design where logic meets clarity creating experiences that not only work, but feel right. I design with purpose, blending structure, creativity, and intention in every detail.`;
 
   const paragraphTwo = `Currently studying Information Technology at SLIIT, with a broad interest in modern software development. Completed NVQ Level 4 in Graphic Design at IETI, where curiosity for structured visual communication developed into practical design skills. With a background that bridges technology and design, the goal is to craft solutions that are efficient, intuitive, and grounded in real-world purpose.`;
 
-  // Reset function to clean up all states
   const resetStates = () => {
     setStartTyping(false);
     setShowSecondPara(false);
@@ -34,6 +43,7 @@ const About = () => {
     setTextShift(false);
     setShowLogos(false);
     setSecondComplete(false);
+    setIsExiting(false);
   };
 
   useEffect(() => {
@@ -60,72 +70,93 @@ const About = () => {
     };
   }, [pathname]);
 
-  // Use a timer approach to ensure second paragraph triggers
   useEffect(() => {
     if (startTyping) {
-      // Calculate approximate time for first paragraph to complete
-      const firstParagraphLength = paragraphOne.length;
-      const typeSpeed = 25; // milliseconds per character
-      const approximateTime = firstParagraphLength * typeSpeed + 500; // Add buffer
-      
-      console.log('First paragraph will take approximately:', approximateTime, 'ms');
-      
+      const typeSpeed = 25;
+      const approximateTime = paragraphOne.length * typeSpeed + 500;
+
       const timer = setTimeout(() => {
-        console.log('Timer triggered - starting second paragraph sequence');
         setShowCursor1(false);
-        
-        // Delay the heading shift for smoother transition
-        setTimeout(() => {
-          setHeadingShift(true);
-        }, 300);
-        
-        // Show second paragraph after heading starts moving
-        setTimeout(() => {
-          setShowSecondPara(true);
-        }, 800);
-        
-        // Start second typewriter after everything is positioned
-        setTimeout(() => {
-          console.log('Starting second typewriter');
-          setStartSecondTyping(true);
-        }, 1500);
+        setTimeout(() => setHeadingShift(true), 300);
+        setTimeout(() => setShowSecondPara(true), 800);
+        setTimeout(() => setStartSecondTyping(true), 1500);
       }, approximateTime);
 
       return () => clearTimeout(timer);
     }
   }, [startTyping, paragraphOne.length]);
 
-  // Handle second typewriter completion
   useEffect(() => {
     if (startSecondTyping && !secondComplete) {
-      const secondParagraphLength = paragraphTwo.length;
       const typeSpeed = 25;
-      const approximateTime = secondParagraphLength * typeSpeed + 500;
-      
-      console.log('Second paragraph will take approximately:', approximateTime, 'ms');
-      
+      const approximateTime = paragraphTwo.length * typeSpeed + 500;
+
       const timer = setTimeout(() => {
-        console.log('Second paragraph complete - showing logos');
         setSecondComplete(true);
         setShowCursor2(false);
         setTextShift(true);
-        
-        setTimeout(() => {
-          setShowLogos(true);
-        }, 800);
+        setTimeout(() => setShowLogos(true), 800);
       }, approximateTime);
 
       return () => clearTimeout(timer);
     }
   }, [startSecondTyping, paragraphTwo.length, secondComplete]);
 
+  const closeMenu = () => setMenuOpen(false);
+
+  const handleNavClick = (section) => {
+    setIsExiting(true); // ✅ Zoom + fade trigger
+    setIsLeaving(true); // ✅ Notify parent
+
+    closeMenu();
+
+    setTimeout(() => {
+      setActiveSection(section);
+    }, 600); // Matches zoom animation
+  };
+
   return (
-    <section id="about" className="about-section" ref={sectionRef}>
-      <div
-        className={`about-content-wrapper
+    <motion.section
+      id="about"
+      className="about-section"
+      ref={sectionRef}
+      // ✅ NO x-slide animation, just fade container
+      initial={{ opacity: 1 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Header
+        menuOpen={menuOpen}
+        setMenuOpen={setMenuOpen}
+        handleNavClick={handleNavClick}
+      />
+
+      {menuOpen && (
+        <>
+          <div className="menu-backdrop" onClick={closeMenu}></div>
+          <div className="mobile-menu">
+            <a onClick={() => handleNavClick("hero")}>Home</a>
+            <a onClick={() => handleNavClick("about")}>About me</a>
+            <a onClick={() => handleNavClick("skills")}>Skills</a>
+            <a onClick={() => handleNavClick("portfolio")}>Projects</a>
+            <a onClick={() => handleNavClick("contact")}>Contact me</a>
+          </div>
+        </>
+      )}
+
+      <SocialMedia />
+
+      {/* ✅ Smooth zoom-out on exit only */}
+      <motion.div
+        className={`
+          about-content-wrapper
           ${startTyping && !textShift ? 'centered-start' : ''}
           ${textShift ? 'shift-wrapper' : ''}
         `}
+        initial={{ scale: 1, opacity: 1 }}
+        animate={isExiting ? { scale: 0.85, opacity: 0 } : { scale: 1, opacity: 1 }}
+        transition={{ duration: 0.5, ease: 'easeInOut' }}
       >
         <div className={`about-text ${textShift ? 'shift-text' : ''}`}>
           <h2 className={`about-heading ${headingShift ? 'heading-move' : ''}`}>
@@ -161,9 +192,7 @@ const About = () => {
                 />
               )}
               {secondComplete && (
-                <div className="typed-text">
-                  {paragraphTwo}
-                </div>
+                <div className="typed-text">{paragraphTwo}</div>
               )}
             </div>
           )}
@@ -189,8 +218,8 @@ const About = () => {
             </a>
           </div>
         )}
-      </div>
-    </section>
+      </motion.div>
+    </motion.section>
   );
 };
 
