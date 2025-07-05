@@ -1,18 +1,19 @@
 .skills-section {
   width: 100%;
-  background-color: whitesmoke;
-  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #4c6a85, #41207e, #0f1d65, #030325);
+  padding: 3rem 4rem 2rem 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh;
+  min-height: 30vh;
   overflow: hidden;
 }
 
 .skills-box {
-  background-color: white;
-  margin-top: 4.5rem;
-  padding: 1rem 2rem;
+  background-color: whitesmoke;
+  margin-top: 4rem;
+  padding: 1rem 3rem;
+  margin-right: 4rem;
   border-radius: 16px;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
   max-width: 1000px;
@@ -29,10 +30,10 @@
 }
 
 .skills-heading {
-  font-family: quicksand, sans-serif;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   text-align: center;
   font-size: 2.5rem;
-  font-weight: 600;
+  font-weight: 800;
   margin-bottom: 2rem;
   color: #1a1a1a;
 }

@@ -2,11 +2,12 @@
 
 import '../styles/Skills.css';
 import { useEffect, useRef, useState } from 'react';
+import SocialMedia from './SocialMedia';
 
 const skillsList = [
   { name: 'JavaScript', level: 75 },
   { name: 'Java', level: 60 },
-  { name: 'HTML', level: 80 },
+  { name: 'HTML', level: 70 },
   { name: 'Kotlin', level: 50 },
   { name: 'SQL', level: 60 },
   { name: 'PHP', level: 65 },
@@ -14,7 +15,7 @@ const skillsList = [
   { name: 'CSS', level: 70 },
   { name: 'Figma', level: 75 },
   { name: 'Canva', level: 75 },
-  { name: 'Adobe Illustrator', level: 90 },
+  { name: 'Adobe Illustrator', level: 75 },
   { name: 'Adobe Photoshop', level: 75 }
 ];
 
@@ -38,6 +39,7 @@ const Skills = () => {
 
   return (
     <section id="skills" className="skills-section" ref={sectionRef}>
+      <SocialMedia/>
       <div className={`skills-box ${visible ? 'show' : ''}`}>
         <h2 className="skills-heading">Skills</h2>
         <div className="skills-grid">

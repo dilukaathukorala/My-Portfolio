@@ -16,3 +16,11 @@
 .animate-fade-up {
   animation: fade-up 0.8s ease-out forwards;
 }
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;  /* ✅ prevents horizontal scrolling */
+  width: 100%;
+  max-width: 100vw;
+}
+
