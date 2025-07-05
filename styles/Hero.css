@@ -73,7 +73,7 @@
 
 .hero-description {
   font-family: quicksand, sans-serif;
-  margin: 0rem 0 ;
+  margin: 0;
   font-size: 1.1rem;
   color: #cacaca;
 }
@@ -88,7 +88,6 @@
   vertical-align: super;
   line-height: 0;
 }
-
 
 .hero-buttons {
   display: flex;
@@ -238,96 +237,174 @@
   }
 }
 
-/* === Header === */
-.hero-header {
+/* === Mobile Modal Menu === */
+.menu-backdrop {
   position: fixed;
-  top: 2rem;
-  left: 2rem;
-  right: 5rem;
-  height: 60px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 1rem;
-  z-index: 1002;
-  background: transparent;
-  transition: background-color 0.3s ease;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  opacity: 0;
+  animation: backdropFade 0.2s ease-in-out forwards;
 }
 
-.hero-name {
-  font-size: 1.5rem;
+@keyframes backdropFade {
+  to {
+    opacity: 1;
+  }
+}
+
+.mobile-menu {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.9);
+  padding: 2rem 1.5rem;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  z-index: 1001;
+  width: 80%;
+  max-width: 320px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.mobile-menu a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
   font-family: quicksand, sans-serif;
-  font-weight: bold;
-  color: #ffffff;
+  font-size: 1.2rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 0.5rem;
 }
 
-.Hero-fullName {
-  margin-left: 0.5rem;
-  color: var(--accent-glow);
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
-/* === Desktop Navigation === */
-.tabs {
+/* 🔒 Scroll Lock */
+.no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* === Fixed Social Icons === */
+.fixed-icons {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
   display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 1000;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.fixed-icons .icon-content {
   position: relative;
-  background-color: transparent;
-  padding: 0.75rem;
-  border-radius: 99px;
-  box-shadow: 0 0 1px 0 rgba(24, 94, 224, 0.15), 0 6px 12px 0 rgba(24, 94, 224, 0.15);
 }
 
-.tabs * {
-  z-index: 2;
-}
-
-.tabs input[type="radio"] {
-  display: none;
-}
-
-.tab {
+.fixed-icons .icon-content a {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 30px;
-  width: 100px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  font-family: quicksand, sans-serif;
-  border-radius: 99px;
-  cursor: pointer;
-  transition: color 0.15s ease-in;
-}
-
-.tab a {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
   text-decoration: none;
-  color: #ffffff;
-  width: 100%;
-  text-align: center;
-  transition: color 0.2s ease;
 }
 
-.tab a:hover {
-  color: #60a5fa;
+.fixed-icons .icon-content svg {
+  width: 22px;
+  height: 22px;
+  z-index: 2;
 }
 
-.glider {
+.icon-content:hover svg path {
+  fill: #ffffff;
+  transition: fill 0.3s ease-in-out;
+}
+
+.fixed-icons .icon-content a .filled {
   position: absolute;
-  display: flex;
-  height: 30px;
-  width: 100px;
-  background-color: var(--accent-glow);
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  transition: all 0.3s ease;
   z-index: 1;
-  border-radius: 99px;
-  transition: 0.25s ease-out;
 }
 
-input#nav-home:checked ~ .glider { transform: translateX(0%); }
-input#nav-about:checked ~ .glider { transform: translateX(100%); }
-input#nav-skills:checked ~ .glider { transform: translateX(200%); }
-input#nav-projects:checked ~ .glider { transform: translateX(300%); }
-input#nav-contact:checked ~ .glider { transform: translateX(400%); }
+.fixed-icons .icon-content a:hover .filled {
+  height: 100%;
+}
 
-/* === Mobile Styles === */
+.fixed-icons .tooltip {
+  position: absolute;
+  top: 50%;
+  right: 110%;
+  transform: translateY(-50%) scale(0.95);
+  background-color: #111;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 13px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s ease;
+  transform-origin: right center;
+}
+
+.fixed-icons .icon-content:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) scale(1);
+}
+
+.fixed-icons a[data-social="linkedin"] .filled,
+.fixed-icons .icon-content:hover a[data-social="linkedin"] + .tooltip {
+  background-color: #0274b3;
+}
+
+.fixed-icons a[data-social="github"] .filled,
+.fixed-icons .icon-content:hover a[data-social="github"] + .tooltip {
+  background-color: #24262a;
+}
+
+.fixed-icons a[data-social="instagram"] .filled,
+.fixed-icons .icon-content:hover a[data-social="instagram"] + .tooltip {
+  background: linear-gradient(
+    45deg,
+    #405de6,
+    #5b51db,
+    #b33ab4,
+    #c135b4,
+    #e1306c,
+    #fd1f1f
+  );
+}
+
+/* === Mobile Adjustments === */
 @media (max-width: 768px) {
   .hero-section {
     padding: 1.5rem;
@@ -365,216 +442,4 @@ input#nav-contact:checked ~ .glider { transform: translateX(400%); }
   .hero-image {
     max-width: 240px;
   }
-
-  .tabs.desktop-nav {
-    display: none;
-  }
-
-  .hero-header {
-    margin-top: 0.2rem;
-    margin-left: 0.2rem;
-    margin-right: -2.5rem;
-    height: 3rem;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 30px;
-    backdrop-filter: blur(5px);
-  }
-
-  .hero-header .hero-name {
-    font-size: 1.2rem;
-  }
-
-  .mobile-menu-icon {
-    display: block;
-    margin-top: 0.4rem;
-    font-size: 1.5rem;
-    color: white;
-    cursor: pointer;
-    z-index: 1003;
-  }
-}
-
-/* ✅ Hide mobile menu icon on desktop */
-@media (min-width: 769px) {
-  .mobile-menu-icon {
-    display: none !important;
-  }
-}
-
-/* === Mobile Modal Menu === */
-.menu-backdrop {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
-  z-index: 1000;
-  opacity: 0;
-  animation: backdropFade 0.2s ease-in-out forwards;
-}
-
-@keyframes backdropFade {
-  to {
-    opacity: 1;
-  }
-}
-
-
-
-.mobile-menu {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(0, 0, 0, 0.9);
-  padding: 2rem 1.5rem;
-  border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  z-index: 1001;
-  width: 80%;
-  max-width: 320px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-  max-height: 80vh;
-  overflow-y: auto;
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-.mobile-menu a {
-  color: white;
-  text-decoration: none;
-  font-weight: 600;
-  font-family: quicksand, sans-serif;
-  font-size: 1.2rem;
-  text-align: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  padding-bottom: 0.5rem;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.95);  /* ✅ combine both */
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);     /* ✅ center + animate */
-  }
-}
-
-
-/* 🔒 Scroll Lock */
-.no-scroll {
-  overflow: hidden;
-  height: 100vh;
-}
-/*Social Links*/
-/* Social Icons - Fixed Bottom Right */
-.fixed-icons {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  z-index: 1000;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-/* Icon container */
-.fixed-icons .icon-content {
-  position: relative;
-}
-
-/* Circle button for each icon */
-.fixed-icons .icon-content a {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  text-decoration: none;
-}
-
-/* Icon SVG size */
-.fixed-icons .icon-content svg {
-  width: 22px;
-  height: 22px;
-  z-index: 2;
-}
-
-/* Hover: Make icon white */
-.icon-content:hover svg path {
-  fill: #ffffff;
-  transition: fill 0.3s ease-in-out;
-}
-
-/* Background fill on hover */
-.fixed-icons .icon-content a .filled {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 0;
-  transition: all 0.3s ease;
-  z-index: 1;
-}
-
-.fixed-icons .icon-content a:hover .filled {
-  height: 100%;
-}
-
-/* Tooltip */
-.fixed-icons .tooltip {
-  position: absolute;
-  top: 50%;
-  right: 110%;
-  transform: translateY(-50%) scale(0.95);
-  background-color: #111;
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 13px;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.25s ease;
-  transform-origin: right center;
-}
-
-/* Show tooltip on hover */
-.fixed-icons .icon-content:hover .tooltip {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(-50%) scale(1);
-}
-
-/* Platform-specific background colors for tooltip */
-.fixed-icons a[data-social="linkedin"] .filled,
-.fixed-icons .icon-content:hover a[data-social="linkedin"] + .tooltip {
-  background-color: #0274b3;
-}
-
-.fixed-icons a[data-social="github"] .filled,
-.fixed-icons .icon-content:hover a[data-social="github"] + .tooltip {
-  background-color: #24262a;
-}
-
-.fixed-icons a[data-social="instagram"] .filled,
-.fixed-icons .icon-content:hover a[data-social="instagram"] + .tooltip {
-  background: linear-gradient(
-    45deg,
-    #405de6,
-    #5b51db,
-    #b33ab4,
-    #c135b4,
-    #e1306c,
-    #fd1f1f
-  );
 }
