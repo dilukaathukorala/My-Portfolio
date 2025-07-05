@@ -102,7 +102,7 @@ export default function Hero({ setActiveSection }) {
               </button>
             )}
             <button className="btn secondary" onClick={() => handleNavClick("about")}>
-             See my work <span className="arrow">➜</span>
+             See my Projects <span className="arrow">➜</span>
             </button>
 
           </div>
