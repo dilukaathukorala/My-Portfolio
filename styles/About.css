@@ -8,11 +8,12 @@
 }
 
 .about-section {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 90vh;
-  padding: 2rem 7rem;
+  padding: 2rem;
   background-color: whitesmoke;
   overflow: hidden;
 }
@@ -46,7 +47,7 @@
 
 /* ✅ After typing, slide everything left */
 .shift-wrapper {
-  animation: wrapperShift 3s ease forwards;
+  animation: wrapperShift 4s ease-in-out forwards;
 }
 
 /* Text block */
@@ -62,7 +63,7 @@
 
 /* Slide text block left */
 .shift-text {
-  animation: textShift 3s ease forwards;
+  animation: textShift 4s ease-in-out forwards;
 }
 
 /* Heading */
@@ -80,7 +81,7 @@
 
 /* Slide heading left */
 .heading-move {
-  animation: headingShift 3s ease forwards;
+  animation: headingShift 4s ease-in-out forwards;
 }
 
 /* Typewriter effect */
@@ -104,7 +105,17 @@
 
 /* Slide paragraph left */
 .paragraph-move {
-  animation: paragraphShift 3s ease forwards;
+  animation: paragraphShift 4s ease-in-out forwards;
+}
+
+/* Static text for completed typing */
+.typed-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.125rem;
+  line-height: 2;
+  color: #333;
+  width: 100%;
+  text-align: left;
 }
 
 /* Logos section */
@@ -120,7 +131,7 @@
 }
 
 .slide-in-right {
-  animation: slideInLogos 3s ease forwards;
+  animation: slideInLogos 4s ease-in-out forwards;
 }
 
 .logo-img {
@@ -197,6 +208,7 @@ html {
     opacity: 1;
   }
 }
+
 /* ======================
    Responsive Design
 ======================= */

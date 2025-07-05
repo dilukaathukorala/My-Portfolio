@@ -1,0 +1,152 @@
+.skills-section {
+  width: 100%;
+  background-color: whitesmoke;
+  padding: 4rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  overflow: hidden;
+}
+
+.skills-box {
+  background-color: white;
+  margin-top: 4.5rem;
+  padding: 1rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+  text-align: center;
+}
+
+.skills-box.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.skills-heading {
+  font-family: quicksand, sans-serif;
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: #1a1a1a;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+  align-items: center;
+}
+
+.skill-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.skill-card:hover {
+  transform: scale(1.1);
+}
+
+.circle {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 0.5rem;
+  overflow: visible;
+}
+
+.circle svg {
+  width: 100px;
+  height: 100px;
+  transform: rotate(-90deg);
+  overflow: visible;
+}
+
+.circle svg circle:first-child {
+  fill: none;
+  stroke: #e6e6e6;
+  stroke-width: 14;
+}
+
+.circle svg circle:nth-child(2) {
+  fill: none;
+  stroke-width: 14;
+  stroke-linecap: round;
+  stroke-dasharray: 282;
+  stroke-dashoffset: 282;
+  transition: stroke-dashoffset 1.4s ease-in-out;
+}
+
+.percentage {
+  font-family: quicksand, sans-serif;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  font-size: 1rem;
+  color: #333;
+}
+
+.skill-name {
+  font-family: quicksand, sans-serif;
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .skills-box {
+    padding: 2rem 1.5rem;
+  }
+
+  .skills-heading {
+    font-family: quicksand, sans-serif;
+    font-size: 2rem;
+  }
+
+  .circle {
+    width: 80px;
+    height: 80px;
+  }
+
+  .circle svg {
+    width: 80px;
+    height: 80px;
+  }
+
+  .circle svg circle {
+    stroke-width: 8;
+  }
+
+  .percentage {
+    font-family: quicksand, sans-serif;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .skills-box {
+    padding: 2rem 1rem;
+  }
+
+  .skills-heading {
+    font-family: quicksand, sans-serif;
+    font-size: 1.8rem;
+  }
+}
