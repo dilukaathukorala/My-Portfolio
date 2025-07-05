@@ -1,0 +1,130 @@
+/* === Social Icons Layout === */
+.social-icons {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 1000;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.social-icons .icon-content {
+  position: relative;
+}
+
+/* === Icon Button === */
+.social-icons .icon-content a {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: black;
+}
+
+/* === SVG Icon === */
+.social-icons .icon-content svg {
+  width: 22px;
+  height: 22px;
+  z-index: 2;
+  fill: currentColor;
+  transition: fill 0.3s ease;
+}
+
+/* === Hover Effects === */
+.social-icons .icon-content a:hover {
+  color: white;
+}
+
+.social-icons .icon-content a .filled {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+.social-icons .icon-content a:hover .filled {
+  height: 100%;
+}
+
+/* === Tooltip Base === */
+.social-icons .tooltip {
+  position: absolute;
+  top: 50%;
+  right: 110%;
+  transform: translateY(-50%) scale(0.95);
+  padding: 5px 10px;
+  font-family: quicksand, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  border-radius: 5px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s ease;
+  transform-origin: right center;
+  white-space: nowrap;
+  background-color: black; /* default fallback */
+}
+
+.social-icons .icon-content:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) scale(1);
+}
+
+/* === Brand Colors for Backgrounds === */
+
+/* LinkedIn */
+.social-icons a[data-social="linkedin"] .filled {
+  background-color: #0274b3;
+}
+.social-icons a[data-social="linkedin"] + .tooltip {
+  background-color: #0274b3;
+}
+
+/* GitHub */
+.social-icons a[data-social="github"] .filled {
+  background-color: #24262a;
+}
+.social-icons a[data-social="github"] + .tooltip {
+  background-color: #24262a;
+}
+
+/* Instagram */
+.social-icons a[data-social="instagram"] .filled {
+  background: linear-gradient(
+    45deg,
+    #405de6,
+    #5b51db,
+    #b33ab4,
+    #c135b4,
+    #e1306c,
+    #fd1f1f
+  );
+}
+.social-icons a[data-social="instagram"] + .tooltip {
+  background: linear-gradient(
+    45deg,
+    #405de6,
+    #5b51db,
+    #b33ab4,
+    #c135b4,
+    #e1306c,
+    #fd1f1f
+  );
+  color: white;
+}

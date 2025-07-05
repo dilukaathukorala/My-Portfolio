@@ -154,14 +154,22 @@
 }
 
 .btn.secondary {
-  border: 2px solid white;
-  color: whitesmoke;
+  border: 2px solid;
+  color: white;
+  background-color: var(--accent-glow);
 }
 
 .btn.secondary:hover {
   background-color: var(--primary-color);
   color: white;
 }
+
+.arrow {
+  padding-left: 0.5rem;
+  display: inline-block;
+  animation: shake 3s infinite;
+}
+
 
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
@@ -300,108 +308,6 @@
 .no-scroll {
   overflow: hidden;
   height: 100vh;
-}
-
-/* === Fixed Social Icons === */
-.fixed-icons {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  z-index: 1000;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.fixed-icons .icon-content {
-  position: relative;
-}
-
-.fixed-icons .icon-content a {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  text-decoration: none;
-}
-
-.fixed-icons .icon-content svg {
-  width: 22px;
-  height: 22px;
-  z-index: 2;
-}
-
-.icon-content:hover svg path {
-  fill: #ffffff;
-  transition: fill 0.3s ease-in-out;
-}
-
-.fixed-icons .icon-content a .filled {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 0;
-  transition: all 0.3s ease;
-  z-index: 1;
-}
-
-.fixed-icons .icon-content a:hover .filled {
-  height: 100%;
-}
-
-.fixed-icons .tooltip {
-  position: absolute;
-  top: 50%;
-  right: 110%;
-  transform: translateY(-50%) scale(0.95);
-  background-color: #111;
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 13px;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.25s ease;
-  transform-origin: right center;
-}
-
-.fixed-icons .icon-content:hover .tooltip {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(-50%) scale(1);
-}
-
-.fixed-icons a[data-social="linkedin"] .filled,
-.fixed-icons .icon-content:hover a[data-social="linkedin"] + .tooltip {
-  background-color: #0274b3;
-}
-
-.fixed-icons a[data-social="github"] .filled,
-.fixed-icons .icon-content:hover a[data-social="github"] + .tooltip {
-  background-color: #24262a;
-}
-
-.fixed-icons a[data-social="instagram"] .filled,
-.fixed-icons .icon-content:hover a[data-social="instagram"] + .tooltip {
-  background: linear-gradient(
-    45deg,
-    #405de6,
-    #5b51db,
-    #b33ab4,
-    #c135b4,
-    #e1306c,
-    #fd1f1f
-  );
 }
 
 /* === Mobile Adjustments === */
