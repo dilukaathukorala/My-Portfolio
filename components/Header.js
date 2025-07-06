@@ -3,6 +3,7 @@
 import React, { useRef, useLayoutEffect, useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import "../styles/Header.css";
+import SocialMedia from "../components/SocialMedia";
 
 export default function Header({
   menuOpen,
@@ -15,7 +16,7 @@ export default function Header({
     hero: useRef(null),
     about: useRef(null),
     skills: useRef(null),
-    portfolio: useRef(null),
+    projects: useRef(null),
     contact: useRef(null),
   };
 
@@ -36,7 +37,7 @@ export default function Header({
     hero: "Home",
     about: "About me",
     skills: "Skills",
-    portfolio: "Projects",
+    projects: "Projects",
     contact: "Contact me",
   };
 
@@ -67,6 +68,7 @@ export default function Header({
           }}
         ></span>
       </div>
+      <SocialMedia />
 
       <div className="mobile-menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
         {menuOpen ? <FaTimes /> : <FaBars />}

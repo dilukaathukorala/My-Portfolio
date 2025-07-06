@@ -5,6 +5,7 @@ import Hero from '../components/Hero';
 import About from '../components/About';
 import Header from '../components/Header';
 import Skills from '../components/Skills';
+import Projects from '../components/Projects'; // ✅ import
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState("hero");
@@ -15,14 +16,11 @@ export default function Home() {
     const isSameSection = section === activeSection;
 
     if (isSameSection) {
-      // ✅ Scroll to top
       window.scrollTo({ top: 0, behavior: 'smooth' });
-
-      // ✅ Force remount to reload content
       setReloadKey((prev) => prev + 1);
     } else {
       setActiveSection(section);
-      setReloadKey(0); // Reset for next time
+      setReloadKey(0);
     }
   };
 
@@ -38,7 +36,7 @@ export default function Home() {
       {activeSection === "hero" && (
         <Hero
           key={`hero-${reloadKey}`}
-          handleNavClick={handleNavClick} // ✅ Pass this
+          handleNavClick={handleNavClick}
           setActiveSection={setActiveSection}
           menuOpen={menuOpen}
           setMenuOpen={setMenuOpen}
@@ -48,7 +46,7 @@ export default function Home() {
       {activeSection === "about" && (
         <About
           key={`about-${reloadKey}`}
-          handleNavClick={handleNavClick} // ✅ Pass this
+          handleNavClick={handleNavClick}
           setActiveSection={setActiveSection}
           menuOpen={menuOpen}
           setMenuOpen={setMenuOpen}
@@ -58,7 +56,17 @@ export default function Home() {
       {activeSection === "skills" && (
         <Skills
           key={`skills-${reloadKey}`}
-          handleNavClick={handleNavClick} // ✅ Pass this
+          handleNavClick={handleNavClick}
+          setActiveSection={setActiveSection}
+          menuOpen={menuOpen}
+          setMenuOpen={setMenuOpen}
+        />
+      )}
+
+      {activeSection === "projects" && (
+        <Projects
+          key={`projects-${reloadKey}`}
+          handleNavClick={handleNavClick}
           setActiveSection={setActiveSection}
           menuOpen={menuOpen}
           setMenuOpen={setMenuOpen}
