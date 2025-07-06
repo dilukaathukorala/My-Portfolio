@@ -52,7 +52,7 @@
 }
 
 .hero-intro {
-  font-family: quicksand, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: large;
   color: whitesmoke;
   font-weight: 500;
@@ -152,6 +152,9 @@
 .btn.primary.completed {
   background-color: rgb(71, 152, 125);
   color: white;
+}
+.doc{
+  margin-left: 0.5rem;
 }
 
 .btn.secondary {

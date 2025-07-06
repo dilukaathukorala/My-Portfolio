@@ -101,7 +101,7 @@ export default function Hero({ handleNavClick, setActiveSection, menuOpen, setMe
 
                 <div className="hero-buttons">
                   {cvStatus === "completed" ? (
-                    <a href="/Diluka_CV.pdf" target="_blank" className="btn primary completed">Open CV</a>
+                    <a href="/Diluka_CV.pdf" target="_blank" className="btn primary completed">Open CV<span className="doc">📄</span></a>
                   ) : (
                     <button
                       className={`btn primary ${cvStatus}`}
