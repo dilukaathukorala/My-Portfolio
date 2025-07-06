@@ -13,8 +13,8 @@ const skillsList = [
   { name: 'PHP', level: 65 },
   { name: 'C++', level: 60 },
   { name: 'CSS', level: 70 },
+  { name: 'React', level: 65 },
   { name: 'Figma', level: 75 },
-  { name: 'Canva', level: 75 },
   { name: 'Adobe Illustrator', level: 75 },
   { name: 'Adobe Photoshop', level: 75 }
 ];
