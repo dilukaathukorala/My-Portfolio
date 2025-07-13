@@ -14,6 +14,7 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .projects-title {
@@ -25,23 +26,23 @@ html, body {
 
 .cards-container {
   display: flex;
-  overflow-x: auto;
+  overflow-x: scroll;
   scroll-snap-type: x mandatory;
   width: 100vw;
   padding: 1rem 0;
   gap: 1.5rem;
   align-items: center;
-  justify-content: start;
+  justify-content: flex-start;
   scroll-behavior: smooth;
   perspective: 1000px;
   position: relative;
+  scrollbar-width: none;
 }
 
 .cards-container::-webkit-scrollbar {
   display: none;
 }
 
-/* Left and right spacing to center cards */
 .spacer {
   flex: 0 0 calc((100vw - 300px) / 2);
 }
@@ -85,4 +86,15 @@ html, body {
   color: #00ccff;
   font-weight: bold;
   text-decoration: none;
+}
+.project-card {
+  transform: rotateY(90deg) scale(0.1);
+  opacity: 0;
+  transition: transform 1s ease, opacity 1s ease;
+  will-change: transform, opacity;
+}
+
+.project-card.animate-in {
+  transform: rotateY(0deg) scale(1);
+  opacity: 1;
 }
