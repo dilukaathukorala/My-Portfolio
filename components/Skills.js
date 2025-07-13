@@ -41,7 +41,7 @@ const Skills = () => {
     <section id="skills" className="skills-section" ref={sectionRef}>
       <SocialMedia/>
       <div className={`skills-box ${visible ? 'show' : ''}`}>
-        <h2 className="skills-heading">Skills</h2>
+        <h2 className="skills-heading">Technical Skills</h2>
         <div className="skills-grid">
           {skillsList.map((skill, index) => (
             <div key={index} className="skill-card">
@@ -56,10 +56,10 @@ const Skills = () => {
                       y2="100"
                       gradientUnits="userSpaceOnUse"
                     >
-                      <stop offset="0%" stopColor="#2a72e9" />
-                      <stop offset="33%" stopColor="#e6e9f9" />
-                      <stop offset="66%" stopColor="#5eb0f9" />
-                      <stop offset="75%" stopColor="#2a72e9" />
+                      <stop offset="0%" stopColor="greenyellow" />
+                      <stop offset="33%" stopColor="#34baa4ff" />
+                      <stop offset="66%" stopColor="#2a97a8ff" />
+                      <stop offset="75%" stopColor="#4a7faaff" />
                     </linearGradient>
                   </defs>
                   {/* Background circle */}
