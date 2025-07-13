@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from "react";
 import "../styles/Hero.css";
@@ -6,7 +6,13 @@ import Header from "./Header";
 import SocialMedia from "./SocialMedia";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function Hero({ handleNavClick, setActiveSection, menuOpen, setMenuOpen, reloadKey }) {
+export default function Hero({
+  handleNavClick,
+  setActiveSection,
+  menuOpen,
+  setMenuOpen,
+  reloadKey
+}) {
   const [cvStatus, setCvStatus] = useState("idle");
   const [rays, setRays] = useState([]);
   const [isLeaving, setIsLeaving] = useState(false);
@@ -41,20 +47,14 @@ export default function Hero({ handleNavClick, setActiveSection, menuOpen, setMe
 
   const closeMenu = () => setMenuOpen(false);
 
+  // ✅ This sets the active section with animation delay
   const handleLeave = (section) => {
-    if (section === "hero") {
-      setIsLeaving(true);
-      setTimeout(() => {
-        setActiveSection("hero");
-        setIsLeaving(false);
-      }, 500);
-    } else {
-      setIsLeaving(true);
-      setTimeout(() => {
-        setActiveSection(section);
-        setIsLeaving(false);
-      }, 500);
-    }
+    const normalized = section.toLowerCase(); // normalize for safety
+    setIsLeaving(true);
+    setTimeout(() => {
+      setActiveSection(normalized); // ✅ must match section keys
+      setIsLeaving(false);
+    }, 500);
   };
 
   return (
@@ -72,7 +72,7 @@ export default function Hero({ handleNavClick, setActiveSection, menuOpen, setMe
             <a onClick={() => { closeMenu(); handleLeave("hero"); }}>Home</a>
             <a onClick={() => { closeMenu(); handleLeave("about"); }}>About me</a>
             <a onClick={() => { closeMenu(); handleLeave("skills"); }}>Skills</a>
-            <a onClick={() => { closeMenu(); handleLeave("portfolio"); }}>Projects</a>
+            <a onClick={() => { closeMenu(); handleLeave("projects"); }}>Projects</a> {/* ✅ FIXED */}
             <a onClick={() => { closeMenu(); handleLeave("contact"); }}>Contact me</a>
           </div>
         </>
@@ -101,7 +101,9 @@ export default function Hero({ handleNavClick, setActiveSection, menuOpen, setMe
 
                 <div className="hero-buttons">
                   {cvStatus === "completed" ? (
-                    <a href="/Diluka_CV.pdf" target="_blank" className="btn primary completed">Open CV<span className="doc">📄</span></a>
+                    <a href="/Diluka_CV.pdf" target="_blank" className="btn primary completed">
+                      Open CV<span className="doc">📄</span>
+                    </a>
                   ) : (
                     <button
                       className={`btn primary ${cvStatus}`}
@@ -111,7 +113,14 @@ export default function Hero({ handleNavClick, setActiveSection, menuOpen, setMe
                       {cvStatus === "loading" ? <span className="fill-bar" /> : "Download CV"}
                     </button>
                   )}
-                  <button className="btn secondary" onClick={() => handleLeave("portfolio")}>See my Projects <span className="arrow">➜</span></button>
+
+                  {/* ✅ FIXED: Call correct section key */}
+                  <button
+                    className="btn secondary"
+                    onClick={() => handleLeave("projects")} // ✅ this must match your rendering logic
+                  >
+                    See my Projects <span className="arrow">➜</span>
+                  </button>
                 </div>
               </motion.div>
 
