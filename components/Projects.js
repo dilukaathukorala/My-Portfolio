@@ -18,22 +18,22 @@ const baseProjects = [
     githubLink: "https://github.com/yourusername/morty-journal"
   },
   {
-    title: "Summer’s Scheduler",
-    imageSrc: "/images/summer.png",
-    description: "Plan your summer events and tasks.",
-    githubLink: "https://github.com/yourusername/summer-scheduler"
+    title: "Peacock Corridor Holiday House",
+    imageSrc: "/images/peacock.png",
+    description: "Inventory management for Peacock Corridor Holiday House Resort.",
+    githubLink: "https://github.com/dilukaathukorala/Peacock-Corridor-Holiday-House.git"
   },
   {
-    title: "Beth's Organizer",
-    imageSrc: "/images/beth.png",
-    description: "A minimalist productivity app.",
-    githubLink: "https://github.com/yourusername/beth-organizer"
+    title: "Ayurwell",
+    imageSrc: "/images/ayurwell.png",
+    description: "A smart Ayurvedic healthcare platform for booking doctor appointments, finding nearby specialists, and purchasing herbal products blending traditional healing with modern convenience.",
+    githubLink: "https://github.com/dilukaathukorala/Ayurwell.git"
   },
   {
-    title: "Jerry’s Idea Board",
-    imageSrc: "/images/jerry.png",
-    description: "Track Jerry’s spontaneous ideas.",
-    githubLink: "https://github.com/yourusername/jerry-idea-board"
+    title: "Lens Learn",
+    imageSrc: "/images/lens.png",
+    description: "A responsive photography portfolio website built with Spring Boot, Thymeleaf, and Bootstrap. Features user auth, photo uploads, category filtering, and AWS S3 integration for cloud storage.",
+    githubLink: "https://github.com/dilukaathukorala/Lens-Learn.git"
   }
 ];
 
