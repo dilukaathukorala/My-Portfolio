@@ -12,10 +12,10 @@ const baseProjects = [
     githubLink: "https://github.com/yourusername/ricks-portal-tracker"
   },
   {
-    title: "Morty's Journal",
+    title: "Task Management Mobile App",
     imageSrc: "/images/morty.png",
-    description: "A personal journal built with Next.js.",
-    githubLink: "https://github.com/yourusername/morty-journal"
+    description: "A simple and efficient task management app built with Kotlin and SQLite. It allows users to create, read, update, and delete tasks, set reminders, and use a built-in stopwatch to track time spent on tasks. Designed for productivity and ease of use on Android devices.",
+    githubLink: "https://github.com/dilukaathukorala/Task-Management-App.git"
   },
   {
     title: "Peacock Corridor Holiday House",
