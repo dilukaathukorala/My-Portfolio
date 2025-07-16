@@ -65,6 +65,8 @@ html, body {
 }
 
 .project-image {
+  width: auto;
+  height: auto;
   border-radius: 8px;
   margin-bottom: 1rem;
 }
