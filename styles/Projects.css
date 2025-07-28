@@ -50,77 +50,37 @@ html, body {
 
 .project-card {
   scroll-snap-align: center;
-  width: 100vw;
-  height: 100%;
-  flex: 0 0 100%;
+  flex: 0 0 90%;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
   box-sizing: border-box;
+  transform: scale(0.95);
+  opacity: 0;
+  transition: transform 1s ease, opacity 1s ease;
+}
+
+.project-card.animate-in {
+  transform: scale(1);
+  opacity: 1;
 }
 
 .card-inner {
+  width: 100%;
+  max-width: 800px;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-radius: 20px;
   padding: 2rem;
-  max-width: 90%;
-  max-height: 100%;
   text-align: center;
   overflow-y: auto;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
 }
 
-/* ⏩ Image Carousel Inside Card */
-.image-carousel {
-  position: relative;
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.carousel-image {
-  flex: 1;
-}
-
-.carousel-nav {
-  background: rgba(0, 0, 0, 0.3);
-  border: none;
-  color: white;
-  font-size: 2rem;
-  padding: 0.3rem 0.8rem;
-  cursor: pointer;
-  border-radius: 50%;
-  z-index: 2;
-  transition: background-color 0.3s ease;
-}
-
-.carousel-nav:hover {
-  background-color: rgba(0, 0, 0, 0.6);
-}
-
-.carousel-nav.left {
-  margin-right: 0.5rem;
-}
-
-.carousel-nav.right {
-  margin-left: 0.5rem;
-}
-
-.project-image {
-  width: 100%;
-  max-width: 100%;
-  max-height: 50vh;
-  height: auto;
-  object-fit: contain;
-  border-radius: 12px;
-}
-
+/* Typography and Link */
 .card-title {
   color: white;
   font-size: 2rem;
@@ -140,19 +100,7 @@ html, body {
   text-decoration: none;
 }
 
-/* Fade In Animation */
-.project-card {
-  transform: scale(0.95);
-  opacity: 0;
-  transition: transform 1s ease, opacity 1s ease;
-}
-
-.project-card.animate-in {
-  transform: scale(1);
-  opacity: 1;
-}
-
-/* Project Navigation Arrows */
+/* Arrows */
 .arrow-button {
   position: absolute;
   top: 50%;
@@ -179,4 +127,93 @@ html, body {
 
 .arrow-button.right {
   right: 10px;
+}
+
+/* Image Coverflow Carousel */
+.image-carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
+
+.carousel-image-wrapper {
+  position: absolute;
+  transition: all 0.5s ease;
+  width: 180px;
+  height: 120px;
+  transform: scale(0.7);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.carousel-image-wrapper.center {
+  transform: scale(1.1);
+  z-index: 3;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.carousel-image-wrapper.left {
+  transform: translateX(-150px) scale(0.8);
+  z-index: 2;
+  opacity: 1;
+}
+
+.carousel-image-wrapper.right {
+  transform: translateX(150px) scale(0.8);
+  z-index: 2;
+  opacity: 1;
+}
+
+.carousel-image {
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Inner carousel navigation buttons */
+.img-nav {
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  font-size: 2rem;
+  border: none;
+  cursor: pointer;
+  z-index: 5;
+  border-radius: 50%;
+  padding: 0.3rem 0.7rem;
+  transition: background-color 0.3s ease;
+}
+
+.img-nav:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.img-nav.left {
+  margin-right: 1rem;
+}
+
+.img-nav.right {
+  margin-left: 1rem;
+}
+.carousel-frame {
+  border: 3px solid white;
+  border-radius: 12px;
+  padding: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
 }
