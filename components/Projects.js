@@ -8,19 +8,19 @@ const baseProjects = [
   {
     title: "EverPlant",
     images: ["/placeholder.png", "/placeholder.png", "/placeholder.png", "/placeholder.png"],
-    description: "EverPlant is a visually engaging website for selling plants, developed using HTML, CSS, and JavaScript. It emphasizes a modern, clean UI to deliver a smooth browsing experience for users exploring plant products.",
+    description: "EverPlant is a visually engaging website for selling plants, developed using HTML, CSS, and JavaScript.",
     githubLink: "https://github.com/dilukaathukorala/EVERPLANT-Plant-Selling-Web-Application.git"
   },
   {
     title: "ToDo App",
     images: ["/placeholder.png", "/placeholder.png", "/placeholder.png", "/placeholder.png"],
-    description: "A Kotlin-based ToDo app developed for a Mobile App Development module. Offers full task CRUD, task categorization, and a clean UI for efficient task management.",
+    description: "A Kotlin-based ToDo app developed for a Mobile App Development module.",
     githubLink: "https://github.com/dilukaathukorala/ToDo-App.git"
   },
   {
     title: "Task Management Mobile App",
     images: ["/placeholder.png", "/placeholder.png", "/placeholder.png", "/placeholder.png"],
-    description: "A task manager built with Kotlin and SQLite, featuring task creation, reminders, and a stopwatch to boost productivity. Designed for Android devices.",
+    description: "A task manager built with Kotlin and SQLite, featuring task creation, reminders, and a stopwatch.",
     githubLink: "https://github.com/dilukaathukorala/Task-Management-App.git"
   },
   {
@@ -32,13 +32,13 @@ const baseProjects = [
   {
     title: "Ayurwell",
     images: ["/placeholder.png", "/placeholder.png", "/placeholder.png", "/placeholder.png"],
-    description: "An Ayurvedic healthcare platform for booking doctor appointments, locating specialists, and buying herbal products — blending tradition with tech.",
+    description: "An Ayurvedic healthcare platform for booking doctor appointments and buying herbal products.",
     githubLink: "https://github.com/dilukaathukorala/Ayurwell.git"
   },
   {
     title: "Lens Learn",
     images: ["/placeholder.png", "/placeholder.png", "/placeholder.png", "/placeholder.png"],
-    description: "A photography portfolio site built with Spring Boot, Thymeleaf, and Bootstrap. Features photo uploads, category filtering, and AWS S3 cloud storage.",
+    description: "A photography portfolio site built with Spring Boot, Thymeleaf, and AWS S3 cloud storage.",
     githubLink: "https://github.com/dilukaathukorala/Lens-Learn.git"
   }
 ];
@@ -47,15 +47,33 @@ export default function Project() {
   const containerRef = useRef(null);
   const cardRefs = useRef([]);
 
-  const [projects, setProjects] = useState([...baseProjects, ...baseProjects, ...baseProjects]);
+  const [projects, setProjects] = useState([
+    ...baseProjects,
+    ...baseProjects,
+    ...baseProjects
+  ]);
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    // Scroll to middle clone on load
-    const third = container.scrollWidth / 3;
-    container.scrollLeft = third;
+    const containerWidth = container.clientWidth;
+    container.scrollLeft = containerWidth; // ✅ Start from first card in the middle copy
+
+    const onScroll = () => {
+      const scrollLeft = container.scrollLeft;
+      const scrollWidth = container.scrollWidth;
+      const viewWidth = container.clientWidth;
+      const third = scrollWidth / 3;
+
+      if (scrollLeft <= viewWidth / 2) {
+        container.scrollLeft += third;
+      } else if (scrollLeft >= scrollWidth - viewWidth * 1.5) {
+        container.scrollLeft -= third;
+      }
+    };
+
+    container.addEventListener("scroll", onScroll);
 
     requestAnimationFrame(() => {
       cardRefs.current.forEach((card, i) => {
@@ -65,29 +83,31 @@ export default function Project() {
         }, i * 100);
       });
     });
-  }, [projects]);
+
+    return () => container.removeEventListener("scroll", onScroll);
+  }, []);
 
   const scrollToCard = (direction) => {
     const container = containerRef.current;
-    const cardWidth = container.offsetWidth;
-
     if (!container) return;
 
+    const cardWidth = container.offsetWidth;
     const scrollAmount = direction === 'left' ? -cardWidth : cardWidth;
+
     container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
 
-    // Reset to middle clone if at edges
     setTimeout(() => {
       const scrollLeft = container.scrollLeft;
-      const maxScroll = container.scrollWidth;
-      const third = maxScroll / 3;
+      const scrollWidth = container.scrollWidth;
+      const viewWidth = container.clientWidth;
+      const third = scrollWidth / 3;
 
-      if (scrollLeft <= 0) {
-        container.scrollLeft = scrollLeft + third;
-      } else if (scrollLeft + container.clientWidth >= maxScroll) {
-        container.scrollLeft = scrollLeft - third;
+      if (scrollLeft <= viewWidth / 2) {
+        container.scrollLeft += third;
+      } else if (scrollLeft >= scrollWidth - viewWidth * 1.5) {
+        container.scrollLeft -= third;
       }
-    }, 350);
+    }, 600); // same as scroll duration
   };
 
   return (
@@ -99,7 +119,11 @@ export default function Project() {
 
         <div className="cards-container" ref={containerRef}>
           {projects.map((project, index) => (
-            <ProjectCard project={project} key={index} ref={(el) => (cardRefs.current[index] = el)} />
+            <ProjectCard
+              key={index}
+              project={project}
+              ref={(el) => (cardRefs.current[index] = el)}
+            />
           ))}
         </div>
 
@@ -112,6 +136,13 @@ export default function Project() {
 const ProjectCard = forwardRef(({ project }, ref) => {
   const [centerIndex, setCenterIndex] = useState(0);
   const total = project.images.length;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCenterIndex((prev) => (prev + 1) % total);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [total]);
 
   return (
     <div className="project-card" ref={ref}>
@@ -137,12 +168,7 @@ const ProjectCard = forwardRef(({ project }, ref) => {
 
         <h3 className="card-title">{project.title}</h3>
         <p className="card-description">{project.description}</p>
-        <a
-          href={project.githubLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="github-link"
-        >
+        <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="github-link">
           View on GitHub
         </a>
       </div>
