@@ -13,7 +13,7 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: hidden;
+  overflow: visible !important;
 }
 
 .projects-title {
@@ -31,7 +31,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow: visible !important;
 }
 
 .cards-container {
@@ -50,7 +50,7 @@ html, body {
 
 .project-card {
   scroll-snap-align: center;
-  flex: 0 0 90%;
+  flex: 0 0 80%;
   height: auto;
   display: flex;
   align-items: center;

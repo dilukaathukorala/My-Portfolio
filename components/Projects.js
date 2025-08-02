@@ -57,23 +57,28 @@ export default function Project() {
     const container = containerRef.current;
     if (!container) return;
 
-    const containerWidth = container.clientWidth;
-    container.scrollLeft = containerWidth; // ✅ Start from first card in the middle copy
-
-    const onScroll = () => {
+    const handleScroll = () => {
       const scrollLeft = container.scrollLeft;
       const scrollWidth = container.scrollWidth;
       const viewWidth = container.clientWidth;
       const third = scrollWidth / 3;
 
-      if (scrollLeft <= viewWidth / 2) {
-        container.scrollLeft += third;
-      } else if (scrollLeft >= scrollWidth - viewWidth * 1.5) {
-        container.scrollLeft -= third;
+      if (scrollLeft < third * 0.5) {
+        container.style.scrollBehavior = 'auto';
+        container.scrollLeft = scrollLeft + third;
+        requestAnimationFrame(() => {
+          container.style.scrollBehavior = 'smooth';
+        });
+      } else if (scrollLeft > third * 1.5) {
+        container.style.scrollBehavior = 'auto';
+        container.scrollLeft = scrollLeft - third;
+        requestAnimationFrame(() => {
+          container.style.scrollBehavior = 'smooth';
+        });
       }
     };
 
-    container.addEventListener("scroll", onScroll);
+    container.addEventListener('scroll', handleScroll);
 
     requestAnimationFrame(() => {
       cardRefs.current.forEach((card, i) => {
@@ -84,30 +89,17 @@ export default function Project() {
       });
     });
 
-    return () => container.removeEventListener("scroll", onScroll);
+    return () => container.removeEventListener('scroll', handleScroll);
   }, []);
 
   const scrollToCard = (direction) => {
     const container = containerRef.current;
     if (!container) return;
 
-    const cardWidth = container.offsetWidth;
+    const cardWidth = container.offsetWidth * 0.8;
     const scrollAmount = direction === 'left' ? -cardWidth : cardWidth;
 
     container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-
-    setTimeout(() => {
-      const scrollLeft = container.scrollLeft;
-      const scrollWidth = container.scrollWidth;
-      const viewWidth = container.clientWidth;
-      const third = scrollWidth / 3;
-
-      if (scrollLeft <= viewWidth / 2) {
-        container.scrollLeft += third;
-      } else if (scrollLeft >= scrollWidth - viewWidth * 1.5) {
-        container.scrollLeft -= third;
-      }
-    }, 600); // same as scroll duration
   };
 
   return (
