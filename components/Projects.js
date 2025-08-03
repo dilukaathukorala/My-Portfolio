@@ -47,7 +47,7 @@ export default function Project() {
   const containerRef = useRef(null);
   const cardRefs = useRef([]);
 
-  const [projects, setProjects] = useState([
+  const [projects] = useState([
     ...baseProjects,
     ...baseProjects,
     ...baseProjects
@@ -57,19 +57,20 @@ export default function Project() {
     const container = containerRef.current;
     if (!container) return;
 
+    const third = container.scrollWidth / 3;
+    container.scrollLeft = third;
+
     const handleScroll = () => {
       const scrollLeft = container.scrollLeft;
-      const scrollWidth = container.scrollWidth;
       const viewWidth = container.clientWidth;
-      const third = scrollWidth / 3;
 
-      if (scrollLeft < third * 0.5) {
+      if (scrollLeft <= third * 0.5) {
         container.style.scrollBehavior = 'auto';
         container.scrollLeft = scrollLeft + third;
         requestAnimationFrame(() => {
           container.style.scrollBehavior = 'smooth';
         });
-      } else if (scrollLeft > third * 1.5) {
+      } else if (scrollLeft >= third * 2.5 - viewWidth) {
         container.style.scrollBehavior = 'auto';
         container.scrollLeft = scrollLeft - third;
         requestAnimationFrame(() => {
@@ -87,6 +88,22 @@ export default function Project() {
           card.classList.add('animate-in');
         }, i * 100);
       });
+
+      setTimeout(() => {
+        const leftBtn = document.querySelector('.arrow-button.left');
+        const rightBtn = document.querySelector('.arrow-button.right');
+
+        if (leftBtn && rightBtn) {
+          leftBtn.classList.remove('arrow-hidden');
+          rightBtn.classList.remove('arrow-hidden');
+          leftBtn.classList.add('arrow-slide-left');
+          rightBtn.classList.add('arrow-slide-right');
+
+          // ✅ Ensure buttons are clickable
+          leftBtn.style.pointerEvents = 'auto';
+          rightBtn.style.pointerEvents = 'auto';
+        }
+      }, 800);
     });
 
     return () => container.removeEventListener('scroll', handleScroll);
@@ -95,10 +112,8 @@ export default function Project() {
   const scrollToCard = (direction) => {
     const container = containerRef.current;
     if (!container) return;
-
-    const cardWidth = container.offsetWidth * 0.8;
+    const cardWidth = container.offsetWidth;
     const scrollAmount = direction === 'left' ? -cardWidth : cardWidth;
-
     container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
   };
 
@@ -107,7 +122,7 @@ export default function Project() {
       <h2 className="projects-title">Projects</h2>
 
       <div className="carousel-wrapper">
-        <button className="arrow-button left" onClick={() => scrollToCard('left')}>&#10094;</button>
+        <button className="arrow-button left arrow-hidden" onClick={() => scrollToCard('left')}>&#10094;</button>
 
         <div className="cards-container" ref={containerRef}>
           {projects.map((project, index) => (
@@ -119,7 +134,7 @@ export default function Project() {
           ))}
         </div>
 
-        <button className="arrow-button right" onClick={() => scrollToCard('right')}>&#10095;</button>
+        <button className="arrow-button right arrow-hidden" onClick={() => scrollToCard('right')}>&#10095;</button>
       </div>
     </section>
   );
