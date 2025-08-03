@@ -20,7 +20,7 @@ html, body {
   color: white;
   font-size: 2.5rem;
   text-align: center;
-  margin: 1rem 0;
+  margin: 3rem 15rem 0 0;
   z-index: 1;
 }
 
@@ -50,7 +50,7 @@ html, body {
 
 .project-card {
   scroll-snap-align: center;
-  flex: 0 0 80%;
+  flex: 0 0 100%;
   height: auto;
   display: flex;
   align-items: center;
@@ -109,10 +109,14 @@ html, body {
   background-color: rgba(0, 0, 0, 0.3);
   border: none;
   color: white;
-  font-size: 2.5rem;
-  padding: 0.5rem 1rem;
+  font-size: 2rem;
+  width: 50px;   /* FIXED WIDTH */
+  height: 50px;  /* FIXED HEIGHT */
+  border-radius: 50%; /* Perfect circle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  border-radius: 50%;
   user-select: none;
   transition: background-color 0.3s ease;
 }
@@ -217,3 +221,172 @@ html, body {
   height: 100%;
   box-sizing: border-box;
 }
+/* Arrows start below the card, hidden */
+.arrow-hidden {
+  opacity: 0;
+  transform: translateY(60px) scale(0.8);
+  pointer-events: none;
+}
+
+/* Initial hidden position: beneath the card, centered */
+.arrow-hidden {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Initially hidden and stacked under card at center */
+.arrow-hidden {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Initially hidden and stacked at center */
+.arrow-hidden {
+  position: absolute;
+  bottom: -60px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ✅ Base Arrow Button Style */
+.arrow-button {
+  position: absolute;
+  bottom: -60px;
+  width: 50px;
+  height: 50px;
+  font-size: 2rem;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+  z-index: 20;
+  opacity: 0;
+  transform: translateX(-50%) scale(0.9);
+  pointer-events: none;
+  transition: background-color 0.3s ease;
+}
+
+/* ✅ Hover Style */
+.arrow-button:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* ✅ Initially hidden at center */
+.arrow-hidden {
+  left: 50%;
+  opacity: 0;
+  transform: translateX(-50%) scale(0.9);
+  pointer-events: none;
+}
+
+/* ✅ Animation Triggers */
+.arrow-slide-left {
+  animation: slideFromCenterToLeft 1.6s ease-in-out forwards;
+}
+
+.arrow-slide-right {
+  animation: slideFromCenterToRight 1.6s ease-in-out forwards;
+}
+
+/* ✅ Left Arrow Animation */
+@keyframes slideFromCenterToLeft {
+  0% {
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 0.3;
+  }
+  80% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.9;
+  }
+  100% {
+    left: 70px;
+    transform: translateX(0%) scale(1);
+    opacity: 1;
+  }
+}
+
+/* ✅ Right Arrow Animation */
+@keyframes slideFromCenterToRight {
+  0% {
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 0.3;
+  }
+  80% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.9;
+  }
+  100% {
+    left: calc(100% - 100px); /* 100% - button width - margin */
+    transform: translateX(0%) scale(1);
+    opacity: 1;
+  }
+}
+
+
