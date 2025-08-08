@@ -25,7 +25,7 @@ const baseProjects = [
   },
   {
     title: "Peacock Corridor Holiday House",
-    images: ["/placeholder.png", "/placeholder.png", "/placeholder.png", "/placeholder.png"],
+    images: ["/peacock1.png", "/peacock2.png", "/peacock3.png", "/peacock4.png"],
     description: "An inventory management system tailored for the Peacock Corridor Holiday House Resort.",
     githubLink: "https://github.com/dilukaathukorala/Peacock-Corridor-Holiday-House.git"
   },
