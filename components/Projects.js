@@ -7,7 +7,7 @@ import '../styles/Projects.css';
 const baseProjects = [
   {
     title: "EverPlant",
-    images: ["/placeholder.png", "/placeholder.png", "/placeholder.png", "/placeholder.png"],
+    images: ["/everplant1.png", "/everplant2.png", "/everplant3.png", "/everplant4.png"],
     description: "EverPlant is a visually engaging website for selling plants, developed using HTML, CSS, and JavaScript.",
     githubLink: "https://github.com/dilukaathukorala/EVERPLANT-Plant-Selling-Web-Application.git"
   },
