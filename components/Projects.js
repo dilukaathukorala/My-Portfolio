@@ -31,7 +31,7 @@ const baseProjects = [
   },
   {
     title: "Ayurwell",
-    images: ["/placeholder.png", "/placeholder.png", "/placeholder.png", "/placeholder.png"],
+    images: ["/placeholder1.png", "/placeholder2.png", "/placeholder3.png", "/placeholder4.png"],
     description: "An Ayurvedic healthcare platform for booking doctor appointments and buying herbal products.",
     githubLink: "https://github.com/dilukaathukorala/Ayurwell.git"
   },
