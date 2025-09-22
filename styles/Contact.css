@@ -1,14 +1,25 @@
-/* Background */
+/* Allow mouse scroll & touch across the app (in case globals were restrictive) */
+html, body {
+  height: auto;
+  overflow: auto;
+}
+
+/* ===========================
+   Background / Page Section
+   =========================== */
 .skills-section {
-  height: 100%;
   width: 100%;
+  height: auto;                 /* allow natural height */
+  min-height: 100vh;
   background: linear-gradient(135deg, #4c6a85, #41207e, #0f1d65, #030325);
-  padding: 3rem 2rem;
+  /* More margin from top + both sides */
+  padding-top: 6rem;            /* more top space as requested */
+  padding-bottom: 3rem;
+  padding-inline: clamp(24px, 6vw, 56px);  /* more side space */
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
-  min-height: 100vh;
+  overflow: auto;               /* enable scrolling/touch */
   box-sizing: border-box;
 }
 
@@ -20,10 +31,15 @@
   display: flex;
   gap: 4rem;
   align-items: center;
+  justify-content: center;
   min-height: 70vh;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
-/* Left Column */
+/* ===========================
+   Left Column
+   =========================== */
 .contact-left {
   flex: 1;
   display: flex;
@@ -32,16 +48,22 @@
   align-items: center;      
   text-align: center;       
   padding: 1rem 0;
-  margin-top: 5rem;
+  margin-top: 5rem; /* desktop keeps original offset; removed on small screens below */
   color: #f7f8fc;
 }
 
+/* Center the mail icon animation horizontally (all viewports) */
 .contact-icon {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 1rem;
-  color: rgba(255, 255, 255, 0.8);
+  display: flex;               /* ensures true centering */
+  justify-content: center;
+  align-items: center;
+  width: 96px;                 /* matches SVG default size */
+  height: 96px;
+  margin: 0 auto 1rem auto;    /* auto left/right centers it in flow */
+  color: rgba(255, 255, 255, 0.9);
 }
+
+.mail-rocket-anim { display: block; overflow: visible; }
 
 .contact-info h3 {
   font-size: 1.4rem;
@@ -71,7 +93,9 @@
 
 .contact-note { font-size: 1rem; margin: 0; opacity: 0.9; }
 
-/* Right Column */
+/* ===========================
+   Right Column (Form Card)
+   =========================== */
 .contact-right {
   flex: 1;
   background: rgba(255, 255, 255, 0.06);
@@ -79,8 +103,8 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   padding: 2rem 2.5rem;
-  margin-top: 5rem;
-  margin-right: 6rem;
+  margin-top: 5rem;     /* desktop offset; removed on small screens */
+  margin-right: 6rem;   /* desktop offset; removed on small screens */
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
   position: relative;
   overflow: hidden;
@@ -94,7 +118,9 @@
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
 }
 
-/* Form */
+/* ===========================
+   Form
+   =========================== */
 .contact-form { display: flex; flex-direction: column; gap: 1.5rem; }
 
 .form-row {
@@ -184,7 +210,7 @@
   justify-content: center;
   align-items: center;
   background: rgba(0,0,0,0.55);
-  z-index: 9999; /* above navbar/form */
+  z-index: 9999; /* above everything */
 }
 
 .status-modal {
@@ -233,43 +259,17 @@
   to   { opacity: 1; transform: scale(1); }
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-  .contact-container { gap: 3rem; }
-  .contact-right { padding: 2.5rem 2rem; }
-}
-@media (max-width: 820px) {
-  .skills-section { padding: 2rem 1.5rem; }
-  .contact-container { flex-direction: column; gap: 2.5rem; max-width: 600px; }
-  .contact-info h2 { font-size: 1.1rem; }
-}
-@media (max-width: 640px) {
-  .skills-section { padding: 1.5rem 1rem; }
-  .form-row { grid-template-columns: 1fr; gap: 1.5rem; }
-  .contact-right { padding: 2rem 1.5rem; }
-  .contact-info h2 { font-size: 1rem; }
-  .contact-icon { width: 56px; height: 56px; }
-}
-@media (max-width: 480px) {
-  .contact-container { gap: 2rem; }
-  .contact-right { padding: 1.5rem 1.25rem; }
-}
-
 /* ===========================
    Mail → Paper-Plane LOOP
    =========================== */
-:root{ --total: 4.5s; /* full cycle duration */ }
+:root { --total: 4.5s; /* full cycle duration */ }
 
-.mail-rocket-anim{ display:block; overflow:visible; }
-.contact-icon{ color:rgba(255,255,255,.9); }
-
-/* --- ENVELOPE --- */
-.mail-group .mail-path{
-  stroke-dasharray:300;
-  stroke-dashoffset:300;
+.mail-group .mail-path {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
   animation: mailPathDraw var(--total) linear infinite;
 }
-.mail-group{ animation: mailGroupOpacity var(--total) linear infinite; }
+.mail-group { animation: mailGroupOpacity var(--total) linear infinite; }
 
 @keyframes mailPathDraw{
   0%   { stroke-dashoffset:300; }
@@ -283,7 +283,6 @@
   60%,100%{ opacity:0; }
 }
 
-/* --- PAPER PLANE --- */
 .rocket-group{
   transform-origin:60% 45%;
   opacity:0;
@@ -297,12 +296,6 @@
   animation: trailTimeline var(--total) ease-out infinite;
 }
 
-/* timeline notes:
-   0–55%  : envelope drawing/visible, plane hidden
-   55–60% : cross-fade
-   60–92% : plane flies
-   92–100%: plane gone, reset
-*/
 @keyframes rocketTimeline{
   0%,55% { opacity:0; transform:translate(0,0) rotate(-12deg) scale(1); }
   60%    { opacity:1; transform:translate(0,0) rotate(-12deg) scale(1); }
@@ -327,4 +320,64 @@
   }
   .mail-group{ opacity:1; }
   .rocket-group{ opacity:0; }
+}
+
+/* ===========================
+   Responsive Tweaks
+   =========================== */
+
+/* Tablet and down: center content; remove big top/right offsets */
+@media (max-width: 1024px) {
+  .contact-container{
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    gap: 2.5rem;
+  }
+  .contact-left,
+  .contact-right{
+    margin-top: 0;      /* remove 5rem offset on smaller screens */
+  }
+  .contact-right{ margin-right: 0; }
+}
+
+/* Narrow tablets / large phones */
+@media (max-width: 820px) {
+  .skills-section { padding-inline: clamp(20px, 6vw, 36px); }
+  .contact-container{
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 640px;
+    min-height: 90vh;
+  }
+  .contact-right{
+    width: 100%;
+    padding: 2rem 1.5rem;
+  }
+  .contact-info h2 { font-size: 1.1rem; }
+}
+
+/* Phones */
+@media (max-width: 640px) {
+  .skills-section { padding-inline: clamp(16px, 7vw, 28px); }
+  .contact-container{
+    gap: 1.5rem;
+    max-width: 520px;
+    min-height: 92vh;
+  }
+  .form-row { grid-template-columns: 1fr; gap: 1rem; }
+  .contact-right { padding: 1.5rem 1.25rem; }
+  .contact-info h2 { font-size: 1rem; }
+  .contact-icon { width: 80px; height: 80px; }
+}
+
+/* Very small phones */
+@media (max-width: 480px) {
+  .contact-container { gap: 2rem; }
+  .contact-right { padding: 1.5rem 1.25rem; }
+}
+
+/* Tiny phones */
+@media (max-width: 380px){
+  .social-btn{ width: 40px; height: 40px; border-radius: 10px; }
 }
