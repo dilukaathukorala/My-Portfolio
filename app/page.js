@@ -5,7 +5,8 @@ import Hero from '../components/Hero';
 import About from '../components/About';
 import Header from '../components/Header';
 import Skills from '../components/Skills';
-import Projects from '../components/Projects'; // ✅ import
+import Projects from '../components/Projects';
+import Contact from '../components/Contact';
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState("hero");
@@ -66,6 +67,16 @@ export default function Home() {
       {activeSection === "projects" && (
         <Projects
           key={`projects-${reloadKey}`}
+          handleNavClick={handleNavClick}
+          setActiveSection={setActiveSection}
+          menuOpen={menuOpen}
+          setMenuOpen={setMenuOpen}
+        />
+      )}
+
+      {activeSection === "contact" && (
+        <Contact
+          key={`contact-${reloadKey}`}
           handleNavClick={handleNavClick}
           setActiveSection={setActiveSection}
           menuOpen={menuOpen}
