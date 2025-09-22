@@ -1,28 +1,115 @@
+'use client';
+
 import Head from 'next/head';
-import { useState } from 'react';
-import '../styles/Contact.css'; // ✅ Global CSS import
+import { useEffect, useState } from 'react';
+import emailjs from '@emailjs/browser';
+import '../styles/Contact.css';
+
+// 🔑 Replace with your actual EmailJS credentials
+const SERVICE_ID = 'service_qkk0rka';
+const TEMPLATE_ID = 'template_3aoha0s';
+const PUBLIC_KEY  = '7G3Rj0qmx-_SFLZSJ';
+
+// Country code options (add more if you want)
+const COUNTRY_CODES = [
+  { code: '+1',  label: '🇺🇸 USA/Canada (+1)' },
+  { code: '+44', label: '🇬🇧 UK (+44)' },
+  { code: '+61', label: '🇦🇺 Australia (+61)' },
+  { code: '+81', label: '🇯🇵 Japan (+81)' },
+  { code: '+91', label: '🇮🇳 India (+91)' },
+  { code: '+94', label: '🇱🇰 Sri Lanka (+94)' },
+  { code: '+33', label: '🇫🇷 France (+33)' },
+  { code: '+34', label: '🇪🇸 Spain (+34)' },
+  { code: '+39', label: '🇮🇹 Italy (+39)' },
+  { code: '+49', label: '🇩🇪 Germany (+49)' },
+];
 
 export default function Contact() {
   const [sending, setSending] = useState(false);
+  const [status, setStatus] = useState(null); // { type: 'success'|'form-error'|'system-error', msgs: string[] }
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    try {
+      emailjs.init(PUBLIC_KEY);
+    } catch (e) {
+      // do not show to users
+      console.error('EmailJS init error:', e);
+    }
+  }, []);
+
+  // Validate and return an array of messages (user-facing)
+  const validateForm = ({ firstName, lastName, email, countryCode, phoneDigits, message }) => {
+    const errs = [];
+
+    // Names ≥ 3 letters (letters/spaces allowed)
+    if (!firstName || !/^[A-Za-z\s]{3,}$/.test(firstName)) {
+      errs.push('First name must be at least 3 letters (A–Z).');
+    }
+    if (!lastName || !/^[A-Za-z\s]{3,}$/.test(lastName)) {
+      errs.push('Last name must be at least 3 letters (A–Z).');
+    }
+
+    // Gmail-only
+    if (!/^[^\s@]+@gmail\.com$/i.test(email)) {
+      errs.push('Email must be a valid Gmail address (e.g. yourname@gmail.com).');
+    }
+
+    // Country code present and phone digits exactly 9
+    if (!countryCode || !/^\+\d{1,3}$/.test(countryCode)) {
+      errs.push('Please select a valid country code (e.g. +94).');
+    }
+    if (!/^\d{9}$/.test(phoneDigits)) {
+      errs.push('Phone number must contain exactly 9 digits (after the country code).');
+    }
+
+    // Message ≥ 10 characters
+    if (!message || message.trim().length < 10) {
+      errs.push('Message must be at least 10 characters.');
+    }
+
+    return errs;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setSending(true);
+    setStatus(null);
 
     const form = e.currentTarget;
-    const firstName = form.firstName.value.trim();
-    const lastName = form.lastName.value.trim();
-    const email = form.email.value.trim();
-    const message = form.message.value.trim();
+    const firstName   = form.firstName.value.trim();
+    const lastName    = form.lastName.value.trim();
+    const email       = form.email.value.trim();
+    const countryCode = form.countryCode.value;
+    const phoneDigits = form.phoneDigits.value.trim();
+    const message     = form.message.value.trim();
 
-    const to = 'hello@junedisann.com';
-    const subject = 'Portfolio Contact';
-    const body = `Name: ${firstName} ${lastName}\r\nEmail: ${email}\r\n\r\n${message}`;
+    const errors = validateForm({ firstName, lastName, email, countryCode, phoneDigits, message });
+    if (errors.length) {
+      setStatus({ type: 'form-error', msgs: errors });
+      setSending(false);
+      return;
+    }
 
-    const params = new URLSearchParams({ subject, body });
-    window.location.href = `mailto:${to}?${params.toString()}`;
+    const phone = `${countryCode}${phoneDigits}`;
 
-    setTimeout(() => setSending(false), 800);
+    try {
+      const res = await emailjs.send(
+        SERVICE_ID,
+        TEMPLATE_ID,
+        { firstName, lastName, email, phone, message }
+      );
+
+      if (res.status !== 200) throw new Error(`Unexpected status: ${res.status}`);
+
+      setStatus({ type: 'success', msgs: ['Message sent! Diluka will get back to you soon.'] });
+      form.reset();
+    } catch (err) {
+      // Log for you; show generic message to users
+      console.error('EmailJS internal error:', err);
+      setStatus({ type: 'system-error', msgs: ['System error. Please try again later.'] });
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -40,20 +127,53 @@ export default function Contact() {
           {/* Left Column */}
           <div className="contact-left">
             <div className="contact-icon" aria-hidden="true">
+              {/* Mail → Paper-Plane animation */}
               <svg
-                width="64"
-                height="64"
-                viewBox="0 0 24 24"
-                fill="none"
+                className="mail-rocket-anim"
+                width="96"
+                height="96"
+                viewBox="0 0 100 100"
                 xmlns="http://www.w3.org/2000/svg"
+                role="img"
+                aria-label="Sending message animation"
               >
-                <path
-                  d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C19.5304 19 20.0391 18.7893 20.4142 18.4142C20.7893 18.0391 21 17.5304 21 17V7C21 6.46957 20.7893 5.96086 20.4142 5.58579C20.0391 5.21071 19.5304 5 19 5H5C4.46957 5 3.96086 5.21071 3.58579 5.58579C3.21071 5.96086 3 6.46957 3 7V17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96071 18.7893 4.46957 19 5 19Z"
+                {/* Envelope group (draws in) */}
+                <g
+                  className="mail-group"
+                  fill="none"
                   stroke="currentColor"
-                  strokeWidth="2"
+                  strokeWidth="3"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                />
+                >
+                  {/* Envelope outer */}
+                  <path
+                    className="mail-path mail-outer"
+                    d="M15 30 h70 a5 5 0 0 1 5 5 v30 a5 5 0 0 1 -5 5 h-70 a5 5 0 0 1 -5 -5 v-30 a5 5 0 0 1 5 -5 z"
+                  />
+                  {/* Flap */}
+                  <path className="mail-path mail-flap" d="M15 32 L50 55 L85 32" />
+                  {/* Inner divider */}
+                  <path className="mail-path mail-inner" d="M15 70 L42 50" />
+                  <path className="mail-path mail-inner" d="M85 70 L58 50" />
+                </g>
+
+                {/* Paper plane (the “rocket”) */}
+                <g
+                  className="rocket-group"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  {/* Main triangle wing */}
+                  <path d="M18 60 L86 35 L18 20 L32 38 L60 35 L32 42 Z" />
+                  {/* Tail fold */}
+                  <path d="M32 38 L32 42 L45 41" />
+                  {/* Motion trail behind plane */}
+                  <path className="rocket-trail" d="M24 64 Q36 58 50 54" />
+                </g>
               </svg>
             </div>
 
@@ -73,7 +193,7 @@ export default function Contact() {
 
           {/* Right Column */}
           <div className="contact-right">
-            <form className="contact-form" onSubmit={handleSubmit}>
+            <form className="contact-form" onSubmit={handleSubmit} noValidate>
               <div className="form-row">
                 <div className="form-field">
                   <input
@@ -84,7 +204,6 @@ export default function Contact() {
                     required
                   />
                 </div>
-
                 <div className="form-field">
                   <input
                     id="lastName"
@@ -101,9 +220,37 @@ export default function Contact() {
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="Email *"
+                  placeholder="Email (must be Gmail)"
                   required
                 />
+              </div>
+
+              {/* Country code + 9-digit phone */}
+              <div className="form-row">
+                <div className="form-field">
+                  <select
+                    id="countryCode"
+                    name="countryCode"
+                    className="country-select"
+                    defaultValue="+94"
+                    required
+                  >
+                    {COUNTRY_CODES.map((c) => (
+                      <option key={c.code} value={c.code}>{c.label}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="form-field">
+                  <input
+                    id="phoneDigits"
+                    name="phoneDigits"
+                    type="tel"
+                    placeholder="9-digit number"
+                    inputMode="numeric"
+                    pattern="\d{9}"
+                    required
+                  />
+                </div>
               </div>
 
               <div className="form-field">
@@ -111,7 +258,7 @@ export default function Contact() {
                   id="message"
                   name="message"
                   rows="5"
-                  placeholder="Write a message"
+                  placeholder="Write a message (min 10 characters)"
                   required
                 />
               </div>
@@ -123,6 +270,40 @@ export default function Contact() {
           </div>
         </div>
       </section>
+
+      {/* Centered modal for success / errors */}
+      {status && (
+        <div className="status-overlay">
+          <div className={`status-modal ${
+            status.type === 'success' ? 'success' :
+            status.type === 'form-error' ? 'error' : 'error'
+          }`}>
+            <button
+              className="close-btn"
+              onClick={() => setStatus(null)}
+              aria-label="Close message"
+            >
+              ✖
+            </button>
+
+            <h3>
+              {status.type === 'success'
+                ? 'Success'
+                : status.type === 'form-error'
+                ? 'Please fix these errors'
+                : 'System Error'}
+            </h3>
+
+            {status.msgs.length === 1 ? (
+              <p>{status.msgs[0]}</p>
+            ) : (
+              <ul>
+                {status.msgs.map((m, i) => <li key={i}>{m}</li>)}
+              </ul>
+            )}
+          </div>
+        </div>
+      )}
     </>
   );
 }
