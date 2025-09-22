@@ -10,7 +10,7 @@ const SERVICE_ID = 'service_qkk0rka';
 const TEMPLATE_ID = 'template_3aoha0s';
 const PUBLIC_KEY  = '7G3Rj0qmx-_SFLZSJ';
 
-// Country code options (add more if you want)
+// Country code options
 const COUNTRY_CODES = [
   { code: '+1',  label: '🇺🇸 USA/Canada (+1)' },
   { code: '+44', label: '🇬🇧 UK (+44)' },
@@ -26,47 +26,21 @@ const COUNTRY_CODES = [
 
 export default function Contact() {
   const [sending, setSending] = useState(false);
-  const [status, setStatus] = useState(null); // { type: 'success'|'form-error'|'system-error', msgs: string[] }
+  const [status, setStatus] = useState(null);
 
   useEffect(() => {
-    try {
-      emailjs.init(PUBLIC_KEY);
-    } catch (e) {
-      // do not show to users
-      console.error('EmailJS init error:', e);
-    }
+    try { emailjs.init(PUBLIC_KEY); }
+    catch (e) { console.error('EmailJS init error:', e); }
   }, []);
 
-  // Validate and return an array of messages (user-facing)
   const validateForm = ({ firstName, lastName, email, countryCode, phoneDigits, message }) => {
     const errs = [];
-
-    // Names ≥ 3 letters (letters/spaces allowed)
-    if (!firstName || !/^[A-Za-z\s]{3,}$/.test(firstName)) {
-      errs.push('First name must be at least 3 letters (A–Z).');
-    }
-    if (!lastName || !/^[A-Za-z\s]{3,}$/.test(lastName)) {
-      errs.push('Last name must be at least 3 letters (A–Z).');
-    }
-
-    // Gmail-only
-    if (!/^[^\s@]+@gmail\.com$/i.test(email)) {
-      errs.push('Email must be a valid Gmail address (e.g. yourname@gmail.com).');
-    }
-
-    // Country code present and phone digits exactly 9
-    if (!countryCode || !/^\+\d{1,3}$/.test(countryCode)) {
-      errs.push('Please select a valid country code (e.g. +94).');
-    }
-    if (!/^\d{9}$/.test(phoneDigits)) {
-      errs.push('Phone number must contain exactly 9 digits (after the country code).');
-    }
-
-    // Message ≥ 10 characters
-    if (!message || message.trim().length < 10) {
-      errs.push('Message must be at least 10 characters.');
-    }
-
+    if (!firstName || !/^[A-Za-z\s]{3,}$/.test(firstName)) errs.push('First name must be at least 3 letters (A–Z).');
+    if (!lastName  || !/^[A-Za-z\s]{3,}$/.test(lastName))  errs.push('Last name must be at least 3 letters (A–Z).');
+    if (!/^[^\s@]+@gmail\.com$/i.test(email)) errs.push('Email must be a valid Gmail address (e.g. yourname@gmail.com).');
+    if (!countryCode || !/^\+\d{1,3}$/.test(countryCode)) errs.push('Please select a valid country code (e.g. +94).');
+    if (!/^\d{9}$/.test(phoneDigits)) errs.push('Phone number must contain exactly 9 digits (after the country code).');
+    if (!message || message.trim().length < 10) errs.push('Message must be at least 10 characters.');
     return errs;
   };
 
@@ -104,7 +78,6 @@ export default function Contact() {
       setStatus({ type: 'success', msgs: ['Message sent! Diluka will get back to you soon.'] });
       form.reset();
     } catch (err) {
-      // Log for you; show generic message to users
       console.error('EmailJS internal error:', err);
       setStatus({ type: 'system-error', msgs: ['System error. Please try again later.'] });
     } finally {
@@ -116,10 +89,7 @@ export default function Contact() {
     <>
       <Head>
         <title>Contact | Portfolio</title>
-        <meta
-          name="description"
-          content="Get in touch for collaborations, opportunities, or a friendly hello."
-        />
+        <meta name="description" content="Get in touch for collaborations, opportunities, or a friendly hello." />
       </Head>
 
       <section className="skills-section contact-section">
@@ -137,7 +107,6 @@ export default function Contact() {
                 role="img"
                 aria-label="Sending message animation"
               >
-                {/* Envelope group (draws in) */}
                 <g
                   className="mail-group"
                   fill="none"
@@ -146,19 +115,11 @@ export default function Contact() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
-                  {/* Envelope outer */}
-                  <path
-                    className="mail-path mail-outer"
-                    d="M15 30 h70 a5 5 0 0 1 5 5 v30 a5 5 0 0 1 -5 5 h-70 a5 5 0 0 1 -5 -5 v-30 a5 5 0 0 1 5 -5 z"
-                  />
-                  {/* Flap */}
+                  <path className="mail-path mail-outer" d="M15 30 h70 a5 5 0 0 1 5 5 v30 a5 5 0 0 1 -5 5 h-70 a5 5 0 0 1 -5 -5 v-30 a5 5 0 0 1 5 -5 z" />
                   <path className="mail-path mail-flap" d="M15 32 L50 55 L85 32" />
-                  {/* Inner divider */}
                   <path className="mail-path mail-inner" d="M15 70 L42 50" />
                   <path className="mail-path mail-inner" d="M85 70 L58 50" />
                 </g>
-
-                {/* Paper plane (the “rocket”) */}
                 <g
                   className="rocket-group"
                   fill="none"
@@ -167,11 +128,8 @@ export default function Contact() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
-                  {/* Main triangle wing */}
                   <path d="M18 60 L86 35 L18 20 L32 38 L60 35 L32 42 Z" />
-                  {/* Tail fold */}
                   <path d="M32 38 L32 42 L45 41" />
-                  {/* Motion trail behind plane */}
                   <path className="rocket-trail" d="M24 64 Q36 58 50 54" />
                 </g>
               </svg>
@@ -196,45 +154,20 @@ export default function Contact() {
             <form className="contact-form" onSubmit={handleSubmit} noValidate>
               <div className="form-row">
                 <div className="form-field">
-                  <input
-                    id="firstName"
-                    name="firstName"
-                    type="text"
-                    placeholder="First Name"
-                    required
-                  />
+                  <input id="firstName" name="firstName" type="text" placeholder="First Name" required />
                 </div>
                 <div className="form-field">
-                  <input
-                    id="lastName"
-                    name="lastName"
-                    type="text"
-                    placeholder="Last Name"
-                    required
-                  />
+                  <input id="lastName" name="lastName" type="text" placeholder="Last Name" required />
                 </div>
               </div>
 
               <div className="form-field">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  placeholder="Email (must be Gmail)"
-                  required
-                />
+                <input id="email" name="email" type="email" placeholder="Email (must be Gmail)" required />
               </div>
 
-              {/* Country code + 9-digit phone */}
               <div className="form-row">
                 <div className="form-field">
-                  <select
-                    id="countryCode"
-                    name="countryCode"
-                    className="country-select"
-                    defaultValue="+94"
-                    required
-                  >
+                  <select id="countryCode" name="countryCode" className="country-select" defaultValue="+94" required>
                     {COUNTRY_CODES.map((c) => (
                       <option key={c.code} value={c.code}>{c.label}</option>
                     ))}
@@ -254,13 +187,7 @@ export default function Contact() {
               </div>
 
               <div className="form-field">
-                <textarea
-                  id="message"
-                  name="message"
-                  rows="5"
-                  placeholder="Write a message (min 10 characters)"
-                  required
-                />
+                <textarea id="message" name="message" rows="5" placeholder="Write a message (min 10 characters)" required />
               </div>
 
               <button className="btn-submit" type="submit" disabled={sending}>
@@ -271,21 +198,13 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Centered modal for success / errors */}
       {status && (
         <div className="status-overlay">
           <div className={`status-modal ${
             status.type === 'success' ? 'success' :
             status.type === 'form-error' ? 'error' : 'error'
           }`}>
-            <button
-              className="close-btn"
-              onClick={() => setStatus(null)}
-              aria-label="Close message"
-            >
-              ✖
-            </button>
-
+            <button className="close-btn" onClick={() => setStatus(null)} aria-label="Close message">✖</button>
             <h3>
               {status.type === 'success'
                 ? 'Success'
@@ -293,7 +212,6 @@ export default function Contact() {
                 ? 'Please fix these errors'
                 : 'System Error'}
             </h3>
-
             {status.msgs.length === 1 ? (
               <p>{status.msgs[0]}</p>
             ) : (
