@@ -110,15 +110,12 @@ export default function Project() {
     // Desktop-only keyboard arrows
     const handleKeyDown = (e) => {
       if (isSmallScreen()) return; // ignore on tablet/mobile
-      // Only react if the Projects section is in view/focused region
       const sec = sectionRef.current;
       if (!sec) return;
 
-      // If focus is somewhere inside the section or body, allow arrows
       const active = document.activeElement;
       const withinSection = active && sec.contains(active);
       const allow = withinSection || active === document.body || active === document.documentElement;
-
       if (!allow) return;
 
       if (e.key === 'ArrowLeft' || e.key === 'Left') {
@@ -168,7 +165,10 @@ export default function Project() {
 
   return (
     <section className="projects-section" ref={sectionRef} tabIndex={-1} aria-label="Projects carousel">
-      <h2 className="projects-title">Projects</h2>
+      {/* ✅ Topic heading just below the nav bar */}
+      <div className="projects-header">
+        <h2 className="projects-topic">Projects</h2>
+      </div>
 
       <div className="carousel-wrapper">
         {/* Hidden via CSS on <=1024px (buttons for desktop only) */}
@@ -198,6 +198,7 @@ export default function Project() {
           &#10095;
         </button>
       </div>
+
       <SocialMedia />
     </section>
   );
