@@ -74,6 +74,7 @@ export default function Header({
         {menuOpen ? <FaTimes /> : <FaBars />}
       </div>
 
+      {/* Only show the mobile nav when menuOpen is true */}
       {menuOpen && (
         <div className="mobile-nav">
           {Object.entries(navItems).map(([key, label]) => (
@@ -81,7 +82,7 @@ export default function Header({
               key={key}
               onClick={() => {
                 handleNavClick(key);
-                setMenuOpen(false);
+                setMenuOpen(false); // Close the menu after clicking a link
               }}
             >
               {label}
