@@ -1,4 +1,10 @@
-/* === Social Icons Layout === */
+/* ===== Durations ===== */
+:root {
+  --fill-duration-hover: 0.3s;   /* fast preview on hover (desktop) */
+  --fill-duration-activate: 1.5s; /* slow fill on touch/tap */
+}
+
+/* === Layout === */
 .social-icons {
   position: fixed;
   bottom: 2rem;
@@ -12,11 +18,9 @@
   margin: 0;
 }
 
-.social-icons .icon-content {
-  position: relative;
-}
+.social-icons .icon-content { position: relative; }
 
-/* === Icon Button === */
+/* === Button === */
 .social-icons .icon-content a {
   width: 40px;
   height: 40px;
@@ -27,12 +31,13 @@
   justify-content: center;
   position: relative;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: color 0.25s ease; /* icon to white on hover/activation */
   text-decoration: none;
-  color: black;
+  color: black; /* SVG follows this via currentColor */
+  box-shadow: 0 4px 16px rgba(0,0,0,.12);
 }
 
-/* === SVG Icon === */
+/* === SVG === */
 .social-icons .icon-content svg {
   width: 22px;
   height: 22px;
@@ -41,33 +46,38 @@
   transition: fill 0.3s ease;
 }
 
-/* === Hover Effects === */
-.social-icons .icon-content a:hover {
-  color: white;
-}
+/* === Hover preview (desktop) === */
+.social-icons .icon-content a:hover { color: white; }
 
 .social-icons .icon-content a .filled {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
+  inset: auto 0 0 0; /* bottom fill */
   height: 0;
-  transition: all 0.3s ease;
+  transition: height var(--fill-duration-hover) ease;
   z-index: 1;
 }
 
-.social-icons .icon-content a:hover .filled {
-  height: 100%;
+.social-icons .icon-content a:hover .filled { height: 100%; }
+
+/* === Touch activation (slow fill, then navigate) === */
+.social-icons .icon-content a.is-activating {
+  color: white !important;  /* icon turns white while filling */
+  pointer-events: none;     /* avoid double taps during animation */
 }
 
-/* === Tooltip Base === */
+.social-icons .icon-content a.is-activating .filled {
+  height: 100% !important;
+  transition: height var(--fill-duration-activate) ease !important;
+}
+
+/* === Tooltip === */
 .social-icons .tooltip {
   position: absolute;
   top: 50%;
   right: 110%;
   transform: translateY(-50%) scale(0.95);
   padding: 5px 10px;
-  font-family: quicksand, sans-serif;
+  font-family: quicksand, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   font-size: 13px;
   font-weight: 600;
   color: white;
@@ -77,7 +87,7 @@
   transition: all 0.25s ease;
   transform-origin: right center;
   white-space: nowrap;
-  background-color: black; /* default fallback */
+  background-color: black;
 }
 
 .social-icons .icon-content:hover .tooltip {
@@ -86,45 +96,32 @@
   transform: translateY(-50%) scale(1);
 }
 
-/* === Brand Colors for Backgrounds === */
+/* === Brand colors === */
+.social-icons a[data-social="linkedin"] .filled { background-color: #0274b3; }
+.social-icons a[data-social="linkedin"] + .tooltip { background-color: #0274b3; }
 
-/* LinkedIn */
-.social-icons a[data-social="linkedin"] .filled {
-  background-color: #0274b3;
-}
-.social-icons a[data-social="linkedin"] + .tooltip {
-  background-color: #0274b3;
-}
+.social-icons a[data-social="github"] .filled { background-color: #24262a; }
+.social-icons a[data-social="github"] + .tooltip { background-color: #24262a; }
 
-/* GitHub */
-.social-icons a[data-social="github"] .filled {
-  background-color: #24262a;
-}
-.social-icons a[data-social="github"] + .tooltip {
-  background-color: #24262a;
-}
-
-/* Instagram */
 .social-icons a[data-social="instagram"] .filled {
-  background: linear-gradient(
-    45deg,
-    #405de6,
-    #5b51db,
-    #b33ab4,
-    #c135b4,
-    #e1306c,
-    #fd1f1f
-  );
+  background: linear-gradient(45deg,#405de6,#5b51db,#b33ab4,#c135b4,#e1306c,#fd1f1f);
 }
 .social-icons a[data-social="instagram"] + .tooltip {
-  background: linear-gradient(
-    45deg,
-    #405de6,
-    #5b51db,
-    #b33ab4,
-    #c135b4,
-    #e1306c,
-    #fd1f1f
-  );
+  background: linear-gradient(45deg,#405de6,#5b51db,#b33ab4,#c135b4,#e1306c,#fd1f1f);
   color: white;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .social-icons { bottom: 1.5rem; right: 1.5rem; gap: 0.75rem; }
+  .social-icons .icon-content a { width: 36px; height: 36px; }
+  .social-icons .icon-content svg { width: 20px; height: 20px; }
+  .social-icons .tooltip { font-size: 12px; padding: 4px 8px; }
+}
+
+@media (max-width: 480px) {
+  .social-icons { bottom: 1rem; right: 1rem; gap: 0.5rem; }
+  .social-icons .icon-content a { width: 34px; height: 34px; }
+  .social-icons .icon-content svg { width: 18px; height: 18px; }
+  .social-icons .tooltip { font-size: 11px; }
 }
