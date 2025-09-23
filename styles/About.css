@@ -9,7 +9,7 @@
 
 /* === SECTION === */
 .about-section {
-  width: 100%;
+  width: 90%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,6 +25,11 @@
   align-items: center;
   gap: 3rem;
   transition: all 1.2s ease-in-out;
+  max-width: 1100px;
+  padding: 0 1.25rem; /* equal left and right margins */
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* ⏳ BEFORE TYPING – Centered */
@@ -69,7 +74,7 @@
 .about-heading {
   padding-left: 5rem;
   font-family: 'Inter', sans-serif;
-  font-size: 2.5rem;
+  font-size: 1.9rem;  /* smaller font size for mobile/tablet */
   font-weight: 600;
   margin-bottom: 24px;
   color: white;
@@ -86,8 +91,8 @@
 .about-typewriter {
   padding-left: 4rem;
   font-family: 'Inter', sans-serif;
-  font-size: 1.125rem;
-  line-height: 2;
+  font-size: 1rem;  /* smaller font size */
+  line-height: 1.8;
   color: white;
   width: 100%;
   margin-bottom: 10px;
@@ -108,8 +113,8 @@
 /* === STATIC TEXT (AFTER TYPING) === */
 .typed-text {
   font-family: 'Inter', sans-serif;
-  font-size: 1.125rem;
-  line-height: 2;
+  font-size: 1rem;  /* smaller font size */
+  line-height: 1.8;
   color: white;
   width: 100%;
   text-align: left;
@@ -197,10 +202,81 @@
   }
 }
 
-/* === RESPONSIVE: MOBILE OPTIMIZATION === */
+/* === RESPONSIVE: TABLET & MOBILE OPTIMIZATION === */
+
+/* === TABLET (portrait & landscape) === */
+@media (max-width: 1024px) and (min-width: 481px) {
+  .about-section {
+    padding: 6rem 1.25rem 2.5rem;
+    align-items: flex-start;
+  }
+
+  .about-content-wrapper {
+    flex-direction: column;
+    gap: 2.25rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  .shift-wrapper,
+  .shift-text,
+  .heading-move,
+  .paragraph-move {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .about-text {
+    padding-top: 0.5rem;
+    max-width: 720px;
+    text-align: center;
+    align-items: center;
+  }
+
+  .about-heading {
+    font-size: 1.7rem;  /* smaller heading font size */
+    text-align: center;
+    padding-left: 0;
+    margin-bottom: 18px;
+  }
+
+  .about-typewriter,
+  .typed-text {
+    font-size: 0.9rem;  /* smaller font size */
+    line-height: 1.7;
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .about-typewriter.second {
+    min-height: auto;
+    margin-top: 8px;
+  }
+
+  .about-logos {
+    width: 100%;
+    padding-top: 0.25rem;
+    padding-left: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    gap: 1.25rem;
+  }
+
+  .logo-img {
+    width: 70px;
+    border-radius: 9px;
+  }
+}
+
+/* === MOBILE (phones) === */
 @media (max-width: 480px) {
   .about-section {
-    padding: 6rem 1rem 2rem;
+    padding: 5.5rem 1rem 2rem;
     align-items: flex-start;
     scroll-margin-top: 6rem;
   }
@@ -215,25 +291,29 @@
 
   .about-content-wrapper {
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.75rem;
     align-items: center;
+    padding-inline: 1rem;
   }
 
   .about-text {
     padding-top: 0;
     text-align: center;
     align-items: center;
+    max-width: 100%;
   }
 
   .about-heading {
-    font-size: 1.8rem;
+    font-size: 1.4rem;  /* even smaller heading for phones */
     text-align: center;
     padding-left: 0;
+    margin-bottom: 14px;
   }
 
-  .about-typewriter {
-    font-size: 1.05rem;
-    line-height: 1.7;
+  .about-typewriter,
+  .typed-text {
+    font-size: 0.85rem;  /* smaller text for phones */
+    line-height: 1.6;
     padding-left: 0;
     text-align: center;
   }
@@ -244,8 +324,8 @@
 
   .about-logos {
     width: 100%;
-    padding-top: 0.1rem;
-    padding-left: 0.5rem;
+    padding-top: 0.25rem;
+    padding-left: 0;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
@@ -253,14 +333,13 @@
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
-    gap: 1.5rem;
+    gap: 1rem;
   }
 
   .logo-img {
-    width: 60px;
+    width: 50px;
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     transition: transform 0.3s ease;
-    align-items: center;
   }
 }
