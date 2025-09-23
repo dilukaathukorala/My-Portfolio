@@ -153,6 +153,7 @@
   background-color: rgb(71, 152, 125);
   color: white;
 }
+
 .doc{
   margin-left: 0.5rem;
 }
@@ -173,7 +174,6 @@
   display: inline-block;
   animation: shake 3s infinite;
 }
-
 
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
@@ -314,24 +314,33 @@
   height: 100vh;
 }
 
-/* === Mobile Adjustments === */
+/* === Mobile and Tablet Adjustments === */
 @media (max-width: 768px) {
   .hero-section {
     padding: 1.5rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .hero-content {
     flex-direction: column;
-    text-align: center;
     padding-top: 120px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
   }
 
+  .hero-left,
   .hero-right {
-    margin-top: 2rem;
+    flex: 1;
+    min-width: 280px;
+    text-align: center;
   }
 
   .hero-title {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 
   .hero-description {
@@ -351,5 +360,9 @@
 
   .hero-image {
     max-width: 240px;
+  }
+
+  .menu-backdrop {
+    display: none;
   }
 }
