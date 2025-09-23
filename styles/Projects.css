@@ -1,3 +1,4 @@
+/* ===== Base / Desktop styles (unchanged) ===== */
 html, body {
   margin: 0;
   padding: 0;
@@ -44,9 +45,7 @@ html, body {
   scrollbar-width: none;
 }
 
-.cards-container::-webkit-scrollbar {
-  display: none;
-}
+.cards-container::-webkit-scrollbar { display: none; }
 
 .project-card {
   scroll-snap-align: center;
@@ -77,6 +76,7 @@ html, body {
   padding: 2rem;
   text-align: center;
   overflow-y: auto;
+  overflow-x: hidden; /* prevent horizontal scroll inside the card */
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
 }
 
@@ -100,7 +100,7 @@ html, body {
   text-decoration: none;
 }
 
-/* Arrows */
+/* Arrow buttons (desktop default) */
 .arrow-button {
   position: absolute;
   top: 50%;
@@ -110,9 +110,9 @@ html, body {
   border: none;
   color: white;
   font-size: 2rem;
-  width: 50px;   /* FIXED WIDTH */
-  height: 50px;  /* FIXED HEIGHT */
-  border-radius: 50%; /* Perfect circle */
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -120,18 +120,9 @@ html, body {
   user-select: none;
   transition: background-color 0.3s ease;
 }
-
-.arrow-button:hover {
-  background-color: rgba(0, 0, 0, 0.6);
-}
-
-.arrow-button.left {
-  left: 10px;
-}
-
-.arrow-button.right {
-  right: 10px;
-}
+.arrow-button:hover { background-color: rgba(0, 0, 0, 0.6); }
+.arrow-button.left  { left: 10px; }
+.arrow-button.right { right: 10px; }
 
 /* Image Coverflow Carousel */
 .image-carousel-container {
@@ -188,7 +179,7 @@ html, body {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
-/* Inner carousel navigation buttons */
+/* Optional inner image nav */
 .img-nav {
   background: rgba(0, 0, 0, 0.3);
   color: white;
@@ -200,18 +191,10 @@ html, body {
   padding: 0.3rem 0.7rem;
   transition: background-color 0.3s ease;
 }
+.img-nav:hover { background-color: rgba(0, 0, 0, 0.6); }
+.img-nav.left  { margin-right: 1rem; }
+.img-nav.right { margin-left: 1rem; }
 
-.img-nav:hover {
-  background-color: rgba(0, 0, 0, 0.6);
-}
-
-.img-nav.left {
-  margin-right: 1rem;
-}
-
-.img-nav.right {
-  margin-left: 1rem;
-}
 .carousel-frame {
   border: 3px solid white;
   border-radius: 12px;
@@ -221,47 +204,20 @@ html, body {
   height: 100%;
   box-sizing: border-box;
 }
-/* Arrows start below the card, hidden */
+
+/* Hidden-at-start classes used for the desktop arrow intro animation */
 .arrow-hidden {
   opacity: 0;
   transform: translateY(60px) scale(0.8);
   pointer-events: none;
 }
 
-/* Initial hidden position: beneath the card, centered */
-.arrow-hidden {
-  position: absolute;
-  bottom: -40px;
-  left: 50%;
-  transform: translateX(-50%) scale(0.9);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 1;
-}
+/* Initial hidden position duplicates (kept from original) */
+.arrow-hidden { position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%) scale(0.9); opacity: 0; pointer-events: none; z-index: 1; }
+.arrow-hidden { position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%) scale(0.9); opacity: 0; pointer-events: none; z-index: 1; }
+.arrow-hidden { position: absolute; bottom: -60px; left: 50%; transform: translateX(-50%) scale(0.9); opacity: 0; pointer-events: none; z-index: 1; }
 
-/* Initially hidden and stacked under card at center */
-.arrow-hidden {
-  position: absolute;
-  bottom: -50px;
-  left: 50%;
-  transform: translateX(-50%) scale(0.9);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Initially hidden and stacked at center */
-.arrow-hidden {
-  position: absolute;
-  bottom: -60px;
-  left: 50%;
-  transform: translateX(-50%) scale(0.9);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* ✅ Base Arrow Button Style */
+/* Base Arrow Button Style (for the slide-in under the card) */
 .arrow-button {
   position: absolute;
   bottom: -60px;
@@ -284,13 +240,9 @@ html, body {
   pointer-events: none;
   transition: background-color 0.3s ease;
 }
+.arrow-button:hover { background-color: rgba(0, 0, 0, 0.6); }
 
-/* ✅ Hover Style */
-.arrow-button:hover {
-  background-color: rgba(0, 0, 0, 0.6);
-}
-
-/* ✅ Initially hidden at center */
+/* Initially hidden and centered under the card */
 .arrow-hidden {
   left: 50%;
   opacity: 0;
@@ -298,95 +250,86 @@ html, body {
   pointer-events: none;
 }
 
-/* ✅ Animation Triggers */
-.arrow-slide-left {
-  animation: slideFromCenterToLeft 1.6s ease-in-out forwards;
-}
+/* Animation triggers */
+.arrow-slide-left  { animation: slideFromCenterToLeft 1.6s ease-in-out forwards; }
+.arrow-slide-right { animation: slideFromCenterToRight 1.6s ease-in-out forwards; }
 
-.arrow-slide-right {
-  animation: slideFromCenterToRight 1.6s ease-in-out forwards;
-}
-
-/* ✅ Left Arrow Animation */
+/* Left Arrow Animation (desktop) */
 @keyframes slideFromCenterToLeft {
-  0% {
-    left: 50%;
-    transform: translateX(-50%) scale(0.9);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0;
-  }
-  20% {
-    opacity: 0;
-  }
-  30% {
-    opacity: 0;
-  }
-  40% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0;
-  }
-  60% {
-    opacity: 0;
-  }
-  70% {
-    opacity: 0.3;
-  }
-  80% {
-    opacity: 0.6;
-  }
-  90% {
-    opacity: 0.9;
-  }
-  100% {
-    left: 70px;
-    transform: translateX(0%) scale(1);
-    opacity: 1;
-  }
+  0%   { left: 50%; transform: translateX(-50%) scale(0.9); opacity: 0; }
+  70%  { opacity: 0.3; }
+  80%  { opacity: 0.6; }
+  90%  { opacity: 0.9; }
+  100% { left: 70px; transform: translateX(0%) scale(1); opacity: 1; }
 }
 
-/* ✅ Right Arrow Animation */
+/* Right Arrow Animation (desktop) */
 @keyframes slideFromCenterToRight {
-  0% {
-    left: 50%;
-    transform: translateX(-50%) scale(0.9);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0;
-  }
-  20% {
-    opacity: 0;
-  }
-  30% {
-    opacity: 0;
-  }
-  40% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 0;
-  }
-  60% {
-    opacity: 0;
-  }
-  70% {
-    opacity: 0.3;
-  }
-  80% {
-    opacity: 0.6;
-  }
-  90% {
-    opacity: 0.9;
-  }
-  100% {
-    left: calc(100% - 100px); /* 100% - button width - margin */
-    transform: translateX(0%) scale(1);
-    opacity: 1;
-  }
+  0%   { left: 50%; transform: translateX(-50%) scale(0.9); opacity: 0; }
+  70%  { opacity: 0.3; }
+  80%  { opacity: 0.6; }
+  90%  { opacity: 0.9; }
+  100% { left: calc(100% - 100px); transform: translateX(0%) scale(1); opacity: 1; }
 }
 
+/* ===== Mobile/Tablet-only adjustments (desktop untouched) ===== */
+@media (max-width: 1024px) {
+  /* Swipe-only UX: hide arrow buttons entirely */
+  .arrow-button { display: none !important; }
 
+  /* Use safe viewport height and center the title */
+  .projects-section { min-height: 100svh; height: auto; }
+  .projects-title {
+    margin: 2rem auto 0;
+    text-align: center;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+  }
+
+  /* ---- GUTTERS + SNAP-PER-CARD ---- */
+  .cards-container {
+    --gutter: clamp(12px, 4vw, 24px);
+    padding-inline: var(--gutter);
+    scroll-padding-inline: var(--gutter);
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+    overscroll-behavior-x: contain;
+  }
+
+  .project-card {
+    flex: 0 0 calc(100% - calc(var(--gutter) * 2));
+    scroll-snap-align: center;
+    scroll-snap-stop: always; /* 1 swipe = 1 card */
+    padding: 0.75rem;
+  }
+
+  .card-inner {
+    max-width: 100%;
+    padding: clamp(1rem, 3vw, 1.5rem);
+    border-radius: 16px;
+  }
+
+  /* Downscale text & carousel a touch */
+  .card-title { font-size: clamp(1.1rem, 3.2vw, 1.6rem); }
+  .card-description { font-size: clamp(0.9rem, 2.6vw, 1rem); }
+  .github-link { font-size: clamp(0.9rem, 2.6vw, 1rem); }
+
+  .image-carousel { height: clamp(140px, 32vw, 180px); }
+  .carousel-image-wrapper {
+    width: clamp(120px, 30vw, 160px);
+    height: clamp(80px, 20vw, 110px);
+  }
+  .carousel-image-wrapper.left  { transform: translateX(clamp(-110px, -24vw, -140px)) scale(0.8); }
+  .carousel-image-wrapper.right { transform: translateX(clamp(110px, 24vw, 140px))  scale(0.8); }
+  .carousel-frame { border-width: 2px; border-radius: 10px; padding: 3px; }
+}
+
+/* Extra small phones */
+@media (max-width: 480px) {
+  .projects-section { padding: 0 0.25rem; }
+  .project-card { padding: 0.5rem; }
+  .image-carousel { height: clamp(120px, 36vw, 160px); }
+  .carousel-image-wrapper {
+    width: clamp(110px, 40vw, 140px);
+    height: clamp(70px, 26vw, 100px);
+  }
+}
