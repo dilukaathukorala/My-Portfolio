@@ -7,12 +7,12 @@ import SocialMedia from './SocialMedia';
 const skillsList = [
   { name: 'JavaScript', level: 75 },
   { name: 'Java', level: 60 },
-  { name: 'HTML', level: 70 },
+  { name: 'HTML', level: 90 },
   { name: 'Kotlin', level: 50 },
   { name: 'SQL', level: 60 },
   { name: 'PHP', level: 65 },
   { name: 'C++', level: 60 },
-  { name: 'CSS', level: 70 },
+  { name: 'CSS', level: 80 },
   { name: 'React', level: 65 },
   { name: 'Figma', level: 75 },
   { name: 'Adobe Illustrator', level: 75 },
@@ -56,10 +56,10 @@ const Skills = () => {
                       y2="100"
                       gradientUnits="userSpaceOnUse"
                     >
-                      <stop offset="0%" stopColor="greenyellow" />
-                      <stop offset="33%" stopColor="#34baa4ff" />
-                      <stop offset="66%" stopColor="#2a97a8ff" />
-                      <stop offset="75%" stopColor="#4a7faaff" />
+                      <stop offset="0%" stopColor="whitesmoke" />
+                      <stop offset="33%" stopColor="whitesmoke" />
+                      <stop offset="66%" stopColor="whitesmoke" />
+                      <stop offset="75%" stopColor="whitesmoke" />
                     </linearGradient>
                   </defs>
                   {/* Background circle */}
