@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState, forwardRef } from 'react';
 import Image from 'next/image';
 import '../styles/Projects.css';
+import SocialMedia from "./SocialMedia";
 
 const baseProjects = [
   {
@@ -136,6 +137,7 @@ export default function Project() {
 
         <button className="arrow-button right arrow-hidden" onClick={() => scrollToCard('right')}>&#10095;</button>
       </div>
+      <SocialMedia />
     </section>
   );
 }
