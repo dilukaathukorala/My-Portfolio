@@ -46,84 +46,139 @@ const baseProjects = [
 
 export default function Project() {
   const containerRef = useRef(null);
+  const sectionRef = useRef(null);
   const cardRefs = useRef([]);
 
+  // 3x duplication supports seamless wrap-around
   const [projects] = useState([
     ...baseProjects,
     ...baseProjects,
     ...baseProjects
   ]);
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const third = container.scrollWidth / 3;
-    container.scrollLeft = third;
-
-    const handleScroll = () => {
-      const scrollLeft = container.scrollLeft;
-      const viewWidth = container.clientWidth;
-
-      if (scrollLeft <= third * 0.5) {
-        container.style.scrollBehavior = 'auto';
-        container.scrollLeft = scrollLeft + third;
-        requestAnimationFrame(() => {
-          container.style.scrollBehavior = 'smooth';
-        });
-      } else if (scrollLeft >= third * 2.5 - viewWidth) {
-        container.style.scrollBehavior = 'auto';
-        container.scrollLeft = scrollLeft - third;
-        requestAnimationFrame(() => {
-          container.style.scrollBehavior = 'smooth';
-        });
-      }
-    };
-
-    container.addEventListener('scroll', handleScroll);
-
-    requestAnimationFrame(() => {
-      cardRefs.current.forEach((card, i) => {
-        if (!card) return;
-        setTimeout(() => {
-          card.classList.add('animate-in');
-        }, i * 100);
-      });
-
-      setTimeout(() => {
-        const leftBtn = document.querySelector('.arrow-button.left');
-        const rightBtn = document.querySelector('.arrow-button.right');
-
-        if (leftBtn && rightBtn) {
-          leftBtn.classList.remove('arrow-hidden');
-          rightBtn.classList.remove('arrow-hidden');
-          leftBtn.classList.add('arrow-slide-left');
-          rightBtn.classList.add('arrow-slide-right');
-
-          // ✅ Ensure buttons are clickable
-          leftBtn.style.pointerEvents = 'auto';
-          rightBtn.style.pointerEvents = 'auto';
-        }
-      }, 800);
-    });
-
-    return () => container.removeEventListener('scroll', handleScroll);
-  }, []);
+  const isSmallScreen = () =>
+    typeof window !== 'undefined' &&
+    window.matchMedia('(max-width: 1024px)').matches;
 
   const scrollToCard = (direction) => {
     const container = containerRef.current;
     if (!container) return;
-    const cardWidth = container.offsetWidth;
-    const scrollAmount = direction === 'left' ? -cardWidth : cardWidth;
-    container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    const cardWidth = container.offsetWidth; // full viewport width chunk
+    container.scrollBy({
+      left: direction === 'left' ? -cardWidth : cardWidth,
+      behavior: 'smooth'
+    });
   };
 
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const recalcAndCenter = () => {
+      // place at the start of the middle copy
+      const oneLoop = container.scrollWidth / 3;
+      container.style.scrollBehavior = 'auto';
+      container.scrollLeft = oneLoop;
+      requestAnimationFrame(() => (container.style.scrollBehavior = 'smooth'));
+    };
+
+    recalcAndCenter();
+
+    const handleScroll = () => {
+      const oneLoop = container.scrollWidth / 3;
+      const viewWidth = container.clientWidth;
+      const x = container.scrollLeft;
+
+      // loop left
+      if (x <= oneLoop * 0.5) {
+        container.style.scrollBehavior = 'auto';
+        container.scrollLeft = x + oneLoop;
+        requestAnimationFrame(() => (container.style.scrollBehavior = 'smooth'));
+      }
+      // loop right
+      else if (x >= oneLoop * 2.5 - viewWidth) {
+        container.style.scrollBehavior = 'auto';
+        container.scrollLeft = x - oneLoop;
+        requestAnimationFrame(() => (container.style.scrollBehavior = 'smooth'));
+      }
+    };
+
+    const handleResize = () => {
+      recalcAndCenter();
+    };
+
+    // Desktop-only keyboard arrows
+    const handleKeyDown = (e) => {
+      if (isSmallScreen()) return; // ignore on tablet/mobile
+      // Only react if the Projects section is in view/focused region
+      const sec = sectionRef.current;
+      if (!sec) return;
+
+      // If focus is somewhere inside the section or body, allow arrows
+      const active = document.activeElement;
+      const withinSection = active && sec.contains(active);
+      const allow = withinSection || active === document.body || active === document.documentElement;
+
+      if (!allow) return;
+
+      if (e.key === 'ArrowLeft' || e.key === 'Left') {
+        e.preventDefault();
+        scrollToCard('left');
+      } else if (e.key === 'ArrowRight' || e.key === 'Right') {
+        e.preventDefault();
+        scrollToCard('right');
+      }
+    };
+
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Entrance animations
+    requestAnimationFrame(() => {
+      // Fade in cards (all sizes)
+      cardRefs.current.forEach((card, i) => {
+        if (!card) return;
+        setTimeout(() => card.classList.add('animate-in'), i * 100);
+      });
+
+      // Slide-in arrow buttons (DESKTOP ONLY)
+      if (!isSmallScreen()) {
+        setTimeout(() => {
+          const leftBtn = document.querySelector('.arrow-button.left');
+          const rightBtn = document.querySelector('.arrow-button.right');
+          if (leftBtn && rightBtn) {
+            leftBtn.classList.remove('arrow-hidden');
+            rightBtn.classList.remove('arrow-hidden');
+            leftBtn.classList.add('arrow-slide-left');
+            rightBtn.classList.add('arrow-slide-right');
+            leftBtn.style.pointerEvents = 'auto';
+            rightBtn.style.pointerEvents = 'auto';
+          }
+        }, 800);
+      }
+    });
+
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
   return (
-    <section className="projects-section">
+    <section className="projects-section" ref={sectionRef} tabIndex={-1} aria-label="Projects carousel">
       <h2 className="projects-title">Projects</h2>
 
       <div className="carousel-wrapper">
-        <button className="arrow-button left arrow-hidden" onClick={() => scrollToCard('left')}>&#10094;</button>
+        {/* Hidden via CSS on <=1024px (buttons for desktop only) */}
+        <button
+          className="arrow-button left arrow-hidden"
+          onClick={() => scrollToCard('left')}
+          aria-label="Previous project"
+        >
+          &#10094;
+        </button>
 
         <div className="cards-container" ref={containerRef}>
           {projects.map((project, index) => (
@@ -135,7 +190,13 @@ export default function Project() {
           ))}
         </div>
 
-        <button className="arrow-button right arrow-hidden" onClick={() => scrollToCard('right')}>&#10095;</button>
+        <button
+          className="arrow-button right arrow-hidden"
+          onClick={() => scrollToCard('right')}
+          aria-label="Next project"
+        >
+          &#10095;
+        </button>
       </div>
       <SocialMedia />
     </section>
@@ -167,7 +228,15 @@ const ProjectCard = forwardRef(({ project }, ref) => {
               return (
                 <div key={idx} className={`carousel-image-wrapper ${position}`}>
                   <div className="carousel-frame">
-                    <Image src={src} alt={`${project.title} ${idx}`} fill className="carousel-image" />
+                    <Image
+                      src={src}
+                      alt={`${project.title} ${idx + 1}`}
+                      fill
+                      sizes="(max-width: 480px) 140px,
+                             (max-width: 768px) 180px,
+                             180px"
+                      className="carousel-image"
+                    />
                   </div>
                 </div>
               );
