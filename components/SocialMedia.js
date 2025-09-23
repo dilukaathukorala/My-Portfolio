@@ -1,13 +1,94 @@
 "use client";
 
 import React from "react";
+import { createPortal } from "react-dom";
 import "../styles/SocialMedia.css";
 
 export default function SocialMedia() {
+  const [mounted, setMounted] = React.useState(false);
+  const [rootEl, setRootEl] = React.useState(null);
+
+  React.useEffect(() => {
+    // Create a single fixed root under <body> so position:fixed is viewport-based
+    const existing = document.querySelector('[data-social-icons-root="true"]');
+    if (existing) {
+      setRootEl(existing);
+      setMounted(true);
+      return;
+    }
+    const el = document.createElement("div");
+    el.setAttribute("data-social-icons-root", "true");
+    document.body.appendChild(el);
+    setRootEl(el);
+    setMounted(true);
+
+    return () => {
+      // Keep the root if other pages/components rely on it
+    };
+  }, []);
+
+  if (!mounted || !rootEl) return null;
+
+  // Touch flow: start slow fill, navigate after transition ends
+  function handlePointerDown(e, href) {
+    // Only intercept real touch (finger/stylus). Mouse should behave normally.
+    if (e.pointerType !== "touch") return;
+
+    // Prevent the default so the browser doesn't navigate immediately on touch
+    e.preventDefault();
+
+    const link = e.currentTarget;
+    const fillEl = link.querySelector(".filled");
+    if (!fillEl) return;
+
+    // If already animating, ignore
+    if (link.classList.contains("is-activating")) return;
+
+    // Mark so the subsequent 'click' event (which mobile browsers often fire)
+    // can be canceled.
+    link.dataset.blockClick = "1";
+
+    // Trigger the slow fill state (CSS handles 1.5s transition)
+    link.classList.add("is-activating");
+
+    // Navigate only when the height transition finishes
+    const onEnd = (ev) => {
+      if (ev.propertyName !== "height") return;
+      fillEl.removeEventListener("transitionend", onEnd);
+
+      // Open in new tab (matches your previous behavior). Change to _self if you prefer.
+      window.open(href, "_blank", "noopener,noreferrer");
+
+      // Cleanup so it can animate again if user comes back
+      setTimeout(() => {
+        link.classList.remove("is-activating");
+        delete link.dataset.blockClick;
+      }, 200);
+    };
+
+    fillEl.addEventListener("transitionend", onEnd);
+  }
+
+  // Desktop click: allow normal navigation.
+  // But if a touch activation just happened (blockClick flag), suppress this click.
+  function handleClick(e) {
+    const link = e.currentTarget;
+
+    // If a touch activation is in progress or just set, block the click
+    if (link.dataset.blockClick === "1" || link.classList.contains("is-activating")) {
+      e.preventDefault();
+      return;
+    }
+
+    // For mouse users using modifiers, don't interfere (browser handles it).
+    // No extra handling needed—just let it navigate normally.
+  }
+
   const icons = [
     {
       name: "LinkedIn",
       href: "https://www.linkedin.com/in/diluka-athukorala-703247214/",
+      viewBox: "0 0 24 24",
       svgPath: (
         <path
           fill="currentColor"
@@ -25,12 +106,11 @@ export default function SocialMedia() {
           0 4 1.794 4 4v5z"
         />
       ),
-      viewBox: "0 0 24 24",
-      fill: "#0274b3",
     },
     {
       name: "GitHub",
       href: "https://github.com/dilukaathukorala",
+      viewBox: "0 0 16 16",
       svgPath: (
         <path
           fill="currentColor"
@@ -52,12 +132,11 @@ export default function SocialMedia() {
           0 0 0 16 8c0-4.42-3.58-8-8-8z"
         />
       ),
-      viewBox: "0 0 16 16",
-      fill: "#24262a",
     },
     {
       name: "Instagram",
       href: "https://www.instagram.com/dilu_athukorala/",
+      viewBox: "0 0 512 512",
       svgPath: (
         <path
           fill="currentColor"
@@ -69,28 +148,26 @@ export default function SocialMedia() {
           256,330.67ZM370.67,144a26.67,26.67,0,1,0,26.66,26.67A26.69,26.69,0,0,0,370.67,144Z"
         />
       ),
-      viewBox: "0 0 512 512",
-      fill: "linear-gradient(45deg,#405de6,#5b51db,#b33ab4,#c135b4,#e1306c,#fd1f1f)",
     },
   ];
 
-  return (
-    <ul className="social-icons">
-      {icons.map((icon, index) => (
-        <li className="icon-content" key={index}>
+  const list = (
+    <ul className="social-icons" aria-label="Social media links">
+      {icons.map((icon) => (
+        <li className="icon-content" key={icon.name}>
           <a
             href={icon.href}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={icon.name}
             data-social={icon.name.toLowerCase()}
+            onPointerDown={(e) => handlePointerDown(e, icon.href)}  // touch flow
+            onClick={handleClick}                                    // mouse flow
           >
             <div className="filled" />
             <svg
               className="icon-svg"
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
               viewBox={icon.viewBox}
             >
               {icon.svgPath}
@@ -101,4 +178,6 @@ export default function SocialMedia() {
       ))}
     </ul>
   );
+
+  return createPortal(list, rootEl);
 }
