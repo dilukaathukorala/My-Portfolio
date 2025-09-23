@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import emailjs from '@emailjs/browser';
 import '../styles/Contact.css';
+import SocialMedia from "./SocialMedia";
 
 // 🔑 Replace with your actual EmailJS credentials
 const SERVICE_ID = 'service_qkk0rka';
@@ -222,6 +223,7 @@ export default function Contact() {
           </div>
         </div>
       )}
+      <SocialMedia />
     </>
   );
 }
