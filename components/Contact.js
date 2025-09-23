@@ -1,10 +1,10 @@
 'use client';
 
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import emailjs from '@emailjs/browser';
 import '../styles/Contact.css';
-import SocialMedia from "./SocialMedia";
+import SocialMedia from './SocialMedia';
 
 // 🔑 Replace with your actual EmailJS credentials
 const SERVICE_ID = 'service_qkk0rka';
@@ -25,9 +25,46 @@ const COUNTRY_CODES = [
   { code: '+49', label: '🇩🇪 Germany (+49)' },
 ];
 
+// 📏 Per-country phone digit rules (without country code)
+const PHONE_RULES = {
+  '+1':  { min: 10, max: 10 },
+  '+44': { min: 10, max: 10 }, // treating UK as 10 for mobiles/common
+  '+61': { min:  9, max:  9 },
+  '+81': { min: 10, max: 10 },
+  '+91': { min: 10, max: 10 },
+  '+94': { min:  9, max:  9 }, // Sri Lanka
+  '+33': { min:  9, max:  9 },
+  '+34': { min:  9, max:  9 },
+  '+39': { min:  9, max: 10 },
+  '+49': { min:  7, max: 11 },
+};
+
+function lengthText({ min, max }) {
+  return min === max ? `${min} digits` : `${min}–${max} digits`;
+}
+function makeDigitsRegex({ min, max }) {
+  return new RegExp(`^\\d{${min === max ? `${min}` : `${min},${max}`}}$`);
+}
+
 export default function Contact() {
   const [sending, setSending] = useState(false);
-  const [status, setStatus] = useState(null);
+  const [status, setStatus]   = useState(null);
+
+  // Start with NO selection
+  const [countryCode, setCountryCode] = useState('');
+  const rule = useMemo(
+    () => (countryCode ? (PHONE_RULES[countryCode] ?? { min: 7, max: 15 }) : null),
+    [countryCode]
+  );
+
+  const phonePattern = useMemo(
+    () => (rule ? makeDigitsRegex(rule).source : '\\d*'),
+    [rule]
+  );
+  const phonePlaceholder = useMemo(
+    () => (rule ? (rule.min === rule.max ? `${rule.min} digits` : `${rule.min}-${rule.max} digits`) : 'Select country first'),
+    [rule]
+  );
 
   useEffect(() => {
     try { emailjs.init(PUBLIC_KEY); }
@@ -39,8 +76,21 @@ export default function Contact() {
     if (!firstName || !/^[A-Za-z\s]{3,}$/.test(firstName)) errs.push('First name must be at least 3 letters (A–Z).');
     if (!lastName  || !/^[A-Za-z\s]{3,}$/.test(lastName))  errs.push('Last name must be at least 3 letters (A–Z).');
     if (!/^[^\s@]+@gmail\.com$/i.test(email)) errs.push('Email must be a valid Gmail address (e.g. yourname@gmail.com).');
-    if (!countryCode || !/^\+\d{1,3}$/.test(countryCode)) errs.push('Please select a valid country code (e.g. +94).');
-    if (!/^\d{9}$/.test(phoneDigits)) errs.push('Phone number must contain exactly 9 digits (after the country code).');
+
+    if (!countryCode) {
+      errs.push('Please select a country code.');
+    } else if (!/^\+\d{1,3}$/.test(countryCode)) {
+      errs.push('Please select a valid country code (e.g. +94).');
+    }
+
+    if (countryCode) {
+      const r  = PHONE_RULES[countryCode] ?? { min: 7, max: 15 };
+      const rx = makeDigitsRegex(r);
+      if (!rx.test(phoneDigits)) {
+        errs.push(`Phone number must contain ${lengthText(r)} (digits only) for the selected country.`);
+      }
+    }
+
     if (!message || message.trim().length < 10) errs.push('Message must be at least 10 characters.');
     return errs;
   };
@@ -50,22 +100,22 @@ export default function Contact() {
     setSending(true);
     setStatus(null);
 
-    const form = e.currentTarget;
+    const form        = e.currentTarget;
     const firstName   = form.firstName.value.trim();
     const lastName    = form.lastName.value.trim();
     const email       = form.email.value.trim();
-    const countryCode = form.countryCode.value;
+    const cc          = form.countryCode.value;
     const phoneDigits = form.phoneDigits.value.trim();
     const message     = form.message.value.trim();
 
-    const errors = validateForm({ firstName, lastName, email, countryCode, phoneDigits, message });
+    const errors = validateForm({ firstName, lastName, email, countryCode: cc, phoneDigits, message });
     if (errors.length) {
       setStatus({ type: 'form-error', msgs: errors });
       setSending(false);
       return;
     }
 
-    const phone = `${countryCode}${phoneDigits}`;
+    const phone = `${cc}${phoneDigits}`;
 
     try {
       const res = await emailjs.send(
@@ -73,11 +123,12 @@ export default function Contact() {
         TEMPLATE_ID,
         { firstName, lastName, email, phone, message }
       );
-
       if (res.status !== 200) throw new Error(`Unexpected status: ${res.status}`);
 
       setStatus({ type: 'success', msgs: ['Message sent! Diluka will get back to you soon.'] });
       form.reset();
+      // keep the chosen country in state (select resets with the form)
+      setCountryCode(cc);
     } catch (err) {
       console.error('EmailJS internal error:', err);
       setStatus({ type: 'system-error', msgs: ['System error. Please try again later.'] });
@@ -139,9 +190,7 @@ export default function Contact() {
             <div className="contact-info">
               <h3>Contact</h3>
               <h2>
-                For commissions <br />
-                and project inquiries, <br />
-                please email:
+                Prefer sending a detailed email with attachments? Reach me directly at:
               </h2>
               <a href="mailto:dilukaathukorala@gmail.com" className="contact-email">
                 dilukaathukorala@gmail.com
@@ -168,20 +217,33 @@ export default function Contact() {
 
               <div className="form-row">
                 <div className="form-field">
-                  <select id="countryCode" name="countryCode" className="country-select" defaultValue="+94" required>
+                  <select
+                    id="countryCode"
+                    name="countryCode"
+                    className="country-select"
+                    value={countryCode}
+                    onChange={(e) => setCountryCode(e.target.value)}
+                    required
+                  >
+                    <option value="" disabled hidden>
+                      Select country code ▼
+                    </option>
                     {COUNTRY_CODES.map((c) => (
                       <option key={c.code} value={c.code}>{c.label}</option>
                     ))}
                   </select>
                 </div>
+
                 <div className="form-field">
                   <input
                     id="phoneDigits"
                     name="phoneDigits"
                     type="tel"
-                    placeholder="9-digit number"
+                    placeholder={phonePlaceholder}
                     inputMode="numeric"
-                    pattern="\d{9}"
+                    pattern={phonePattern}
+                    maxLength={rule ? rule.max : undefined}
+                    disabled={!countryCode}
                     required
                   />
                 </div>
@@ -201,10 +263,12 @@ export default function Contact() {
 
       {status && (
         <div className="status-overlay">
-          <div className={`status-modal ${
-            status.type === 'success' ? 'success' :
-            status.type === 'form-error' ? 'error' : 'error'
-          }`}>
+          <div
+            className={`status-modal ${
+              status.type === 'success' ? 'success' :
+              status.type === 'form-error' ? 'error' : 'error'
+            }`}
+          >
             <button className="close-btn" onClick={() => setStatus(null)} aria-label="Close message">✖</button>
             <h3>
               {status.type === 'success'
