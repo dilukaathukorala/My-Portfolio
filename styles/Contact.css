@@ -381,3 +381,40 @@ html, body {
 @media (max-width: 380px){
   .social-btn{ width: 40px; height: 40px; border-radius: 10px; }
 }
+
+/* ===========================
+   Desktop & Laptop: no scroll
+   =========================== */
+@media (min-width: 1025px) {
+  /* Lock the page */
+  html, body {
+    height: 100%;
+    overflow: hidden;          /* disable scrolling */
+  }
+
+  /* Ensure the section fits exactly in the viewport */
+  .skills-section {
+    height: 100vh;
+    min-height: 100vh;
+    overflow: hidden;          /* prevent internal scroll */
+    padding-top: 6rem;
+    padding-bottom: 3rem;
+  }
+
+  .contact-container {
+    height: calc(100vh - 9rem); /* account for padding */
+    min-height: unset;
+    align-items: center;
+  }
+
+  /* Remove vertical offsets that caused overflow */
+  .contact-left,
+  .contact-right {
+    margin-top: 0;
+  }
+
+  /* Keep desktop right margin if you want */
+  .contact-right {
+    margin-right: 6rem;
+  }
+}
