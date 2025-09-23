@@ -1,8 +1,9 @@
+/* ====== Base layout ====== */
 .skills-section {
   height: 100%;
   width: 100%;
   background: linear-gradient(135deg, #4c6a85, #41207e, #0f1d65, #030325);
-  padding: 3rem 4rem 2rem 1rem;
+  padding: 3rem 2rem;            /* symmetric padding */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,10 +12,8 @@
 
 .skills-box {
   background: rgba(255, 255, 255, 0.25);
-  margin-bottom: 4rem;
-  margin-top: 4rem;
-  padding: 1rem 3rem;
-  margin-right: 4rem;
+  margin: 4rem auto;             /* centered, margin from both sides handled by width */
+  padding: 1.25rem 2.5rem;
   border-radius: 16px;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
   max-width: 1000px;
@@ -31,7 +30,7 @@
 }
 
 .skills-heading {
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   text-align: center;
   font-size: 2.5rem;
   font-weight: 800;
@@ -59,6 +58,7 @@
   transform: scale(1.1);
 }
 
+/* ====== Circular meters ====== */
 .circle {
   position: relative;
   width: 100px;
@@ -107,48 +107,166 @@
   font-weight: 500;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+/* ====== Tablet (≤ 1024px) ====== */
+@media (max-width: 1024px) {
+  .skills-section {
+    padding: 2.5rem 1.5rem;        /* a bit tighter horizontally */
+  }
+
   .skills-box {
-    padding: 2rem 1.5rem;
+    padding: 1.25rem 2rem;
+    margin: 3rem 1.5rem;           /* margin on both sides */
   }
 
   .skills-heading {
-    font-family: quicksand, sans-serif;
     font-size: 2rem;
   }
 
+  .skills-grid {
+    gap: 1.75rem;
+  }
+
   .circle {
-    width: 80px;
-    height: 80px;
+    width: 85px;
+    height: 85px;
   }
 
   .circle svg {
-    width: 80px;
-    height: 80px;
+    width: 85px;
+    height: 85px;
   }
 
-  .circle svg circle {
-    stroke-width: 8;
+  .circle svg circle:first-child,
+  .circle svg circle:nth-child(2) {
+    stroke-width: 10;
   }
 
   .percentage {
-    font-family: quicksand, sans-serif;
     font-size: 0.9rem;
+  }
+
+  .skill-name {
+    font-size: 0.95rem;
   }
 }
 
-@media (max-width: 480px) {
-  .skills-grid {
-    grid-template-columns: repeat(2, 1fr);
+/* ====== Tablet / Large mobile (≤ 768px) ====== */
+@media (max-width: 768px) {
+  .skills-section {
+    padding: 2rem 1rem;
   }
 
   .skills-box {
-    padding: 2rem 1rem;
+    padding: 1.2rem 1.5rem;
+    margin: 2rem 1rem;             /* clear margins both sides */
   }
 
   .skills-heading {
     font-family: quicksand, sans-serif;
     font-size: 1.8rem;
+  }
+
+  .skills-grid {
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .circle {
+    width: 70px;
+    height: 70px;
+  }
+
+  .circle svg {
+    width: 70px;
+    height: 70px;
+  }
+
+  .circle svg circle:first-child,
+  .circle svg circle:nth-child(2) {
+    stroke-width: 8;
+  }
+
+  .percentage {
+    font-size: 0.8rem;
+  }
+
+  .skill-name {
+    font-size: 0.9rem;
+  }
+}
+
+/* ====== Small mobile (≤ 480px) ====== */
+@media (max-width: 480px) {
+  .skills-section {
+    padding: 1.75rem 0.8rem;
+  }
+
+  .skills-box {
+    padding: 1rem 1rem;
+    margin: 1.5rem 0.8rem;         /* side margins maintained */
+  }
+
+  .skills-heading {
+    font-family: quicksand, sans-serif;
+    font-size: 1.6rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .circle {
+    width: 60px;
+    height: 60px;
+  }
+
+  .circle svg {
+    width: 60px;
+    height: 60px;
+  }
+
+  .circle svg circle:first-child,
+  .circle svg circle:nth-child(2) {
+    stroke-width: 6;
+  }
+
+  .percentage {
+    font-size: 0.7rem;
+  }
+
+  .skill-name {
+    font-size: 0.8rem;
+  }
+}
+
+/* ====== Very small devices (≤ 360px) ====== */
+@media (max-width: 360px) {
+  .skills-box {
+    margin: 1rem 0.6rem;
+    padding: 0.9rem 0.8rem;
+  }
+
+  .skills-grid {
+    gap: 1rem;
+  }
+
+  .circle {
+    width: 54px;
+    height: 54px;
+  }
+
+  .circle svg {
+    width: 54px;
+    height: 54px;
+  }
+
+  .percentage {
+    font-size: 0.65rem;
+  }
+
+  .skill-name {
+    font-size: 0.75rem;
   }
 }
