@@ -1,4 +1,4 @@
-/* ===== Base / Desktop styles (unchanged) ===== */
+/* ===== Base / Desktop styles ===== */
 html, body {
   margin: 0;
   padding: 0;
@@ -17,22 +17,36 @@ html, body {
   overflow: visible !important;
 }
 
-.projects-title {
-  color: white;
-  font-size: 2.5rem;
-  text-align: center;
-  margin: 3rem 15rem 0 0;
-  z-index: 1;
+/* ✅ Topic header just under the nav bar (reduced spacing so card sits higher) */
+.projects-header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3rem;     /* ↓ from 5rem */
+  margin-bottom: 0;  /* ↓ from 2rem */
+  z-index: 2;
 }
 
+.projects-topic {
+  color: white;
+  font-size: 2.8rem;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+/* Wrapper no longer forces tall height; aligns content to the top */
 .carousel-wrapper {
   position: relative;
   width: 100vw;
-  height: calc(100vh - 4rem); /* minus title height */
+  height: auto;                 /* was calc(100vh - 4rem) */
   display: flex;
-  align-items: center;
+  align-items: flex-start;      /* brings cards closer to header */
   justify-content: center;
   overflow: visible !important;
+  margin-top: 0;   
+  padding-top: 0;
 }
 
 .cards-container {
@@ -44,7 +58,6 @@ html, body {
   scroll-behavior: smooth;
   scrollbar-width: none;
 }
-
 .cards-container::-webkit-scrollbar { display: none; }
 
 .project-card {
@@ -60,11 +73,7 @@ html, body {
   opacity: 0;
   transition: transform 1s ease, opacity 1s ease;
 }
-
-.project-card.animate-in {
-  transform: scale(1);
-  opacity: 1;
-}
+.project-card.animate-in { transform: scale(1); opacity: 1; }
 
 .card-inner {
   width: 100%;
@@ -86,13 +95,11 @@ html, body {
   font-size: 2rem;
   margin-bottom: 1rem;
 }
-
 .card-description {
   color: white;
   font-size: 1.1rem;
   margin-bottom: 1.5rem;
 }
-
 .github-link {
   color: #00ccff;
   font-weight: bold;
@@ -100,7 +107,7 @@ html, body {
   text-decoration: none;
 }
 
-/* Arrow buttons (desktop default) */
+/* Arrow buttons (desktop only visible; hidden on small screens below) */
 .arrow-button {
   position: absolute;
   top: 50%;
@@ -134,7 +141,6 @@ html, body {
   align-items: center;
   justify-content: center;
 }
-
 .image-carousel {
   display: flex;
   justify-content: center;
@@ -143,7 +149,6 @@ html, body {
   width: 100%;
   height: 200px;
 }
-
 .carousel-image-wrapper {
   position: absolute;
   transition: all 0.5s ease;
@@ -153,33 +158,29 @@ html, body {
   opacity: 0;
   pointer-events: none;
 }
-
 .carousel-image-wrapper.center {
   transform: scale(1.1);
   z-index: 3;
   opacity: 1;
   pointer-events: auto;
 }
-
 .carousel-image-wrapper.left {
   transform: translateX(-150px) scale(0.8);
   z-index: 2;
   opacity: 1;
 }
-
 .carousel-image-wrapper.right {
   transform: translateX(150px) scale(0.8);
   z-index: 2;
   opacity: 1;
 }
-
 .carousel-image {
   object-fit: cover;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
-/* Optional inner image nav */
+/* Optional inner image nav (not used by default) */
 .img-nav {
   background: rgba(0, 0, 0, 0.3);
   color: white;
@@ -212,7 +213,7 @@ html, body {
   pointer-events: none;
 }
 
-/* Initial hidden position duplicates (kept from original) */
+/* Initial hidden position duplicates (from original) */
 .arrow-hidden { position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%) scale(0.9); opacity: 0; pointer-events: none; z-index: 1; }
 .arrow-hidden { position: absolute; bottom: -50px; left: 50%; transform: translateX(-50%) scale(0.9); opacity: 0; pointer-events: none; z-index: 1; }
 .arrow-hidden { position: absolute; bottom: -60px; left: 50%; transform: translateX(-50%) scale(0.9); opacity: 0; pointer-events: none; z-index: 1; }
@@ -277,12 +278,19 @@ html, body {
   /* Swipe-only UX: hide arrow buttons entirely */
   .arrow-button { display: none !important; }
 
-  /* Use safe viewport height and center the title */
   .projects-section { min-height: 100svh; height: auto; }
-  .projects-title {
-    margin: 2rem auto 0;
-    text-align: center;
-    font-size: clamp(1.4rem, 4vw, 2rem);
+
+  .projects-header {
+    margin-top: 3rem;       /* comfortable under nav on mobile */
+    margin-bottom: 0; /* small gap before card */
+  }
+
+  .carousel-wrapper {
+  margin-top: 0;
+  padding-top: 0;
+}
+  .projects-topic {
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
   }
 
   /* ---- GUTTERS + SNAP-PER-CARD ---- */
