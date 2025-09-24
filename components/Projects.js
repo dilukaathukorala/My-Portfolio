@@ -38,9 +38,15 @@ const baseProjects = [
   },
   {
     title: "Lens Learn",
-    images: ["/placeholder.png", "/placeholder.png", "/placeholder.png", "/placeholder.png"],
+    images: ["/placeholder1.png", "/placeholder2.png", "/placeholder.png3", "/placeholder4.png"],
     description: "A photography portfolio site built with Spring Boot, Thymeleaf, and AWS S3 cloud storage.",
     githubLink: "https://github.com/dilukaathukorala/Lens-Learn.git"
+  },
+  {
+    title: "My Portfolio Website",
+    images: ["/portfolio1.png", "/portfolio2.png", "/portfolio3.png", "/portfolio4.png"],
+    description: "A personal portfolio built with Next.js, showcasing projects, skills, and experience with a focus on performance, responsive design, creative and clean UI.",
+    githubLink: "https://github.com/dilukaathukorala/My-Portfolio.git"
   }
 ];
 
