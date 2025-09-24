@@ -28,11 +28,11 @@ const COUNTRY_CODES = [
 // 📏 Per-country phone digit rules (without country code)
 const PHONE_RULES = {
   '+1':  { min: 10, max: 10 },
-  '+44': { min: 10, max: 10 }, // treating UK as 10 for mobiles/common
+  '+44': { min: 10, max: 10 },
   '+61': { min:  9, max:  9 },
   '+81': { min: 10, max: 10 },
   '+91': { min: 10, max: 10 },
-  '+94': { min:  9, max:  9 }, // Sri Lanka
+  '+94': { min:  9, max:  9 },
   '+33': { min:  9, max:  9 },
   '+34': { min:  9, max:  9 },
   '+39': { min:  9, max: 10 },
@@ -49,6 +49,7 @@ function makeDigitsRegex({ min, max }) {
 export default function Contact() {
   const [sending, setSending] = useState(false);
   const [status, setStatus]   = useState(null);
+  const [copied, setCopied]   = useState(false);
 
   // Start with NO selection
   const [countryCode, setCountryCode] = useState('');
@@ -137,19 +138,30 @@ export default function Contact() {
     }
   };
 
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText('dilukaathukorala@gmail.com');
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <>
       <Head>
         <title>Contact | Portfolio</title>
-        <meta name="description" content="Get in touch for collaborations, opportunities, or a friendly hello." />
+        <meta
+          name="description"
+          content="Get in touch for collaborations, opportunities, or a friendly hello."
+        />
       </Head>
 
       <section className="skills-section contact-section">
         <div className="contact-container">
-          {/* Left Column */}
+          {/* =========================== */}
+          {/* Left Column with Animation  */}
+          {/* =========================== */}
           <div className="contact-left">
             <div className="contact-icon" aria-hidden="true">
-              {/* Mail → Paper-Plane animation */}
+              {/* Mail → Paper-Plane animation (preserved) */}
               <svg
                 className="mail-rocket-anim"
                 width="96"
@@ -167,7 +179,10 @@ export default function Contact() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
-                  <path className="mail-path mail-outer" d="M15 30 h70 a5 5 0 0 1 5 5 v30 a5 5 0 0 1 -5 5 h-70 a5 5 0 0 1 -5 -5 v-30 a5 5 0 0 1 5 -5 z" />
+                  <path
+                    className="mail-path mail-outer"
+                    d="M15 30 h70 a5 5 0 0 1 5 5 v30 a5 5 0 0 1 -5 5 h-70 a5 5 0 0 1 -5 -5 v-30 a5 5 0 0 1 5 -5 z"
+                  />
                   <path className="mail-path mail-flap" d="M15 32 L50 55 L85 32" />
                   <path className="mail-path mail-inner" d="M15 70 L42 50" />
                   <path className="mail-path mail-inner" d="M85 70 L58 50" />
@@ -192,27 +207,65 @@ export default function Contact() {
               <h2>
                 Prefer sending a detailed email with attachments? Reach me directly at:
               </h2>
-              <a href="mailto:dilukaathukorala@gmail.com" className="contact-email">
-                dilukaathukorala@gmail.com
-              </a>
+
+              {/* Email + Copy button */}
+              <div className="email-row">
+                <a
+                  href="mailto:dilukaathukorala@gmail.com"
+                  className="contact-email"
+                >
+                  dilukaathukorala@gmail.com
+                </a>
+
+                <button
+                  type="button"
+                  className={`copy-btn ${copied ? 'copied' : ''}`}
+                  onClick={handleCopyEmail}
+                  aria-label={copied ? 'Copied' : 'Copy email'}
+                  title={copied ? 'Copied' : 'Copy email'}
+                >
+                  {copied ? '✔' : '📋'}
+                </button>
+              </div>
+
               <p className="contact-note">or Send a message via this form</p>
             </div>
           </div>
 
-          {/* Right Column */}
+          {/* =========================== */}
+          {/* Right Column (Form)         */}
+          {/* =========================== */}
           <div className="contact-right">
             <form className="contact-form" onSubmit={handleSubmit} noValidate>
               <div className="form-row">
                 <div className="form-field">
-                  <input id="firstName" name="firstName" type="text" placeholder="First Name" required />
+                  <input
+                    id="firstName"
+                    name="firstName"
+                    type="text"
+                    placeholder="First Name"
+                    required
+                  />
                 </div>
                 <div className="form-field">
-                  <input id="lastName" name="lastName" type="text" placeholder="Last Name" required />
+                  <input
+                    id="lastName"
+                    name="lastName"
+                    type="text"
+                    placeholder="Last Name"
+                    required
+                  />
                 </div>
               </div>
 
               <div className="form-field">
-                <input id="email" name="email" type="email" placeholder="Email (must be Gmail)" required />
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="Email (must be Gmail)"
+                  required
+                />
               </div>
 
               <div className="form-row">
@@ -229,7 +282,9 @@ export default function Contact() {
                       Select country code ▼
                     </option>
                     {COUNTRY_CODES.map((c) => (
-                      <option key={c.code} value={c.code}>{c.label}</option>
+                      <option key={c.code} value={c.code}>
+                        {c.label}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -250,7 +305,13 @@ export default function Contact() {
               </div>
 
               <div className="form-field">
-                <textarea id="message" name="message" rows="5" placeholder="Write a message (min 10 characters)" required />
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="5"
+                  placeholder="Write a message (min 10 characters)"
+                  required
+                />
               </div>
 
               <button className="btn-submit" type="submit" disabled={sending}>
@@ -269,7 +330,13 @@ export default function Contact() {
               status.type === 'form-error' ? 'error' : 'error'
             }`}
           >
-            <button className="close-btn" onClick={() => setStatus(null)} aria-label="Close message">✖</button>
+            <button
+              className="close-btn"
+              onClick={() => setStatus(null)}
+              aria-label="Close message"
+            >
+              ✖
+            </button>
             <h3>
               {status.type === 'success'
                 ? 'Success'
@@ -281,7 +348,9 @@ export default function Contact() {
               <p>{status.msgs[0]}</p>
             ) : (
               <ul>
-                {status.msgs.map((m, i) => <li key={i}>{m}</li>)}
+                {status.msgs.map((m, i) => (
+                  <li key={i}>{m}</li>
+                ))}
               </ul>
             )}
           </div>
