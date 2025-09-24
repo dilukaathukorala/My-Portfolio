@@ -59,25 +59,6 @@ export default function Hero({
 
   return (
     <section id="hero" className="hero-section">
-      <Header
-        menuOpen={menuOpen}
-        setMenuOpen={setMenuOpen}
-        handleNavClick={handleLeave}
-      />
-
-      {menuOpen && (
-        <>
-          <div className="menu-backdrop" onClick={closeMenu}></div>
-          <div className="mobile-menu">
-            <a onClick={() => { closeMenu(); handleLeave("hero"); }}>Home</a>
-            <a onClick={() => { closeMenu(); handleLeave("about"); }}>About me</a>
-            <a onClick={() => { closeMenu(); handleLeave("skills"); }}>Skills</a>
-            <a onClick={() => { closeMenu(); handleLeave("projects"); }}>Projects</a> {/* ✅ FIXED */}
-            <a onClick={() => { closeMenu(); handleLeave("contact"); }}>Contact me</a>
-          </div>
-        </>
-      )}
-
       <div className="hero-content">
         <AnimatePresence mode="wait">
           {!isLeaving && (
