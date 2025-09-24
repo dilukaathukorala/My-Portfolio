@@ -100,25 +100,7 @@ const About = ({ setActiveSection, menuOpen, setMenuOpen, handleNavClick, reload
       transition={{ duration: 0.5 }}
       style={{ backgroundColor: 'transparent' }}
     >
-      <Header
-        menuOpen={menuOpen}
-        setMenuOpen={setMenuOpen}
-        handleNavClick={handleLeave}
-      />
-
-      {menuOpen && (
-        <>
-          <div className="menu-backdrop" onClick={closeMenu}></div>
-          <div className="mobile-menu">
-            <a onClick={() => handleLeave("hero")}>Home</a>
-            <a onClick={() => handleLeave("about")}>About me</a>
-            <a onClick={() => handleLeave("skills")}>Skills</a>
-            <a onClick={() => handleLeave("portfolio")}>Projects</a>
-            <a onClick={() => handleLeave("contact")}>Contact me</a>
-          </div>
-        </>
-      )}
-
+      
       <SocialMedia />
 
       <AnimatePresence mode="wait">
