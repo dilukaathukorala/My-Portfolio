@@ -1,21 +1,34 @@
-'use client';
+// About.js - 'use client';
 
 import '../styles/About.css';
 import { useEffect, useRef, useState } from 'react';
-import { Typewriter } from 'react-simple-typewriter';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import Header from './Header';
 import SocialMedia from './SocialMedia';
+
+const TYPE_SPEED = 45;
+
+function useSmallScreen(maxWidth = 1024) {
+  const [isSmall, setIsSmall] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${maxWidth}px)`);
+    const update = () => setIsSmall(mq.matches);
+    update();
+    mq.addEventListener?.('change', update);
+    return () => mq.removeEventListener?.('change', update);
+  }, [maxWidth]);
+  return isSmall;
+}
 
 const About = ({ setActiveSection, menuOpen, setMenuOpen, handleNavClick, reloadKey }) => {
   const sectionRef = useRef(null);
   const pathname = usePathname();
 
+  // UI states
   const [startTyping, setStartTyping] = useState(false);
   const [showSecondPara, setShowSecondPara] = useState(false);
   const [startSecondTyping, setStartSecondTyping] = useState(false);
-  const [headingShift, setHeadingShift] = useState(false);
+  // const [headingShift, setHeadingShift] = useState(false); // REMOVED (no heading move)
   const [textShift, setTextShift] = useState(false);
   const [showLogos, setShowLogos] = useState(false);
   const [showCursor1, setShowCursor1] = useState(true);
@@ -23,61 +36,101 @@ const About = ({ setActiveSection, menuOpen, setMenuOpen, handleNavClick, reload
   const [secondComplete, setSecondComplete] = useState(false);
   const [isLeaving, setIsLeaving] = useState(false);
 
-  const paragraphOne = `A curious mind shaping digital design where logic meets clarity creating experiences that not only work, but feel right. I design with purpose, blending structure, creativity, and intention in every detail.`;
+  // typewriter states
+  const [p1Text, setP1Text] = useState('');
+  const [p2Text, setP2Text] = useState('');
+  const p1TimerRef = useRef(null);
+  const p2TimerRef = useRef(null);
 
-  const paragraphTwo = `Currently studying Information Technology at SLIIT, with a broad interest in modern software development. Completed NVQ Level 4 in Graphic Design at IETI, where curiosity for structured visual communication developed into practical design skills. With a background that bridges technology and design, the goal is to craft solutions that are efficient, intuitive, and grounded in real-world purpose.`;
+  const isSmallScreen = useSmallScreen(1024);
+
+  const paragraphOne =
+    `A curious mind shaping digital design where logic meets clarity creating experiences that not only work, but feel right. I design with purpose, blending structure, creativity, and intention in every detail.`;
+
+  const paragraphTwo =
+    `Currently studying Information Technology at SLIIT, with a broad interest in modern software development. Completed NVQ Level 4 in Graphic Design at IETI, where curiosity for structured visual communication developed into practical design skills. With a background that bridges technology and design, the goal is to craft solutions that are efficient, intuitive, and grounded in real-world purpose.`;
+
+  const clearTimers = () => {
+    if (p1TimerRef.current) clearInterval(p1TimerRef.current);
+    if (p2TimerRef.current) clearInterval(p2TimerRef.current);
+  };
 
   const resetStates = () => {
+    clearTimers();
     setStartTyping(false);
     setShowSecondPara(false);
     setStartSecondTyping(false);
     setShowCursor1(true);
     setShowCursor2(true);
-    setHeadingShift(false);
+    // setHeadingShift(false); // REMOVED
     setTextShift(false);
     setShowLogos(false);
     setSecondComplete(false);
     setIsLeaving(false);
+    setP1Text('');
+    setP2Text('');
   };
 
   useEffect(() => {
     resetStates();
-    setTimeout(() => setStartTyping(true), 200);
+    const t = setTimeout(() => setStartTyping(true), 200);
+    return () => {
+      clearTimeout(t);
+      clearTimers();
+    };
   }, [pathname, reloadKey]);
 
+  // Paragraph 1 typing
   useEffect(() => {
-    if (startTyping) {
-      const typeSpeed = 25;
-      const approximateTime = paragraphOne.length * typeSpeed + 500;
+    if (!startTyping) return;
+    let i = 0;
+    p1TimerRef.current = setInterval(() => {
+      setP1Text(() => {
+        const next = paragraphOne.slice(0, i + 1);
+        i++;
+        if (i >= paragraphOne.length) {
+          clearInterval(p1TimerRef.current);
+          setShowCursor1(false);
+          // setTimeout(() => setHeadingShift(true), 300); // REMOVED (no heading move)
+          setTimeout(() => setShowSecondPara(true), 800);
+          setTimeout(() => setStartSecondTyping(true), 1500);
+        }
+        return next;
+      });
+    }, TYPE_SPEED);
 
-      const timer = setTimeout(() => {
-        setShowCursor1(false);
-        setTimeout(() => setHeadingShift(true), 300);
-        setTimeout(() => setShowSecondPara(true), 800);
-        setTimeout(() => setStartSecondTyping(true), 1500);
-      }, approximateTime);
+    return () => clearInterval(p1TimerRef.current);
+  }, [startTyping]);
 
-      return () => clearTimeout(timer);
-    }
-  }, [startTyping, paragraphOne.length]);
-
+  // Paragraph 2 typing
   useEffect(() => {
-    if (startSecondTyping && !secondComplete) {
-      const typeSpeed = 25;
-      const approximateTime = paragraphTwo.length * typeSpeed + 500;
+    if (!startSecondTyping || secondComplete) return;
+    let i = 0;
 
-      const timer = setTimeout(() => {
-        setSecondComplete(true);
-        setShowCursor2(false);
-        setTextShift(true);
-        setTimeout(() => setShowLogos(true), 800);
-      }, approximateTime);
+    // On small screens, show logos as soon as P2 starts
+    if (isSmallScreen) setShowLogos(true);
 
-      return () => clearTimeout(timer);
-    }
-  }, [startSecondTyping, paragraphTwo.length, secondComplete]);
+    p2TimerRef.current = setInterval(() => {
+      setP2Text(() => {
+        const next = paragraphTwo.slice(0, i + 1);
+        i++;
+        if (i >= paragraphTwo.length) {
+          clearInterval(p2TimerRef.current);
+          setSecondComplete(true);
+          setShowCursor2(false);
+          setTextShift(true);
 
-  const closeMenu = () => setMenuOpen(false);
+          // On desktop, delay logos a bit
+          if (!isSmallScreen) {
+            setTimeout(() => setShowLogos(true), 800);
+          }
+        }
+        return next;
+      });
+    }, TYPE_SPEED);
+
+    return () => clearInterval(p2TimerRef.current);
+  }, [startSecondTyping, secondComplete, isSmallScreen]);
 
   const handleLeave = (section) => {
     if (section === 'about') {
@@ -100,66 +153,73 @@ const About = ({ setActiveSection, menuOpen, setMenuOpen, handleNavClick, reload
       transition={{ duration: 0.5 }}
       style={{ backgroundColor: 'transparent' }}
     >
-      
       <SocialMedia />
 
       <AnimatePresence mode="wait">
         {!isLeaving && (
           <motion.div
             key={`about-wrapper-${reloadKey}`}
-            className={`
-              about-content-wrapper
-              ${startTyping && !textShift ? 'centered-start' : ''}
-              ${textShift ? 'shift-wrapper' : ''}
-            `}
+            className={[
+              'about-content-wrapper',
+              startTyping && !textShift ? 'centered-start' : '',
+              textShift && !isSmallScreen ? 'shift-wrapper' : ''
+            ].join(' ')}
             initial={{ scale: 0.85, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.85, opacity: 0 }}
             transition={{ duration: 0.5, ease: 'easeInOut' }}
           >
-            <div className={`about-text ${textShift ? 'shift-text' : ''}`}>
-              <h2 className={`about-heading ${headingShift ? 'heading-move' : ''}`}>
-                About Me
-              </h2>
+            <div className={['about-text', textShift && !isSmallScreen ? 'shift-text' : ''].join(' ')}>
+              {/* Heading stays fixed now */}
+              <h2 className="about-heading">About Me</h2>
 
+              {/* Paragraph 1 */}
               {startTyping && (
-                <div
-                  className={`about-typewriter ${textShift ? 'paragraph-move' : ''}`}
-                >
-                  <Typewriter
-                    words={[paragraphOne]}
-                    loop={1}
-                    typeSpeed={25}
-                    deleteSpeed={0}
-                    delaySpeed={0}
-                    cursor={showCursor1}
-                    cursorStyle="|"
-                  />
+                <div className={['about-typewriter', textShift && !isSmallScreen ? 'paragraph-move' : ''].join(' ')}>
+                  <span>{p1Text}</span>
+                  {showCursor1 && <span className="type-cursor">|</span>}
                 </div>
               )}
 
+              {/* Paragraph 2 */}
               {showSecondPara && (
-                <div
-                  className={`about-typewriter second ${textShift ? 'paragraph-move' : ''}`}
-                >
-                  {startSecondTyping && !secondComplete && (
-                    <Typewriter
-                      key={`second-${startSecondTyping}`}
-                      words={[paragraphTwo]}
-                      loop={1}
-                      typeSpeed={25}
-                      deleteSpeed={0}
-                      delaySpeed={0}
-                      cursor={showCursor2}
-                      cursorStyle="|"
-                    />
+                <div className={['about-typewriter', 'second', textShift && !isSmallScreen ? 'paragraph-move' : ''].join(' ')}>
+                  {!secondComplete ? (
+                    <>
+                      <span>{p2Text}</span>
+                      {showCursor2 && <span className="type-cursor">|</span>}
+                    </>
+                  ) : (
+                    <div className="typed-text">{paragraphTwo}</div>
                   )}
-                  {secondComplete && <div className="typed-text">{paragraphTwo}</div>}
+                </div>
+              )}
+
+              {/* Small screens: logos under paragraph 2 */}
+              {isSmallScreen && showLogos && (
+                <div className="about-logos logos-inline">
+                  <a
+                    href="https://www.sliit.lk/about/about-sliit/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="logo-link"
+                  >
+                    <img src="/sliit-logo.png" alt="SLIIT Logo" className="logo-img" />
+                  </a>
+                  <a
+                    href="https://naita.gov.lk/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="logo-link"
+                  >
+                    <img src="/ieti-logo.png" alt="IETI Logo" className="logo-img" />
+                  </a>
                 </div>
               )}
             </div>
 
-            {showLogos && (
+            {/* Desktop: logos slide in to the side */}
+            {!isSmallScreen && showLogos && (
               <div className="about-logos slide-in-right">
                 <a
                   href="https://www.sliit.lk/about/about-sliit/"
