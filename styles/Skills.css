@@ -1,25 +1,23 @@
 /* ====== Base layout ====== */
 .skills-section {
-  /* IMPORTANT: allow the page to grow & scroll */
-  /* remove old: height: 100%; and overflow: hidden; */
-  min-height: 100svh;            /* mobile-friendly viewport height */
+  min-height: 100svh;            
   width: 100%;
   background: linear-gradient(135deg, #4c6a85, #41207e, #0f1d65, #030325);
-  padding: 3rem 2rem;            /* symmetric padding */
+  padding: 3rem 2rem;            
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow-x: hidden;            /* avoid sideways jitter */
-  overflow-y: visible;           /* let content extend and page scroll */
+  overflow-x: hidden;            
+  overflow-y: visible;           
 }
 
 @supports (height: 100dvh) {
-  .skills-section { min-height: 100dvh; } /* most robust on modern mobiles */
+  .skills-section { min-height: 100dvh; }
 }
 
 .skills-box {
   background: rgba(255, 255, 255, 0.25);
-  margin: 4rem auto;             /* centered, margin from both sides handled by width */
+  margin: 4rem auto;
   padding: 1.25rem 2.5rem;
   border-radius: 16px;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
@@ -117,14 +115,13 @@
 /* ====== Tablet (≤ 1024px) ====== */
 @media (max-width: 1024px) {
   .skills-section {
-    padding: 2.5rem 1.5rem;      /* a bit tighter horizontally */
-    /* avoid the “centered flex trap” feeling */
-    align-items: flex-start;      /* content starts at top so page reads/scrolls naturally */
+    padding: 2.5rem 1.5rem;
+    align-items: flex-start;
   }
 
   .skills-box {
     padding: 1.25rem 2rem;
-    margin: 3rem 1.5rem;         /* margin on both sides */
+    margin: 3rem 1.5rem;
   }
 
   .skills-heading {
@@ -163,12 +160,12 @@
 @media (max-width: 768px) {
   .skills-section {
     padding: 2rem 1rem;
-    display: block;               /* fully linear flow to guarantee scroll */
+    display: block;
   }
 
   .skills-box {
     padding: 1.2rem 1.5rem;
-    margin: 2rem 1rem;            /* clear margins both sides */
+    margin: 2rem 1rem;
   }
 
   .skills-heading {
@@ -213,7 +210,7 @@
 
   .skills-box {
     padding: 1rem 1rem;
-    margin: 1.5rem 0.8rem;        /* side margins maintained */
+    margin: 1.5rem 0.8rem;
   }
 
   .skills-heading {
@@ -281,11 +278,7 @@
   }
 }
 
-/* ====== Mobile/Tablet scroll safety overrides ======
-   If a wrapper or the page globally set overflow:hidden or fixed heights,
-   these ensure vertical scrolling still works on small screens.
-   (Safe to keep here; remove if you later move them to your global CSS.)
-===================================================== */
+/* ====== Mobile/Tablet scroll safety overrides ====== */
 @media (max-width: 1024px) {
   html, body {
     height: auto !important;
@@ -293,9 +286,49 @@
     -webkit-overflow-scrolling: touch;
   }
 
-  /* Common app wrappers that sometimes force fixed heights */
   .page, .app, main, #__next, .wrapper, .container {
     height: auto !important;
     overflow-y: visible !important;
+  }
+}
+
+/* ====== Desktop compact mode (≥ 1025px) ====== */
+@media (min-width: 1025px) {
+  .skills-section {
+    padding: 2rem 1.5rem;
+  }
+
+  .skills-box {
+    margin: 2rem auto;
+    padding: 1rem 1.5rem;
+  }
+
+  .skills-heading {
+    margin-bottom: 1.25rem;
+    font-size: 1.35rem;
+  }
+
+  /* Force 2 rows: 6 skills per row */
+  .skills-grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.5rem;
+  }
+
+  .circle {
+    width: 90px;
+    height: 90px;
+  }
+
+  .circle svg {
+    width: 90px;
+    height: 90px;
+  }
+
+  .skill-card:hover {
+    transform: scale(1.05);
+  }
+
+  .skill-name {
+    font-size: 0.75rem;
   }
 }
