@@ -3,21 +3,19 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100%;
-  /* Don't lock the page height/overflow globally; it can cause layout shifts on prod */
-  /* height: 100%; */
-  /* overflow: hidden; */
-  overflow-x: hidden;            /* keep horizontal overflow off */
+  height: 100%;
+  overflow-x: hidden;
 }
 
 .projects-section {
   width: 100vw;
-  min-height: 100svh;            /* more reliable than 100vh across browsers */
+  min-height: 100svh;  /* reliable full height */
   background: linear-gradient(135deg, #4c6a85, #41207e, #0f1d65, #030325);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;   /* keep content near the top */
-  padding-top: 1.5rem;           /* space under your navbar */
+  justify-content: flex-start;   /* keep content high */
+  padding-top: 2rem;             /* space under navbar */
 }
 
 .projects-header {
@@ -25,26 +23,29 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 1 0 3rem 0;         /* tighter gap so card sits higher */
+  margin-top: 1rem;              /* reduced from 3rem */
+  margin-bottom: 0.1rem;         /* reduced gap */
   z-index: 2;
 }
 
 .projects-topic {
   color: white;
-  font-size: 5rem;
+  font-size: 2.2rem;
   font-weight: 700;
   text-align: center;
   letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+  margin-top: 3rem;
 }
 
-/* Wrapper for the carousel */
+/* Carousel wrapper */
 .carousel-wrapper {
   position: relative;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
-  align-items: flex-start;
+  align-items: flex-start;       /* stop vertical centering */
   justify-content: center;
 }
 
@@ -79,18 +80,18 @@ html, body {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-radius: 20px;
-  padding: 2rem;
+  padding: 1.5rem;               /* reduced */
   text-align: center;
   overflow: hidden;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
 }
 
-/* Typography and Link */
-.card-title { color: white; font-size: 2rem; margin-bottom: 1rem; }
-.card-description { color: white; font-size: 1.1rem; margin-bottom: 1.5rem; }
-.github-link { color: #00ccff; font-weight: bold; font-size: 1.1rem; text-decoration: none; }
+/* Typography */
+.card-title { color: white; font-size: 1.8rem; margin-bottom: 1rem; }
+.card-description { color: white; font-size: 1rem; margin-bottom: 1.2rem; }
+.github-link { color: #00ccff; font-weight: bold; font-size: 1rem; text-decoration: none; }
 
-/* ===== Arrow buttons (single definition; desktop only) ===== */
+/* Arrows */
 .arrow-button {
   position: absolute;
   top: 50%;
@@ -107,34 +108,15 @@ html, body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  user-select: none;
-  transition: background-color 0.3s ease, opacity .3s ease, transform .3s ease;
-  opacity: 1;
-  pointer-events: auto;
+  transition: background-color 0.3s ease;
 }
 .arrow-button.left  { left: 10px; }
 .arrow-button.right { right: 10px; }
 .arrow-button:hover { background-color: rgba(0, 0, 0, 0.6); }
 
-/* Hidden intro state (optional animation) */
-.arrow-hidden {
-  opacity: 0;
-  transform: translateY(-50%) scale(.9);
-  pointer-events: none;
-}
-.arrow-slide-left  { animation: arrowInLeft 0.6s ease forwards; }
-.arrow-slide-right { animation: arrowInRight 0.6s ease forwards; }
+.arrow-hidden { opacity: 0; transform: translateY(-50%) scale(.9); pointer-events: none; }
 
-@keyframes arrowInLeft {
-  from { opacity: 0; transform: translate(-20px, -50%) scale(.9); }
-  to   { opacity: 1; transform: translate(0, -50%) scale(1); }
-}
-@keyframes arrowInRight {
-  from { opacity: 0; transform: translate(20px, -50%) scale(.9); }
-  to   { opacity: 1; transform: translate(0, -50%) scale(1); }
-}
-
-/* ===== Image Coverflow Carousel ===== */
+/* Image carousel */
 .image-carousel-container {
   position: relative;
   width: 100%;
@@ -148,7 +130,7 @@ html, body {
 .image-carousel {
   position: relative;
   width: 100%;
-  height: 200px;                /* fixed track height */
+  height: 180px;                 /* slightly smaller */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -157,77 +139,52 @@ html, body {
 .carousel-image-wrapper {
   position: absolute;
   transition: all 0.5s ease;
-  width: 180px;
-  height: 120px;
+  width: 160px;                  /* slightly smaller */
+  height: 100px;
   transform: scale(0.7);
   opacity: 0;
   pointer-events: none;
 }
-
 .carousel-image-wrapper.center { transform: scale(1.1); z-index: 3; opacity: 1; pointer-events: auto; }
-.carousel-image-wrapper.left   { transform: translateX(-150px) scale(0.8); z-index: 2; opacity: 1; }
-.carousel-image-wrapper.right  { transform: translateX(150px)  scale(0.8); z-index: 2; opacity: 1; }
+.carousel-image-wrapper.left   { transform: translateX(-130px) scale(0.8); z-index: 2; opacity: 1; }
+.carousel-image-wrapper.right  { transform: translateX(130px) scale(0.8); z-index: 2; opacity: 1; }
 
-/* The frame that <Image fill> will occupy — MUST be positioned */
 .carousel-frame {
-  position: relative;           /* critical for next/image fill */
+  position: relative;
   width: 100%;
   height: 100%;
-  border: 3px solid white;
-  border-radius: 12px;
-  padding: 4px;
+  border: 2px solid white;
+  border-radius: 10px;
+  padding: 3px;
   background-color: rgba(255, 255, 255, 0.1);
   box-sizing: border-box;
 }
 
-.carousel-image { object-fit: cover; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,.4); }
+.carousel-image { object-fit: cover; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,.4); }
 
-/* ===== Mobile/Tablet ===== */
+/* Mobile */
 @media (max-width: 1024px) {
   .arrow-button { display: none !important; }
 
-  .projects-topic { font-size: clamp(1.6rem, 5vw, 2.2rem); }
+  .projects-header { margin-top: 1rem; margin-bottom: 0.5rem; }
 
   .cards-container {
-    --gutter: clamp(12px, 4vw, 24px);
+    --gutter: 16px;
     padding-inline: var(--gutter);
     scroll-padding-inline: var(--gutter);
     -webkit-overflow-scrolling: touch;
-    touch-action: pan-x;
-    overscroll-behavior-x: contain;
   }
 
-  .project-card {
-    flex: 0 0 calc(100% - calc(var(--gutter) * 2));
-    scroll-snap-align: center;
-    scroll-snap-stop: always;
-    padding: 0.75rem;
-  }
+  .project-card { flex: 0 0 calc(100% - var(--gutter)*2); }
 
-  .card-inner {
-    max-width: 100%;
-    padding: clamp(1rem, 3vw, 1.5rem);
-    border-radius: 16px;
-  }
+  .card-inner { max-width: 100%; padding: 1rem; }
 
-  .card-title { font-size: clamp(1.1rem, 3.2vw, 1.6rem); }
-  .card-description, .github-link { font-size: clamp(0.9rem, 2.6vw, 1rem); }
-
-  .image-carousel { height: clamp(140px, 32vw, 180px); }
-  .carousel-image-wrapper {
-    width: clamp(120px, 30vw, 160px);
-    height: clamp(80px, 20vw, 110px);
-  }
-  .carousel-image-wrapper.left  { transform: translateX(clamp(-110px, -24vw, -140px)) scale(0.8); }
-  .carousel-image-wrapper.right { transform: translateX(clamp(110px, 24vw, 140px))  scale(0.8); }
-  .carousel-frame { border-width: 2px; border-radius: 10px; padding: 3px; }
+  .image-carousel { height: 150px; }
+  .carousel-image-wrapper { width: 120px; height: 90px; }
 }
 
 @media (max-width: 480px) {
-  .project-card { padding: 0.5rem; }
-  .image-carousel { height: clamp(120px, 36vw, 160px); }
-  .carousel-image-wrapper {
-    width: clamp(110px, 40vw, 140px);
-    height: clamp(70px, 26vw, 100px);
-  }
+  .card-inner { padding: 0.8rem; }
+  .image-carousel { height: 130px; }
+  .carousel-image-wrapper { width: 110px; height: 80px; }
 }
