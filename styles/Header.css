@@ -199,7 +199,18 @@
   }
 }
 
+/* 🖥️ Desktop adjustments */
 @media (min-width: 769px) {
+  .tab {
+    height: 24px;     /* smaller height */
+    width: 90px;      /* narrower tabs */
+    font-size: 0.8rem; /* smaller text */
+  }
+
+  .glider {
+    height: 24px; /* match smaller tab height */
+  }
+
   .mobile-menu-icon {
     display: none !important;
   }
