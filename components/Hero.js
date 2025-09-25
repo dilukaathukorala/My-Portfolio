@@ -38,8 +38,8 @@ export default function Hero({
     }, 2000);
 
     const link = document.createElement("a");
-    link.href = "/Diluka_CV.pdf";
-    link.download = "Diluka_CV.pdf";
+    link.href = "/Diluka Athukorala CV.pdf";
+    link.download = "Diluka Athukorala CV.pdf";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
