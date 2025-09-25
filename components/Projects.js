@@ -13,14 +13,8 @@ const baseProjects = [
     githubLink: "https://github.com/dilukaathukorala/EVERPLANT-Plant-Selling-Web-Application.git"
   },
   {
-    title: "ToDo App",
-    images: ["/placeholder.png", "/placeholder.png", "/placeholder.png", "/placeholder.png"],
-    description: "A Kotlin-based ToDo app developed for a Mobile App Development module.",
-    githubLink: "https://github.com/dilukaathukorala/ToDo-App.git"
-  },
-  {
     title: "Task Management Mobile App",
-    images: ["/placeholder.png", "/placeholder.png", "/placeholder.png", "/placeholder.png"],
+    images: ["/Task1.png", "/Task2.png", "/Task3.png", "/Task4.png"],
     description: "A task manager built with Kotlin and SQLite, featuring task creation, reminders, and a stopwatch.",
     githubLink: "https://github.com/dilukaathukorala/Task-Management-App.git"
   },
@@ -38,7 +32,7 @@ const baseProjects = [
   },
   {
     title: "Lens Learn",
-    images: ["/placeholder1.png", "/placeholder2.png", "/placeholder.png3", "/placeholder4.png"],
+    images: ["/Lens1.jpg", "/Lens2.jpg", "/Lens3.jpg", "/Lens4.jpg"],
     description: "A photography portfolio site built with Spring Boot, Thymeleaf, and AWS S3 cloud storage.",
     githubLink: "https://github.com/dilukaathukorala/Lens-Learn.git"
   },
