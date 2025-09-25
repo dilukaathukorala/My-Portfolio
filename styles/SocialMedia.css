@@ -1,7 +1,7 @@
 /* ===== Durations ===== */
 :root {
   --fill-duration-hover: 0.3s;   /* fast preview on hover (desktop) */
-  --fill-duration-activate: 1.5s; /* slow fill on touch/tap */
+  --fill-duration-activate: 3s; /* slow fill on touch/tap */
 }
 
 /* === Layout === */
