@@ -3,45 +3,50 @@
 import { useRef, useEffect, useState, forwardRef } from 'react';
 import Image from 'next/image';
 import '../styles/Projects.css';
-import SocialMedia from "./SocialMedia";
+import SocialMedia from './SocialMedia';
 
 const baseProjects = [
   {
-    title: "EverPlant",
-    images: ["/everplant1.png", "/everplant2.png", "/everplant3.png", "/everplant4.png"],
-    description: "EverPlant is a visually engaging website for selling plants, developed using HTML, CSS, and JavaScript.",
-    githubLink: "https://github.com/dilukaathukorala/EVERPLANT-Plant-Selling-Web-Application.git"
+    title: 'EverPlant',
+    images: ['/everplant1.png', '/everplant2.png', '/everplant3.png', '/everplant4.png'],
+    description:
+      'EverPlant is a visually engaging website for selling plants, developed using HTML, CSS, and JavaScript.',
+    githubLink: 'https://github.com/dilukaathukorala/EVERPLANT-Plant-Selling-Web-Application.git',
   },
   {
-    title: "Task Management Mobile App",
-    images: ["/Task1.png", "/Task2.png", "/Task3.png", "/Task4.png"],
-    description: "A task manager built with Kotlin and SQLite, featuring task creation, reminders, and a stopwatch.",
-    githubLink: "https://github.com/dilukaathukorala/Task-Management-App.git"
+    title: 'Task Management Mobile App',
+    images: ['/Task1.png', '/Task2.png', '/Task3.png', '/Task4.png'],
+    description:
+      'A task manager built with Kotlin and SQLite, featuring task creation, reminders, and a stopwatch.',
+    githubLink: 'https://github.com/dilukaathukorala/Task-Management-App.git',
   },
   {
-    title: "Peacock Corridor Holiday House",
-    images: ["/peacock1.png", "/peacock2.png", "/peacock3.png", "/peacock4.png"],
-    description: "An inventory management system tailored for the Peacock Corridor Holiday House Resort.",
-    githubLink: "https://github.com/dilukaathukorala/Peacock-Corridor-Holiday-House.git"
+    title: 'Peacock Corridor Holiday House',
+    images: ['/peacock1.png', '/peacock2.png', '/peacock3.png', '/peacock4.png'],
+    description: 'An inventory management system tailored for the Peacock Corridor Holiday House Resort.',
+    githubLink: 'https://github.com/dilukaathukorala/Peacock-Corridor-Holiday-House.git',
   },
   {
-    title: "Ayurwell",
-    images: ["/ayurwell1.png", "/ayurwell2.png", "/ayurwell3.png", "/ayurwell4.png"],
-    description: "An Ayurvedic healthcare platform for booking doctor appointments and buying herbal products.",
-    githubLink: "https://github.com/dilukaathukorala/Ayurwell.git"
+    title: 'Ayurwell',
+    images: ['/ayurwell1.png', '/ayurwell2.png', '/ayurwell3.png', '/ayurwell4.png'],
+    description:
+      'An Ayurvedic healthcare platform for booking doctor appointments and buying herbal products.',
+    githubLink: 'https://github.com/dilukaathukorala/Ayurwell.git',
   },
   {
-    title: "Lens Learn",
-    images: ["/Lens1.jpg", "/Lens2.jpg", "/Lens3.jpg", "/Lens4.jpg"],
-    description: "A photography portfolio site built with Spring Boot, Thymeleaf, and AWS S3 cloud storage.",
-    githubLink: "https://github.com/dilukaathukorala/Lens-Learn.git"
+    title: 'Lens Learn',
+    images: ['/Lens1.jpg', '/Lens2.jpg', '/Lens3.jpg', '/Lens4.jpg'],
+    description:
+      'A photography portfolio site built with Spring Boot, Thymeleaf, and AWS S3 cloud storage.',
+    githubLink: 'https://github.com/dilukaathukorala/Lens-Learn.git',
   },
   {
-    title: "My Portfolio Website",
-    images: ["/portfolio1.png", "/portfolio2.png", "/portfolio3.png", "/portfolio4.png"],
-    description: "A personal portfolio built with Next.js, showcasing projects, skills, and experience with a focus on performance, responsive design, creative and clean UI.",
-    githubLink: "https://github.com/dilukaathukorala/My-Portfolio.git"
-  }
+    title: 'My Portfolio Website',
+    images: ['/portfolio1.png', '/portfolio2.png', '/portfolio3.png', '/portfolio4.png'],
+    description:
+      'A personal portfolio built with Next.js, showcasing projects, skills, and experience with a focus on performance, responsive design, creative and clean UI.',
+    githubLink: 'https://github.com/dilukaathukorala/My-Portfolio.git',
+  },
 ];
 
 export default function Project() {
@@ -50,15 +55,10 @@ export default function Project() {
   const cardRefs = useRef([]);
 
   // 3x duplication supports seamless wrap-around
-  const [projects] = useState([
-    ...baseProjects,
-    ...baseProjects,
-    ...baseProjects
-  ]);
+  const [projects] = useState([...baseProjects, ...baseProjects, ...baseProjects]);
 
   const isSmallScreen = () =>
-    typeof window !== 'undefined' &&
-    window.matchMedia('(max-width: 1024px)').matches;
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 1024px)').matches;
 
   const scrollToCard = (direction) => {
     const container = containerRef.current;
@@ -66,7 +66,7 @@ export default function Project() {
     const cardWidth = container.offsetWidth; // full viewport width chunk
     container.scrollBy({
       left: direction === 'left' ? -cardWidth : cardWidth,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
   };
 
@@ -115,7 +115,8 @@ export default function Project() {
 
       const active = document.activeElement;
       const withinSection = active && sec.contains(active);
-      const allow = withinSection || active === document.body || active === document.documentElement;
+      const allow =
+        withinSection || active === document.body || active === document.documentElement;
       if (!allow) return;
 
       if (e.key === 'ArrowLeft' || e.key === 'Left') {
@@ -204,7 +205,11 @@ export default function Project() {
   );
 }
 
-const ProjectCard = forwardRef(({ project }, ref) => {
+/**
+ * ESLint fix:
+ * Name the function passed to forwardRef so the component has a display name.
+ */
+const ProjectCard = forwardRef(function ProjectCard({ project }, ref) {
   const [centerIndex, setCenterIndex] = useState(0);
   const total = project.images.length;
 
@@ -221,10 +226,10 @@ const ProjectCard = forwardRef(({ project }, ref) => {
         <div className="image-carousel-container">
           <div className="image-carousel">
             {project.images.map((src, idx) => {
-              let position = "hidden";
-              if (idx === centerIndex) position = "center";
-              else if (idx === (centerIndex - 1 + total) % total) position = "left";
-              else if (idx === (centerIndex + 1) % total) position = "right";
+              let position = 'hidden';
+              if (idx === centerIndex) position = 'center';
+              else if (idx === (centerIndex - 1 + total) % total) position = 'left';
+              else if (idx === (centerIndex + 1) % total) position = 'right';
 
               return (
                 <div key={idx} className={`carousel-image-wrapper ${position}`}>
@@ -247,7 +252,12 @@ const ProjectCard = forwardRef(({ project }, ref) => {
 
         <h3 className="card-title">{project.title}</h3>
         <p className="card-description">{project.description}</p>
-        <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="github-link">
+        <a
+          href={project.githubLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="github-link"
+        >
           View on GitHub
         </a>
       </div>
