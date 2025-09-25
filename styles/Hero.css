@@ -303,3 +303,17 @@
   .hero-image { max-width: 200px; }
   .hero-image-frame { padding: 0.6rem; border-width: 2px; }
 }
+
+/* ============================================= */
+/* ====== DESKTOP (≥1025px) — mimic 90% zoom ==== */
+/* ============================================= */
+@media (min-width: 1025px) {
+  /* Keep background full-bleed; scale only the content block */
+  .hero-content {
+    transform: translateY(12px) scale(0.9); /* ~90% look at 100% zoom */
+    transform-origin: top center;
+    will-change: transform;
+    margin-left: auto;   /* center the scaled block within section */
+    margin-right: auto;
+  }
+}
