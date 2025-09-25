@@ -7,9 +7,10 @@ import '../styles/Contact.css';
 import SocialMedia from './SocialMedia';
 
 // 🔑 Replace with your actual EmailJS credentials
-const SERVICE_ID = 'service_qkk0rka';
-const TEMPLATE_ID = 'template_3aoha0s';
-const PUBLIC_KEY  = '7G3Rj0qmx-_SFLZSJ';
+const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
 
 // Country code options
 const COUNTRY_CODES = [
