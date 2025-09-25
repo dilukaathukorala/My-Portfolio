@@ -9,7 +9,6 @@ export default function SocialMedia() {
   const [rootEl, setRootEl] = React.useState(null);
 
   React.useEffect(() => {
-    // Create a single fixed root under <body> so position:fixed is viewport-based
     const existing = document.querySelector('[data-social-icons-root="true"]');
     if (existing) {
       setRootEl(existing);
@@ -21,67 +20,67 @@ export default function SocialMedia() {
     document.body.appendChild(el);
     setRootEl(el);
     setMounted(true);
-
-    return () => {
-      // Keep the root if other pages/components rely on it
-    };
   }, []);
 
   if (!mounted || !rootEl) return null;
 
-  // Touch flow: start slow fill, navigate after transition ends
+  // Touch flow: pre-open a blank tab (user gesture) -> animate -> set its URL.
   function handlePointerDown(e, href) {
-    // Only intercept real touch (finger/stylus). Mouse should behave normally.
     if (e.pointerType !== "touch") return;
-
-    // Prevent the default so the browser doesn't navigate immediately on touch
-    e.preventDefault();
 
     const link = e.currentTarget;
     const fillEl = link.querySelector(".filled");
     if (!fillEl) return;
 
-    // If already animating, ignore
+    // If already animating, ignore duplicates
     if (link.classList.contains("is-activating")) return;
 
-    // Mark so the subsequent 'click' event (which mobile browsers often fire)
-    // can be canceled.
+    // Mark so the following click doesn't re-fire navigation
     link.dataset.blockClick = "1";
 
-    // Trigger the slow fill state (CSS handles 1.5s transition)
+    // --- Critical bit: pre-open a tab in direct gesture ---
+    // Some browsers may still block; we'll handle null with a fallback.
+    const preOpened = window.open("", "_blank", "noopener,noreferrer");
+
+    // Start slow fill
     link.classList.add("is-activating");
 
-    // Navigate only when the height transition finishes
     const onEnd = (ev) => {
       if (ev.propertyName !== "height") return;
       fillEl.removeEventListener("transitionend", onEnd);
 
-      // Open in new tab (matches your previous behavior). Change to _self if you prefer.
-      window.open(href, "_blank", "noopener,noreferrer");
+      // Navigate the pre-opened tab if available; else fallback.
+      if (preOpened && !preOpened.closed) {
+        try {
+          preOpened.location.href = href;
+        } catch {
+          // If we can't set it for some reason, fallback
+          window.location.href = href; // same-tab fallback
+        }
+      } else {
+        // Same-tab fallback avoids popup blockers entirely
+        window.location.href = href;
+      }
 
-      // Cleanup so it can animate again if user comes back
+      // Cleanup so it can animate again if user returns
       setTimeout(() => {
         link.classList.remove("is-activating");
         delete link.dataset.blockClick;
       }, 200);
     };
 
+    // Prevent the immediate native navigation so we can animate first
+    e.preventDefault();
     fillEl.addEventListener("transitionend", onEnd);
   }
 
-  // Desktop click: allow normal navigation.
-  // But if a touch activation just happened (blockClick flag), suppress this click.
+  // Desktop/mouse: let the anchor behave normally (open in new tab via target).
+  // If a touch activation just happened, suppress this click.
   function handleClick(e) {
     const link = e.currentTarget;
-
-    // If a touch activation is in progress or just set, block the click
     if (link.dataset.blockClick === "1" || link.classList.contains("is-activating")) {
       e.preventDefault();
-      return;
     }
-
-    // For mouse users using modifiers, don't interfere (browser handles it).
-    // No extra handling needed—just let it navigate normally.
   }
 
   const icons = [
@@ -161,7 +160,7 @@ export default function SocialMedia() {
             rel="noopener noreferrer"
             aria-label={icon.name}
             data-social={icon.name.toLowerCase()}
-            onPointerDown={(e) => handlePointerDown(e, icon.href)}  // touch flow
+            onPointerDown={(e) => handlePointerDown(e, icon.href)}  // touch flow with pre-open
             onClick={handleClick}                                    // mouse flow
           >
             <div className="filled" />
