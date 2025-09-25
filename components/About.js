@@ -45,10 +45,10 @@ const About = ({ setActiveSection, menuOpen, setMenuOpen, handleNavClick, reload
   const isSmallScreen = useSmallScreen(1024);
 
   const paragraphOne =
-    `A curious mind shaping digital design where logic meets clarity creating experiences that not only work, but feel right. I design with purpose, blending structure, creativity, and intention in every detail.`;
+    `I am a designer and technologist with a focus on creating digital experiences where logic meets clarity. My approach combines structure, creativity, and intention, ensuring that every design is not only functional but also intuitive and meaningful. With a foundation in graphic design and a passion for user-centered problem-solving, I strive to craft solutions that feel natural, purposeful, and impactful.`;
 
   const paragraphTwo =
-    `Currently studying Information Technology at SLIIT, with a broad interest in modern software development. Completed NVQ Level 4 in Graphic Design at IETI, where curiosity for structured visual communication developed into practical design skills. With a background that bridges technology and design, the goal is to craft solutions that are efficient, intuitive, and grounded in real-world purpose.`;
+    `Currently pursuing a degree in Information Technology at SLIIT, I bring together technical knowledge and creative design expertise to bridge the gap between usability and innovation. Having completed NVQ Level 4 in Graphic Design at IETI, I have developed strong skills in structured visual communication, which I now integrate into modern software development practices. My goal is to deliver solutions that are efficient, user-friendly, and grounded in real-world needs.`;
 
   const clearTimers = () => {
     if (p1TimerRef.current) clearInterval(p1TimerRef.current);

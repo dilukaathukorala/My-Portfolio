@@ -65,7 +65,7 @@
 
 .about-heading {
   padding-left: 5rem;
-  font-size: 1.9rem;
+  font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 24px;
   color: white;
@@ -77,15 +77,14 @@
 
 .about-typewriter {
   padding-left: 4rem;
-  font-size: 1.2rem;
+  font-size: 1rem;
   line-height: 1.8;
   color: white;
   width: 100%;
-  margin-bottom: 10px;
   min-height: 150px;
   text-align: left;
 }
-.about-typewriter.second { margin-top: 5px; min-height: 180px; font-size: 1.2rem;}
+.about-typewriter.second { margin-top: 1px; min-height: 180px; font-size: 1rem;}
 .paragraph-move { animation: paragraphShift 1.2s ease-in-out forwards; }
 
 .type-cursor {
@@ -108,8 +107,8 @@
 
 /* === LOGOS === */
 .about-logos {
-  padding-left: 3rem;
-  padding-top: 2rem;
+  padding-left: 6rem;
+  padding-top: 5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -145,9 +144,9 @@
 .logo-img:hover { transform: scale(1.1); }
 
 /* === ANIMATIONS === */
-@keyframes paragraphShift { from { transform: translateX(0);} to { transform: translateX(-40px);} }
-@keyframes textShift { from { transform: translateX(0);} to { transform: translateX(-40px);} }
-@keyframes wrapperShift { from { transform: translateX(0);} to { transform: translateX(-40px);} }
+@keyframes paragraphShift { from { transform: translateX(0);} to { transform: translateX(10px);} }
+@keyframes textShift { from { transform: translateX(0);} to { transform: translateX(10px);} }
+@keyframes wrapperShift { from { transform: translateX(0);} to { transform: translateX(10px);} }
 @keyframes slideInLogos { from { transform: translateX(60px); opacity: 0;} to { transform: translateX(0); opacity: 1;} }
 
 /* === TABLET (≤1024px, ≥481px) === */
