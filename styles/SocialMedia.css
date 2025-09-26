@@ -125,3 +125,11 @@
   .social-icons .icon-content svg { width: 18px; height: 18px; }
   .social-icons .tooltip { font-size: 11px; }
 }
+
+/* === Desktop-only scale down === */
+@media (min-width: 769px) {
+  .social-icons {
+    transform: scale(0.85);
+    transform-origin: bottom right;
+  }
+}
