@@ -13,16 +13,15 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;        /* center only on desktop */
+  align-items: center;
   padding: 2rem;
   background: linear-gradient(135deg, #4c6a85, #41207e, #0f1d65, #030325);
   background-size: cover;
   background-repeat: no-repeat;
   overflow-x: hidden;
-  overflow-y: auto;           /* allow vertical scroll */
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   box-sizing: border-box;
-  /* Desktop: fixed height with centering */
   min-height: 100vh;
   height: 100vh;
 }
@@ -37,19 +36,7 @@
   margin: 0 auto;
   width: 100%;
   box-sizing: border-box;
-  transition: all 1.2s ease-in-out;
 }
-
-/* BEFORE TYPING – centered */
-.centered-start {
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-/* AFTER TYPING – desktop only */
-.shift-wrapper { animation: wrapperShift 1.2s ease-in-out forwards; }
 
 /* === TEXT === */
 .about-text {
@@ -61,7 +48,6 @@
   justify-content: center;
   text-align: center;
 }
-.shift-text { animation: textShift 1.2s ease-in-out forwards; }
 
 .about-heading {
   padding-left: 5rem;
@@ -72,66 +58,64 @@
   width: 100%;
   text-align: left;
 }
-/* NOTE: we intentionally removed .heading-move usage in JS,
-   so no heading animation will run. */
 
-.about-typewriter {
+/* === Lines === */
+.about-lines {
   padding-left: 4rem;
+  width: 100%;
+  text-align: left;
+}
+.about-lines.second { margin-top: 2rem; }
+
+.about-line {
   font-size: 1rem;
   line-height: 1.8;
   color: white;
-  width: 100%;
-  min-height: 150px;
-  text-align: left;
-}
-.about-typewriter.second { margin-top: 1px; min-height: 180px; font-size: 1rem;}
-.paragraph-move { animation: paragraphShift 1.2s ease-in-out forwards; }
-
-.type-cursor {
-  display: inline-block;
-  margin-left: 2px;
-  animation: blink 1s steps(1) infinite;
-}
-@keyframes blink {
-  0%, 50% { opacity: 1; }
-  50.01%, 100% { opacity: 0; }
+  margin: 0 0 0.4rem 0;
 }
 
-.typed-text {
-  font-size: 1rem;
-  line-height: 1.8;
-  color: white;
-  width: 100%;
-  text-align: left;
+/* === Sentence-by-sentence reveal === */
+.line-reveal {
+  opacity: 0;
+  transform: translateY(6px);
+  animation: lineIn var(--line-duration, 0.65s) ease-out forwards;
+}
+@keyframes lineIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === Logos reveal after P1 === */
+.logos-reveal {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: logosIn 1s ease-out forwards;
+}
+@keyframes logosIn {
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* === LOGOS === */
 .about-logos {
-  padding-left: 6rem;
-  padding-top: 5rem;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  opacity: 0;                  /* desktop animation default */
-  transform: translateX(60px);
 }
-.slide-in-right { animation: slideInLogos 1.2s ease-in-out forwards; }
+
+.logos-static-right {
+  padding-left: 6rem;
+  padding-top: 5rem;
+  flex-direction: column;
+  gap: 1.25rem;
+}
 
 .logos-inline {
-  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 1rem;
-  justify-content: center;
-  align-items: center;
   width: 100%;
-  opacity: 1 !important;       /* force visible on mobile/tablet */
-  transform: none !important;
-  animation: none !important;
   padding-left: 0;
   padding-top: 1rem;
-  margin-bottom: 2rem;         /* space at bottom for mobile scroll */
+  margin-bottom: 2rem;
 }
 
 .logo-img {
@@ -139,26 +123,16 @@
   height: auto;
   border-radius: 10px;
   box-shadow: 4px 4px 12px rgba(0,0,0,0.15);
-  transition: transform 0.4s ease;
 }
-.logo-img:hover { transform: scale(1.1); }
 
-/* === ANIMATIONS === */
-@keyframes paragraphShift { from { transform: translateX(0);} to { transform: translateX(10px);} }
-@keyframes textShift { from { transform: translateX(0);} to { transform: translateX(10px);} }
-@keyframes wrapperShift { from { transform: translateX(0);} to { transform: translateX(10px);} }
-@keyframes slideInLogos { from { transform: translateX(60px); opacity: 0;} to { transform: translateX(0); opacity: 1;} }
-
-/* === TABLET (≤1024px, ≥481px) === */
+/* === Tablet (≤1024px) === */
 @media (max-width: 1024px) and (min-width: 481px) {
   .about-section {
-    height: 100vh;
-    min-height: 100vh;
     display: block;
     padding: 2rem 1.25rem;
     overflow-y: visible;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
+    height: 100vh;
+    min-height: 100vh;
   }
 
   .about-content-wrapper {
@@ -170,11 +144,7 @@
     text-align: center;
   }
 
-  .about-text {
-    padding-top: 0;
-    width: 100%;
-    margin-bottom: 2rem;
-  }
+  .about-text { padding-top: 0; margin-bottom: 2rem; }
 
   .about-heading {
     font-size: 1.6rem;
@@ -183,49 +153,21 @@
     margin-bottom: 1.5rem;
   }
 
-  .about-typewriter, .typed-text {
-    font-size: 0.95rem;
-    text-align: center;
-    padding-left: 0;
-    min-height: auto;
-    margin-bottom: 1rem;
-  }
+  .about-lines { text-align: center; padding-left: 0; }
+  .about-line { font-size: 0.95rem; line-height: 1.7; }
 
-  .about-typewriter.second {
-    min-height: auto;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  /* disable shift animations on tablet */
-  .paragraph-move, .shift-text, .shift-wrapper {
-    animation: none !important;
-    transform: none !important;
-  }
-
-  .logo-img { 
-    width: 70px; 
-  }
-
-  .logos-inline {
-    margin-top: 2rem;
-    margin-bottom: 3rem;
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-  }
+  .logo-img { width: 70px; }
+  .logos-inline { margin-top: 2rem; margin-bottom: 3rem; gap: 1rem; }
 }
 
-/* === MOBILE (≤480px) === */
+/* === Mobile (≤480px) === */
 @media (max-width: 480px) {
   .about-section {
-    height: 100vh;
-    min-height: 100vh;
     display: block;
     padding: 5rem 1rem;
     overflow-y: scroll;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
+    height: 100vh;
+    min-height: 100vh;
   }
 
   .about-content-wrapper {
@@ -236,11 +178,7 @@
     text-align: center;
   }
 
-  .about-text {
-    padding-top: 0;
-    width: 100%;
-    margin-bottom: 2rem;
-  }
+  .about-text { padding-top: 0; margin-bottom: 2rem; }
 
   .about-heading {
     font-size: 1.35rem;
@@ -249,37 +187,11 @@
     margin-bottom: 1.2rem;
   }
 
-  .about-typewriter, .typed-text {
-    font-size: 0.8rem;
-    text-align: center;
-    padding-left: 0;
-    line-height: 1.6;
-    min-height: auto;
-    margin-bottom: 1rem;
-  }
+  .about-lines { text-align: center; padding-left: 0; }
+  .about-line { font-size: 0.8rem; line-height: 1.6; }
 
-  .about-typewriter.second {
-    font-size: 0.7rem;
-    min-height: auto;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
+  .about-lines.second .about-line { font-size: 0.78rem; }
 
-  /* disable shift animations on mobile */
-  .paragraph-move, .shift-text, .shift-wrapper {
-    animation: none !important;
-    transform: none !important;
-  }
-
-  .logo-img { 
-    width: 54px; 
-  }
-
-  .logos-inline {
-    margin-top: 2rem;
-    margin-bottom: 4rem;
-    gap: 0.8rem;
-    display: flex;
-    justify-content: center;
-  }
+  .logo-img { width: 54px; }
+  .logos-inline { margin-top: 2rem; margin-bottom: 4rem; gap: 0.8rem; }
 }
