@@ -82,7 +82,7 @@ export default function Hero({
 
                 <div className="hero-buttons">
                   {cvStatus === "completed" ? (
-                    <a href="/Diluka_CV.pdf" target="_blank" className="btn primary completed">
+                    <a href="/Diluka Athukorala CV.pdf" target="_blank" className="btn primary completed">
                       Open CV<span className="doc">📄</span>
                     </a>
                   ) : (
