@@ -23,6 +23,6 @@ You can view it here: [https://dilukaathukorala-portfolio.vercel.app/](https://d
 If you’d like to run it locally:
 
 ```bash
-git clone [https://github.com/yourusername/portfolio.git](https://github.com/dilukaathukorala/My-Portfolio.git)
+git clone [https://github.com/dilukaathukorala/My-Portfolio.git](https://github.com/dilukaathukorala/My-Portfolio.git)
 npm install
 npm run dev
