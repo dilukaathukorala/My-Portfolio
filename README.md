@@ -20,9 +20,11 @@ You can view it here: [https://dilukaathukorala-portfolio.vercel.app/](https://d
 - Static Assets  
 
 ## --Setup--
-If you’d like to run it locally:
+If you’d like to run it locally...
+Clone the repository:
 
 ```bash
-git clone [https://github.com/dilukaathukorala/My-Portfolio.git](https://github.com/dilukaathukorala/My-Portfolio.git)
+git clone https://github.com/dilukaathukorala/My-Portfolio.git
+cd My-Portfolio
 npm install
 npm run dev
