@@ -5,46 +5,60 @@ import '../styles/About.css';
 import { useMemo, useState, useEffect } from 'react';
 import SocialMedia from './SocialMedia';
 
-// Split into sentences (keep punctuation)
+/** -------- Safari-safe sentence splitter (no lookbehind) --------
+ * Splits text into sentences ending with ., !, or ?
+ */
 function toLines(text) {
-  return text
-    .split(/(?<=[.!?])\s+/)
-    .map((s) => s.trim())
-    .filter(Boolean);
+  if (!text) return [];
+  const out = [];
+  let start = 0;
+
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (ch === '.' || ch === '!' || ch === '?') {
+      // include the punctuation
+      out.push(text.slice(start, i + 1).trim());
+      // skip following spaces
+      while (i + 1 < text.length && /\s/.test(text[i + 1])) i++;
+      start = i + 1;
+    }
+  }
+  // trailing text without punctuation
+  if (start < text.length) out.push(text.slice(start).trim());
+  return out.filter(Boolean);
 }
 
-/**
- * Proper client-only hook for (max-width: 1024px)
- * - Avoids touching `window` during SSR
- * - Subscribes to changes so it updates on resize/orientation
- * - Returns `null` until mounted to prevent hydration mismatches
- */
+/** -------- Old-Safari-friendly hook for (max-width: 1024px) -------- */
 function useSmallScreen() {
-  const [isSmall, setIsSmall] = useState(null); // null = not mounted yet
+  const [isSmall, setIsSmall] = useState(null); // null until mounted (prevents hydration mismatch)
 
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 1024px)');
-    const update = () => setIsSmall(mq.matches);
+    const update = () => setIsSmall(!!mq.matches);
 
-    update(); // initial check on mount
-    // Modern API
-    mq.addEventListener?.('change', update);
-    // Fallback for older browsers
-    mq.addListener?.(update);
+    update();
 
-    return () => {
-      mq.removeEventListener?.('change', update);
-      mq.removeListener?.(update);
-    };
+    // Older Safari only has addListener/removeListener
+    if (typeof mq.addEventListener === 'function') {
+      mq.addEventListener('change', update);
+      return () => mq.removeEventListener('change', update);
+    } else if (typeof mq.addListener === 'function') {
+      mq.addListener(update);
+      return () => mq.removeListener(update);
+    } else {
+      // very old fallback: listen to resize
+      window.addEventListener('resize', update);
+      return () => window.removeEventListener('resize', update);
+    }
   }, []);
 
   return isSmall;
 }
 
 // === Animation timings ===
-const STAGGER = 0.9; // seconds between sentences
-const DURATION = 0.65; // duration of sentence fade
-const GAP_AFTER_P1 = 0.4; // pause before paragraph 2
+const STAGGER = 0.9;       // seconds between sentences
+const DURATION = 0.65;     // duration of sentence fade
+const GAP_AFTER_P1 = 0.4;  // pause before paragraph 2
 const LOGO_EXTRA_DELAY = 0.2; // pause before logos
 
 const About = () => {
@@ -72,7 +86,7 @@ const About = () => {
         <div className="about-text">
           <h2 className="about-heading">About Me</h2>
 
-          {/* Paragraph 1 */}
+        {/* Paragraph 1 */}
           <div className="about-lines">
             {p1Lines.map((line, idx) => (
               <p
@@ -104,10 +118,12 @@ const About = () => {
             ))}
           </div>
 
-          {/* Logos:
-              Render only after mount to avoid SSR hydration mismatches */}
+          {/* Only render logos after mount to avoid hydration issues */}
           {isSmallScreen === true && (
-            <div className="about-logos logos-inline logos-reveal" style={{ animationDelay: `${logosDelay}s` }}>
+            <div
+              className="about-logos logos-inline logos-reveal"
+              style={{ animationDelay: `${logosDelay}s` }}
+            >
               <a
                 href="https://www.sliit.lk/about/about-sliit/"
                 target="_blank"
@@ -129,7 +145,10 @@ const About = () => {
         </div>
 
         {isSmallScreen === false && (
-          <div className="about-logos logos-static-right logos-reveal" style={{ animationDelay: `${logosDelay}s` }}>
+          <div
+            className="about-logos logos-static-right logos-reveal"
+            style={{ animationDelay: `${logosDelay}s` }}
+          >
             <a
               href="https://www.sliit.lk/about/about-sliit/"
               target="_blank"
