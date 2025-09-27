@@ -1,26 +1,50 @@
-// About.js - 'use client';
+// About.js
+'use client';
 
 import '../styles/About.css';
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import SocialMedia from './SocialMedia';
 
 // Split into sentences (keep punctuation)
 function toLines(text) {
   return text
     .split(/(?<=[.!?])\s+/)
-    .map(s => s.trim())
+    .map((s) => s.trim())
     .filter(Boolean);
 }
 
+/**
+ * Proper client-only hook for (max-width: 1024px)
+ * - Avoids touching `window` during SSR
+ * - Subscribes to changes so it updates on resize/orientation
+ * - Returns `null` until mounted to prevent hydration mismatches
+ */
 function useSmallScreen() {
-  if (typeof window === 'undefined') return false;
-  return window.matchMedia && window.matchMedia('(max-width: 1024px)').matches;
+  const [isSmall, setIsSmall] = useState(null); // null = not mounted yet
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 1024px)');
+    const update = () => setIsSmall(mq.matches);
+
+    update(); // initial check on mount
+    // Modern API
+    mq.addEventListener?.('change', update);
+    // Fallback for older browsers
+    mq.addListener?.(update);
+
+    return () => {
+      mq.removeEventListener?.('change', update);
+      mq.removeListener?.(update);
+    };
+  }, []);
+
+  return isSmall;
 }
 
 // === Animation timings ===
-const STAGGER = 0.9;       // seconds between sentences
-const DURATION = 0.65;     // duration of sentence fade
-const GAP_AFTER_P1 = 0.4;  // pause before paragraph 2
+const STAGGER = 0.9; // seconds between sentences
+const DURATION = 0.65; // duration of sentence fade
+const GAP_AFTER_P1 = 0.4; // pause before paragraph 2
 const LOGO_EXTRA_DELAY = 0.2; // pause before logos
 
 const About = () => {
@@ -80,12 +104,10 @@ const About = () => {
             ))}
           </div>
 
-          {/* Mobile: logos inline */}
-          {isSmallScreen && (
-            <div
-              className="about-logos logos-inline logos-reveal"
-              style={{ animationDelay: `${logosDelay}s` }}
-            >
+          {/* Logos:
+              Render only after mount to avoid SSR hydration mismatches */}
+          {isSmallScreen === true && (
+            <div className="about-logos logos-inline logos-reveal" style={{ animationDelay: `${logosDelay}s` }}>
               <a
                 href="https://www.sliit.lk/about/about-sliit/"
                 target="_blank"
@@ -106,12 +128,8 @@ const About = () => {
           )}
         </div>
 
-        {/* Desktop: logos column */}
-        {!isSmallScreen && (
-          <div
-            className="about-logos logos-static-right logos-reveal"
-            style={{ animationDelay: `${logosDelay}s` }}
-          >
+        {isSmallScreen === false && (
+          <div className="about-logos logos-static-right logos-reveal" style={{ animationDelay: `${logosDelay}s` }}>
             <a
               href="https://www.sliit.lk/about/about-sliit/"
               target="_blank"
